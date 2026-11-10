@@ -1,105 +1,496 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Crystal Post · Single-crystal XRD request</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crystal Post · Single-crystal XRD request</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#20253b;--muted:#62667b;--paper:#fffdf9;--lav:#ede9fa;--purple:#53418b;--line:#ded9e9;--yellow:#f9df80;--red:#a32d39}*{box-sizing:border-box}body{margin:0;color:var(--ink);background:#f2f0f7;font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:1040px;margin:auto;padding:32px 22px 64px}header{display:grid;grid-template-columns:1fr 230px;gap:32px;align-items:center;padding:28px 0 36px}.brand{font-size:13px;font-weight:750;letter-spacing:.16em;text-transform:uppercase;color:var(--purple)}h1{font-family:Georgia,serif;font-size:clamp(38px,6vw,66px);line-height:1.05;font-weight:400;letter-spacing:-.04em;margin:16px 0}header p{max-width:590px;color:var(--muted)}.ticket{background:var(--yellow);padding:24px;transform:rotate(3deg);border-radius:3px;box-shadow:5px 7px 0 #ded9e9}.ticket strong{display:block;font-size:23px;line-height:1.25;margin:12px 0}.ticket small{display:block;border-top:1px dashed #665a30;padding-top:12px}.route{display:flex;flex-wrap:wrap;gap:10px 24px;padding:16px 0;border-block:1px solid var(--line);font-size:14px;margin-bottom:24px}.route span{color:var(--muted)}.route b{color:var(--purple)}.section{background:var(--paper);border:1px solid var(--line);border-radius:14px;margin:12px 0;overflow:hidden}.section>summary{display:flex;align-items:center;gap:16px;padding:22px;cursor:pointer;list-style:none}.section>summary::-webkit-details-marker{display:none}.num{font-family:Georgia,serif;font-size:28px;color:var(--purple);min-width:42px}.section summary strong{font-size:19px}.section summary small{display:block;color:var(--muted);margin-top:3px}.plus{margin-left:auto;font-size:27px;color:var(--purple)}details[open]>summary>.plus{transform:rotate(45deg)}.fields{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:4px 24px 26px}label{display:flex;flex-direction:column;gap:7px;font-size:14px;font-weight:650}label>span{color:var(--red)}input,select,textarea{width:100%;padding:12px;border:1px solid #bdb6ce;background:white;border-radius:7px;color:var(--ink);font:400 16px/1.4 system-ui;min-height:47px}textarea{resize:vertical}.wide{grid-column:1/-1}.hint{font-size:14px;color:var(--muted);margin:0}.choices{border:0;padding:0;margin:0}.choices legend{font-size:14px;font-weight:650;margin-bottom:10px}.choices label{display:inline-flex;flex-direction:row;align-items:center;margin:0 18px 12px 0;font-weight:400}input[type=checkbox]{width:20px;height:20px;min-height:0;accent-color:var(--purple)}.review{background:var(--lav);padding:26px;border-radius:14px;margin-top:24px}h2{font-family:Georgia,serif;font-size:29px;font-weight:400;margin:0 0 12px}button{font:650 16px system-ui;border:1px solid var(--purple);border-radius:8px;padding:13px 20px;cursor:pointer;background:var(--purple);color:white}button.secondary{background:transparent;color:var(--purple)}button:hover{filter:brightness(.94)}button:disabled{cursor:wait;opacity:.65}.buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}.consent{display:flex;flex-direction:row;font-weight:400;align-items:flex-start;margin:20px 0}.consent input{flex-shrink:0;margin-top:3px}.privacy{font-size:13px;color:var(--muted)}a{color:var(--purple)}#status{color:var(--red);font-weight:600;margin:12px 0}#summary dl{display:grid;grid-template-columns:190px 1fr;gap:8px 18px;font-size:14px}#summary dt{font-weight:650}#summary dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}footer{font-size:13px;color:var(--muted);margin-top:24px}summary:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #a695db;outline-offset:4px}input:focus,select:focus,textarea:focus{outline:3px solid #d1c5ed;border-color:var(--purple)}[hidden]{display:none!important}.hp{display:none}#progress{font-variant-numeric:tabular-nums}@media(max-width:650px){main{padding:18px 14px 40px}header{grid-template-columns:1fr;padding-top:8px;gap:10px}.ticket{transform:none;padding:16px;max-width:none}.ticket strong{font-size:20px;margin:5px 0}.fields{grid-template-columns:1fr;padding:0 18px 22px}.wide{grid-column:auto}.section>summary{padding:18px;gap:9px}.section summary strong{font-size:17px}.section summary small{font-size:12px}#summary dl{grid-template-columns:1fr}#summary dd{margin-bottom:10px}button{width:100%}.review{padding:20px}}@media print{body{background:white}main{max-width:none}.section{break-inside:avoid}.fields{display:grid!important}.buttons,.ticket,.plus,.privacy,#status{display:none!important}details:not([open])>*:not(summary){display:block!important}}
+:root{--ink:#1c2236;--muted:#5d6578;--faint:#8a91a3;--paper:#fff;--bg:#f3f4f8;--line:#dfe2ea;--accent:#34408a;--accent2:#e9ebf7;--red:#b3303d;--green:#1f7a52;--amber:#9a6b00;
+--sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--serif:"Source Serif 4",Georgia,"Times New Roman",serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+main{max-width:940px;margin:0 auto;padding:30px 20px 60px}
+.brand{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font:600 clamp(28px,4.4vw,38px)/1.15 var(--serif);letter-spacing:-.015em;margin:8px 0 10px}
+.lead{color:var(--muted);max-width:680px;margin:0}
+.steps{display:flex;flex-wrap:wrap;gap:8px 22px;margin:20px 0 6px;padding:14px 0;border-block:1px solid var(--line);font-size:13px;color:var(--muted)}
+.steps b{color:var(--accent);font-weight:600;margin-right:6px}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:16px 0 10px}
+.meter{flex:1 1 220px;height:6px;background:#e4e6ee;border-radius:9px;overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+#progress{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.link{background:none;border:0;padding:0;color:var(--accent);font:500 13px var(--sans);cursor:pointer;text-decoration:underline;text-underline-offset:3px;width:auto}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:12px;margin:10px 0;overflow:hidden}
+.sec>summary{display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;list-style:none}
+.sec>summary::-webkit-details-marker{display:none}
+.num{font:600 13px var(--sans);color:var(--accent);background:var(--accent2);border-radius:7px;min-width:32px;height:28px;display:grid;place-items:center}
+.st{font:600 17px var(--serif)}.ss{display:block;font-size:13px;color:var(--muted);margin-top:1px}
+.chip{margin-left:auto;font-size:12px;color:var(--muted);white-space:nowrap}
+.chip.ok{color:var(--green);font-weight:600}
+.chev{width:9px;height:9px;border-right:2px solid var(--faint);border-bottom:2px solid var(--faint);transform:rotate(45deg);margin:0 4px 3px 4px;transition:transform .2s;flex:none}
+details[open]>summary .chev{transform:rotate(225deg);margin-bottom:-3px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:16px 18px;padding:6px 20px 22px;border-top:1px solid var(--line);padding-top:20px}
+label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600}
+label i{color:var(--red);font-style:normal;margin-left:2px}
+input,select,textarea{width:100%;padding:10px 11px;min-height:42px;border:1px solid #c6cad8;border-radius:8px;background:#fff;color:var(--ink);font:400 15px/1.4 var(--sans)}
+textarea{resize:vertical;min-height:84px}
+input:focus,select:focus,textarea:focus,button:focus-visible,summary:focus-visible{outline:3px solid #b9c0ee;outline-offset:1px;border-color:var(--accent)}
+input[type=file]{padding:8px;font-size:13px}
+.wide{grid-column:1/-1}
+.hint{font-size:13px;color:var(--muted);margin:0;font-weight:400}
+fieldset.checks{border:0;margin:0;padding:0}
+fieldset.checks legend{font-size:13px;font-weight:600;margin-bottom:8px;padding:0}
+.checks label{display:inline-flex;flex-direction:row;align-items:center;gap:7px;font-weight:400;font-size:14px;margin:0 18px 8px 0}
+input[type=checkbox]{width:18px;height:18px;min-height:0;accent-color:var(--accent);flex:none}
+button{font:600 14px var(--sans);border:1px solid var(--accent);border-radius:8px;padding:11px 18px;cursor:pointer;background:var(--accent);color:#fff}
+button.sec2{background:#fff;color:var(--accent)}
+button:hover{filter:brightness(.95)}
+.review{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:22px;margin-top:16px}
+.review h2{font:600 22px var(--serif);margin:0 0 6px}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+.consent{flex-direction:row;align-items:flex-start;font-weight:400;font-size:14px;gap:10px;margin:14px 0 6px}
+.consent input{margin-top:3px}
+footer{font-size:12.5px;color:var(--muted);margin-top:22px}
+/* structure widget */
+.tabs{display:flex;gap:6px;margin-bottom:12px}
+.tab{background:#fff;color:var(--accent);padding:8px 14px;font-size:13px}
+.tab[aria-selected=true]{background:var(--accent);color:#fff}
+.tools{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}
+.tool{background:#fff;color:var(--ink);border:1px solid #c6cad8;padding:7px 10px;font-size:13px;font-weight:500;min-width:40px;line-height:1.2}
+.tool[aria-pressed=true]{background:var(--accent2);border-color:var(--accent);color:var(--accent)}
+.tool.act{color:var(--muted)}
+.sep{width:1px;height:26px;background:var(--line);margin:0 4px}
+.atoms{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:8px;font-size:13px;color:var(--muted)}
+.atoms .tool{min-width:34px;padding:5px 8px}
+.atoms input{width:96px;min-height:32px;padding:5px 8px;font-size:14px}
+.pad{border:1px solid #c6cad8;border-radius:10px;background:#fff;overflow:hidden;line-height:0}
+#skcv{width:100%;height:auto;touch-action:none;cursor:crosshair;display:block}
+.prev{margin-top:12px}
+.prev img{max-width:100%;max-height:340px;border:1px solid var(--line);border-radius:8px;background:#fff}
+[hidden]{display:none!important}
+@media(max-width:680px){main{padding:18px 14px 44px}.fields{grid-template-columns:1fr;padding:18px 16px 20px}.wide{grid-column:auto}.sec>summary{padding:14px 16px;gap:10px}.chip{display:none}button{width:100%}.tool,.tab{width:auto}.btns{flex-direction:column}.tabs button{flex:1}}
 
-/* Compact request layout */
-main{max-width:920px;padding-top:20px}header{display:block;padding:8px 0 18px}header h1{font-family:Georgia,serif;font-size:34px;line-height:1.15;letter-spacing:-.02em;margin:8px 0}header p{margin:8px 0;max-width:760px;font-size:14px}.ticket,.route{display:none}.section{margin:8px 0;border-radius:9px}.section>summary{padding:14px 18px;gap:10px}.section summary strong{font-size:16px}.section summary small{display:none}.num{font-family:inherit;font-size:13px;font-weight:700;min-width:28px}.plus{font-size:21px}.fields{gap:14px;padding:2px 18px 20px}label{font-size:13px;gap:5px}input,select,textarea{font-size:14px;padding:9px 10px;min-height:41px}textarea{min-height:76px}.hint{font-size:13px}.review{margin-top:18px;padding:20px;background:#f0edf7}.review h2{font-size:24px}.buttons{margin-top:14px;gap:8px}.buttons button{font-size:14px;padding:11px 15px}.privacy{font-size:12px}footer{margin-top:18px}.consent{font-size:13px}
-#pdfpreview{max-width:850px;margin:22px auto;padding:0 18px 32px}.preview-toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:18px}.preview-toolbar p{width:100%;font-size:13px;margin:0;color:var(--muted)}.pdf-document{background:white;padding:35px 40px;border:1px solid #dad7e2;color:#182033;box-shadow:0 5px 22px #20253b10}.pdf-document h1{font-size:27px;letter-spacing:0;line-height:1.2;margin:6px 0 14px}.pdf-document .pdf-top{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#53418b}.pdf-meta{font-size:12px;color:#555;line-height:1.6;border-bottom:2px solid #53418b;padding-bottom:14px}.pdf-section{margin-top:20px}.pdf-section h2{font:700 14px system-ui;border-bottom:1px solid #ddd;padding-bottom:6px;break-after:avoid}.pdf-section dl{display:grid;grid-template-columns:195px 1fr;gap:7px 15px;font-size:12px;margin:10px 0}.pdf-section dt{font-weight:650;break-after:avoid}.pdf-section dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}.pdf-row{display:contents}.pdf-note{font-size:11px;color:#555;border-top:1px solid #ddd;padding-top:12px;margin-top:22px}.draft-note{padding:9px 12px;background:#fff3d7;font-size:12px;margin-top:12px}body.preview-mode>main{display:none}body:not(.preview-mode)>#pdfpreview{display:none}
-@media(max-width:650px){header h1{font-size:29px}.pdf-document{padding:22px 18px}.pdf-section dl{display:block}.pdf-section dt{margin-top:9px}.pdf-section dd{margin-top:2px}.preview-toolbar button{width:100%}.fields{gap:13px}}
-@page{size:A4;margin:15mm}
-@media print{body{background:white!important}body>main{display:none!important}#pdfpreview{display:block!important;max-width:none;margin:0;padding:0}.preview-toolbar{display:none!important}.pdf-document{border:0;padding:0;box-shadow:none}.pdf-section{break-inside:auto}.pdf-section h2{break-after:avoid}.pdf-section dl{display:block}.pdf-row{display:block;break-inside:avoid;margin:0 0 9px}.pdf-row dt{margin:0;font-size:10px;color:#555}.pdf-row dd{font-size:11px;margin:2px 0 0}.pdf-meta,.pdf-note{font-size:10px}.draft-note{background:none;border:1px solid #999}a{color:inherit}}
-
-/* Compact two-page document: related short fields share rows. */
-.pdf-document{padding:0;border:0;background:transparent;box-shadow:none}.pdf-page{background:white;padding:12mm;margin:0 0 20px;border:1px solid #ddd;min-height:270mm}.pdf-document h1{font:700 20px system-ui;margin:5px 0 8px}.pdf-meta{font-size:10px;line-height:1.35;padding-bottom:7px}.pdf-section{margin-top:11px}.pdf-section h2{font:700 12px system-ui;margin:0 0 5px;padding-bottom:3px}.pdf-section dl{display:grid;grid-template-columns:1fr 1fr;gap:5px 18px;font-size:10px;line-height:1.3;margin:5px 0}.pdf-row{display:block;min-width:0}.pdf-row dt,.pdf-row dd{display:inline;margin:0;font-size:10px}.pdf-row dt{font-weight:700;color:#414258}.pdf-row dt::after{content:': '}.pdf-row dd{white-space:pre-wrap;overflow-wrap:anywhere}.pdf-row.wide{grid-column:1/-1}.pdf-note{font-size:9px;line-height:1.3;margin-top:10px;padding-top:6px}.draft-note{font-size:10px;padding:5px;margin-top:5px}.page-caption{font-size:9px;color:#666;border-bottom:1px solid #ddd;padding-bottom:6px;margin-bottom:9px}
-@page{size:A4;margin:10mm}
-@media print{.pdf-page{border:0;padding:0;margin:0;min-height:0;break-after:page}.pdf-page:last-child{break-after:auto}.pdf-section dl{display:grid!important;grid-template-columns:1fr 1fr;gap:4px 14px}.pdf-row{display:block;margin:0;break-inside:avoid}.pdf-row dt,.pdf-row dd{display:inline;font-size:9pt;margin:0}.pdf-section h2{font-size:10pt}.pdf-section{margin-top:9px}.pdf-meta{font-size:8pt}.pdf-note{font-size:7.5pt}.pdf-document h1{font-size:15pt}}
-</style></head><body><main>
-<header><div><div class="brand">Diffraction Lab / Crystal Post</div><h1>Single-crystal XRD request</h1><p>Prepare a clear sample request for your crystallographer, wherever you work. Fill in the details, preview your document and save it as a PDF to share with your chosen laboratory.</p></div><aside class="ticket"><span class="brand">Your sample’s next chapter</span><strong>From crystal<br>to clarity.</strong><small>SCXRD request<br>One sample. One scientific story.</small></aside></header>
-<div class="route"><b>01 Researcher</b><span>02 Question</span><span>03 Sample</span><span>04 Handling</span><span>05 Measurement</span><span>06 Reference</span><span>07 Clues</span></div>
-<p class="hint">Fields marked * are required. Unknown information is welcome: say what needs clarification. Please agree sample acceptance before delivery.</p>
-<form id="request">
-<details class="section" open><summary><span class="num">01</span><span><strong>Meet the researcher</strong><small>Who should hear the crystal’s story?</small></span><span class="plus" aria-hidden="true">+</span></summary><div class="fields"><label>Your name <span aria-label=required>*</span><input type="text" name="Researcher" required placeholder="" ></label><label>Email address <span aria-label=required>*</span><input type="email" name="email" required placeholder="" ></label><label>University / company <span aria-label=required>*</span><input type="text" name="Organisation" required placeholder="" ></label><label>Group leader / supervisor<input type="text" name="Supervisor"  placeholder="" ></label><label>Phone, including country code<input type="tel" name="Phone"  placeholder="" ></label><label>Project name or reference<input type="text" name="Project"  placeholder="" ></label></div></details><details class="section" ><summary><span class="num">02</span><span><strong>The question behind the crystal</strong><small>What would you like to discover?</small></span><span class="plus" aria-hidden="true">+</span></summary><div class="fields"><label>Main request <span aria-label=required>*</span><select name="Requested_service" required><option value="">Choose an option</option><option>Complete structure determination and refinement</option><option>Unit-cell determination / screening</option><option>Data collection only</option><option>Absolute-structure / configuration assessment</option><option>Relative stereochemistry</option><option>Polymorph or identity comparison</option><option>Advice first / not sure</option><option>Other request</option></select></label><label>Timing <span aria-label=required>*</span><select name="Timing" required><option value="">Choose an option</option><option>Standard scheduling</option><option>Time-sensitive: explain below</option><option>Flexible / exploratory</option></select></label><label class="wide">Scientific question *<textarea name="Scientific_question" rows="3" placeholder="What decision will these results help you make?" required></textarea></label><label>Preferred completion date, if relevant<input type="date" name="Preferred_date"  placeholder="" ></label><label>Data use<select name="Intended_use" ><option value="">Choose an option</option><option>Research / publication</option><option>Student project / teaching</option><option>Industrial R&amp;D</option><option>Other / discuss</option></select></label><label class="wide">Timing or special requirements<textarea name="Special_requirements" rows="3" placeholder="A requested date is not a confirmed booking." ></textarea></label></div></details><details class="section" ><summary><span class="num">03</span><span><strong>A passport for your sample</strong><small>One form per sample. Give it a memorable code.</small></span><span class="plus" aria-hidden="true">+</span></summary><div class="fields"><label>Sample code <span aria-label=required>*</span><input type="text" name="Sample_code" required placeholder="e.g. SK-042-blue" ></label><label>Proposed molecular formula<input type="text" name="Proposed_formula"  placeholder="Use plain text, e.g. C14H12N2O2" ></label><label>Compound name / identity, if known<input type="text" name="Proposed_identity"  placeholder="" ></label><label>Material class <span aria-label=required>*</span><select name="Material_class" required><option value="">Choose an option</option><option>Organic / pharmaceutical</option><option>Coordination compound / organometallic</option><option>Inorganic / mineral</option><option>Metal–organic framework</option><option>Protein / macromolecule</option><option>Unknown / other</option></select></label><label>Crystal appearance<select name="Crystal_habit" ><option value="">Choose an option</option><option>Block / prism</option><option>Needle</option><option>Plate</option><option>Irregular fragment</option><option>Mixed shapes</option><option>Not yet examined</option></select></label><label>Colour<select name="Colour" ><option value="">Choose an option</option><option>Colourless</option><option>White / opaque</option><option>Yellow / orange</option><option>Red / pink</option><option>Blue / purple</option><option>Green</option><option>Brown / black</option><option>Other</option></select></label><label>Approximate dimensions, mm (optional)<input type="text" name="Crystal_dimensions"  placeholder="length × width × thickness" ></label><label>Amount / number of crystals available<input type="text" name="Amount_available"  placeholder="" ></label><label class="wide">Crystallisation method and mother liquor<textarea name="Crystallisation_details" rows="3" placeholder="Cooling, evaporation, diffusion, slurry, melt… Include mother liquor composition." ></textarea></label><label class="wide">All solvents the sample has contacted *<textarea name="Solvent_history" rows="3" placeholder="Include crystallisation, washing and storage solvents." required></textarea></label><fieldset class="wide choices"><legend>Supporting analyses already available</legend><label><input type="checkbox" name="Supporting_analyses" value="NMR"> NMR</label><label><input type="checkbox" name="Supporting_analyses" value="IR / Raman"> IR / Raman</label><label><input type="checkbox" name="Supporting_analyses" value="Mass spectrometry"> Mass spectrometry</label><label><input type="checkbox" name="Supporting_analyses" value="Elemental analysis"> Elemental analysis</label><label><input type="checkbox" name="Supporting_analyses" value="PXRD"> PXRD</label><label><input type="checkbox" name="Supporting_analyses" value="DSC / TGA"> DSC / TGA</label><label><input type="checkbox" name="Supporting_analyses" value="Other"> Other</label></fieldset><label class="wide">Expected components, counterions and possible byproducts<textarea name="Composition_notes" rows="3" placeholder="Include known solvate / hydrate possibilities and possible mixtures." ></textarea></label></div></details><details class="section" ><summary><span class="num">04</span><span><strong>Handle with knowledge</strong><small>Tell us what the crystal needs before it travels.</small></span><span class="plus" aria-hidden="true">+</span></summary><div class="fields"><label>Air sensitivity <span aria-label=required>*</span><select name="Air_sensitivity" required><option value="">Choose an option</option><option>Stable in air</option><option>Air sensitive</option><option>Unknown</option></select></label><label>Moisture sensitivity <span aria-label=required>*</span><select name="Moisture_sensitivity" required><option value="">Choose an option</option><option>Moisture stable</option><option>Moisture sensitive</option><option>Unknown</option></select></label><label>Temperature / storage <span aria-label=required>*</span><select name="Storage" required><option value="">Choose an option</option><option>Room temperature</option><option>Refrigerated</option><option>Frozen</option><option>Other controlled temperature</option><option>Unknown / discuss</option></select></label><label>Solvent loss <span aria-label=required>*</span><select name="Solvent_loss" required><option value="">Choose an option</option><option>Stable outside mother liquor</option><option>May lose solvent / needs mother liquor</option><option>Unknown</option></select></label><label>Hazard information <span aria-label=required>*</span><select name="Hazard_status" required><option value="">Choose an option</option><option>Known hazards: details provided below</option><option>No known hazards after assessment</option><option>Hazards not established: advice required</option></select></label><label>Sample location <span aria-label=required>*</span><select name="Sample_location" required><option value="">Choose an option</option><option>Retained in my laboratory pending arrangements</option><option>Ready for agreed delivery</option><option>Already supplied by prior arrangement</option></select></label><label class="wide">Hazards, storage and handling instructions *<textarea name="Handling_instructions" rows="3" placeholder="List known chemical, biological, radiological or other hazards. Explain any unknowns. State safe storage and transport needs." required></textarea></label><label>Return preference <span aria-label=required>*</span><select name="Sample_return" required><option value="">Choose an option</option><option>Return requested: discuss arrangements</option><option>No return needed: agree disposal arrangements</option><option>Discuss first</option></select></label><label class="wide">Additional handling notes<textarea name="Handling_notes" rows="3" placeholder="Please agree acceptance and delivery before sending physical material." ></textarea></label></div></details><details class="section"><summary><span class="num">05</span><span><strong>Plan the measurement</strong><small>Your preferences, confirmed by the crystallographer.</small></span><span class="plus" aria-hidden="true">+</span></summary><div class="fields"><label>Preferred radiation<select name="Requested_radiation"><option value="">No preference / discuss</option><option>Cu Kα</option><option>Mo Kα</option><option>Ag Kα</option><option>Other: explain below</option></select></label><label>Preferred collection temperature<select name="Requested_temperature"><option value="">No preference / discuss</option><option>100 K</option><option>150 K</option><option>200 K</option><option>250 K</option><option>293 K</option><option>298 K</option><option>Room temperature (actual K to be recorded)</option><option>Other temperature / series</option></select></label><label>Other temperature or series, K<input name="Other_temperature" placeholder="e.g. 120 K, or 100 / 200 / 300 K"></label><label>Absolute-structure assessment needed?<select name="Absolute_structure_request"><option value="">No preference / discuss</option><option>Yes: known enantiopure sample</option><option>Yes: assess absolute structure / inversion twinning</option><option>Relative stereochemistry only</option><option>No</option><option>Not sure</option></select></label><label>Further collections if needed<select name="Additional_collections"><option value="">No preference / discuss</option><option>Please contact me before any additional collection</option><option>Additional collections authorised within agreed scope</option><option>Single dataset only</option></select></label><label>Account / purchase-order reference, if applicable<input name="Account_reference" ></label><label class="wide">Measurement rationale or restrictions<textarea name="Measurement_notes" rows="3" placeholder="Explain wavelength or temperature needs, known phase transitions or required atom numbering."></textarea></label><p class="wide hint">These are requested conditions, not measured values. The final CIF must use the actual radiation, wavelength and collection temperature.</p></div></details><details class="section"><summary><span class="num">06</span><span><strong>A crystal with a backstory</strong><small>Optional reference data for repeat measurements.</small></span><span class="plus" aria-hidden="true">+</span></summary><div class="fields"><label>Is this a known structure / repeat sample?<select name="Known_structure"><option value="">No preference / discuss</option><option>New structure / no reference available</option><option>Known structure: repeat collection</option><option>Known unit cell only</option><option>Possible match: needs confirmation</option></select></label><label>Reference DOI, CCDC / ICSD code or previous sample code<input name="Structure_reference" ></label><label>Reference crystal system<select name="Reference_crystal_system"><option value="">No preference / discuss</option><option>Triclinic</option><option>Monoclinic</option><option>Orthorhombic</option><option>Tetragonal</option><option>Trigonal</option><option>Hexagonal</option><option>Cubic</option><option>Unknown</option></select></label><label>Reference space group, including setting<input name="Reference_space_group" placeholder="e.g. P 21/c, unique axis b"></label><label>a / Å<input name="Reference_cell_a" inputmode="decimal" placeholder="10.123(4)"></label><label>b / Å<input name="Reference_cell_b" inputmode="decimal" placeholder="12.456(5)"></label><label>c / Å<input name="Reference_cell_c" inputmode="decimal" placeholder="15.789(6)"></label><label>α / degrees<input name="Reference_cell_alpha" inputmode="decimal" placeholder="90"></label><label>β / degrees<input name="Reference_cell_beta" inputmode="decimal" placeholder="103.45(2)"></label><label>γ / degrees<input name="Reference_cell_gamma" inputmode="decimal" placeholder="90"></label><label>Reference cell temperature / K<input name="Reference_cell_temperature" inputmode="decimal" placeholder="e.g. 100(2)"></label><label>Reference Z, if known<input name="Reference_Z" type="number" min="1" step="1"></label><label>Reference CIF (optional)<input name="attachment_reference" type="file" accept=".cif,text/plain"></label><label class="wide">Reference notes / expected differences<textarea name="Reference_notes" rows="3" placeholder="Reference conditions, suspected polymorph, isotopic change, repeat sample details…"></textarea></label><p class="wide hint">Enter only known reference values. Leave unknowns blank; do not assume 90° angles. Values such as 10.123(4) are accepted. Reference cells are exported in a separate CIF block and must not replace newly measured values.</p></div></details><details class="section" ><summary><span class="num">07</span><span><strong>Add the clues</strong><small>A structure sketch and safety information help.</small></span><span class="plus" aria-hidden="true">+</span></summary><div class="fields"><p class="wide hint">Supporting files: PDF, PNG or JPEG; the reference field also accepts CIF. Selected file names will appear in your PDF. The original supporting files must be supplied separately to your crystallographer.</p><label>Proposed structure / reaction / crystal photo<input type="file" name="attachment"  placeholder="" accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg"></label><label>Safety data sheet / risk information<input type="file" name="attachment_safety"  placeholder="" accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg"></label><label class="wide">Links to additional supporting information<textarea name="Supporting_links" rows="3" placeholder="Optional. Use links you are authorised to share." ></textarea></label><label class="wide">Anything else we should know?<textarea name="Additional_notes" rows="3" placeholder="" ></textarea></label></div></details>
-<section class="review"><h2>Review and export</h2><p class="hint" id="progress" aria-live="polite">Complete the required fields, then review your request.</p><div class="buttons"><button type="button" id="previewpdf">Preview / Save as PDF</button><button type="button" class="secondary" id="review">Quick review</button><button type="button" class="secondary" id="download">Save a text copy</button><button type="button" class="secondary" id="downloadcif">Download CIF metadata</button></div><details id="summary" hidden><summary>Review your request</summary><dl id="reviewdata"></dl></details>
-<label class="consent"><input type="checkbox" name="Submission_confirmation" value="Confirmed" required><span>I have checked the information and included all known sample hazards and handling requirements.</span></label>
-<p class="hint">CIF export separates requested conditions from reference-cell values. It is a metadata starting point, not a validated structure CIF.</p><p class="privacy">Your entries stay in this page. This tool does not send a request, upload attachments or store your entries after the page is closed. Save your PDF before leaving, then share it with your crystallographer through your agreed channel.</p>
-<div id="status" role="status" aria-live="polite"></div><p class="hint" style="margin-top:12px">Preview your document, choose Print / Save as PDF, then send the saved PDF to your chosen crystallographer. Agree sample acceptance and delivery separately.</p></section></form>
-<footer>Crystal Post · A sample-request PDF builder for the worldwide single-crystal diffraction community.<br>Collection strategy, instrument settings, unit-cell results and refinement records are completed later by the crystallographer.</footer>
-</main><section id="pdfpreview" hidden aria-label="Submission document preview"><div class="preview-toolbar"><button type="button" id="editrequest">Back to edit</button><button type="button" id="printrequest">Print / Save as PDF</button><p>Choose “Save as PDF” in your browser’s print destination. Uploaded files are listed by name and must be supplied separately. Nothing is emailed by previewing or printing.</p></div><article class="pdf-document" id="pdfdocument"></article><div role="status" aria-live="polite" id="printstatus"></div></section><script>
-const form=document.getElementById('request'),status=document.getElementById('status');
-const fields=()=>Array.from(form.elements).filter(e=>e.name&&!e.name.startsWith('_')&&e.type!=='hidden'&&e.type!=='submit');
-function entries(){const out=[];for(const e of fields()){if(e.type==='checkbox'&&!e.checked)continue;const val=e.type==='file'?Array.from(e.files).map(f=>f.name).join(', '):e.value;if(val)out.push([e.name.replaceAll('_',' '),val]);}return out;}
-function fileOK(){return true;}
-function revealInvalid(e){e.target.closest('details')?.setAttribute('open','');}
-form.addEventListener('invalid',revealInvalid,true);
-form.addEventListener('input',()=>{const req=fields().filter(e=>e.required),valid=req.filter(e=>e.checkValidity()).length;document.getElementById('progress').textContent=valid+' of '+req.length+' required fields complete.';});
-document.getElementById('review').onclick=()=>{status.textContent='';const dl=document.getElementById('reviewdata');dl.replaceChildren();for(const [key,val] of entries()){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=key;dd.textContent=val;dl.append(dt,dd);}const details=document.getElementById('summary');details.hidden=false;details.open=true;details.scrollIntoView({behavior:'smooth',block:'start'});fileOK();};
-document.getElementById('download').onclick=()=>{const data='CRYSTAL POST / SCXRD REQUEST\nLocal copy only. This file is not proof of submission.\n\n'+entries().map(([k,v])=>k+': '+v).join('\n\n');const u=URL.createObjectURL(new Blob([data],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=u;a.download='crystal-request.txt';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);};
-
-function cifText(value){return '\n;\n'+String(value||'Unknown').replace(/\r\n?/g,'\n').replace(/^;/gm,' ;')+'\n;\n';}
-function cifNumber(value){return value&&/^\d+(?:\.\d+)?(?:\(\d+\))?$/.test(value.trim())?value.trim():'?';}
-function cifExport(){
- const v=n=>form.elements[n]?.value.trim()||'';
- let out='#\\#CIF_2.0\n# Crystal Post submission metadata. UTF-8 CIF 2.0.\n# Requests and reference values only. Not a validated experimental CIF.\ndata_submission_request\n_audit_creation_method'+cifText('Crystal Post researcher submission. All supplied chemical identities are proposed; collection conditions are requests.')+'\n_chemical_compound_source'+cifText(v('Organisation'))+'\n_chemical_formula_sum'+(v('Proposed_formula')?cifText(v('Proposed_formula')):' ?\n')+'\n_exptl_special_details'+cifText(entries().map(([k,val])=>k+': '+val).join('\n'));
- out+='\n# ACTUAL COLLECTION VALUES: complete only after measurement.\n_diffrn_radiation_type ?\n_diffrn_radiation_wavelength ?\n_diffrn_ambient_temperature ?\n';
- if(v('Known_structure')&&v('Known_structure')!=='New structure / no reference available'){
- out+='\ndata_reference_cell\n_audit_creation_method'+cifText('USER-SUPPLIED REFERENCE ONLY. This block is not a new measurement. Reference: '+v('Structure_reference'));
- const tags={Reference_cell_a:'_cell_length_a',Reference_cell_b:'_cell_length_b',Reference_cell_c:'_cell_length_c',Reference_cell_alpha:'_cell_angle_alpha',Reference_cell_beta:'_cell_angle_beta',Reference_cell_gamma:'_cell_angle_gamma',Reference_cell_temperature:'_cell_measurement_temperature',Reference_Z:'_cell_formula_units_Z'};
- for(const [name,tag] of Object.entries(tags))out+='\n'+tag+' '+cifNumber(v(name))+'\n';
- out+='\n_space_group_name_H-M_alt'+(v('Reference_space_group')?cifText(v('Reference_space_group')):' ?\n');
- out+='\n_exptl_special_details'+cifText('Reference cell, not measured for this submission. '+v('Reference_notes'));
- }
- return out;
+/* ---------- PDF document ---------- */
+#pdfpreview{padding:18px 12px 40px}
+.ptool{max-width:210mm;margin:0 auto 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.ptool p{width:100%;margin:0;font-size:13px;color:var(--muted)}
+.pdf-doc{--s:1;font:calc(9pt*var(--s))/1.45 var(--sans);color:#1c2236;zoom:var(--z,1)}
+.pdf-page{width:210mm;height:297mm;margin:0 auto 22px;background:#fff;box-shadow:0 4px 22px rgba(28,34,54,.14);padding:14mm 16mm 0;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.pg-body{flex:1;min-height:0;overflow:hidden}
+.pg-foot{height:15mm;flex:none;display:flex;align-items:center;justify-content:space-between;border-top:.5pt solid #cfd3df;font-size:7pt;color:#7a8196;letter-spacing:.02em}
+.hd{display:flex;justify-content:space-between;align-items:flex-end;gap:10mm;padding-bottom:5mm;border-bottom:1.6pt solid #34408a}
+.hd .br{font-size:7pt;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#34408a}
+.hd h1{font:600 19pt/1.15 var(--serif);letter-spacing:-.01em;margin:2mm 0 0}
+.hd .meta{font-size:8pt;color:#5d6578;margin-top:2mm}
+.hd .code{text-align:right;flex:none}
+.hd .code small{display:block;font-size:6.5pt;letter-spacing:.14em;text-transform:uppercase;color:#7a8196}
+.hd .code b{display:block;font:600 11.5pt var(--serif);margin:.5mm 0 1.5mm;overflow-wrap:anywhere;max-width:70mm}
+.pill{display:inline-block;font-size:6.8pt;font-weight:600;border-radius:20px;padding:.8mm 2.6mm}
+.pill.ok{background:#e1f3ea;color:#176343}.pill.dr{background:#fbefd2;color:#805800}
+.run{display:flex;justify-content:space-between;font-size:7.5pt;color:#7a8196;padding-bottom:3mm;border-bottom:.6pt solid #cfd3df}
+.sec-p{margin-top:1.55em}
+.sec-p:first-child{margin-top:1.1em}
+.sec-p h2{display:flex;align-items:baseline;gap:.6em;font:600 1.22em/1.2 var(--serif);margin:0 0 .75em;padding-bottom:.4em;border-bottom:.5pt solid #d7dae5;color:#1c2236}
+.sec-p h2 span{font:600 .72em var(--sans);color:#34408a;letter-spacing:.06em}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:.8em 2em}
+.r{min-width:0}.r.wide{grid-column:1/-1}
+.k{font-size:.74em;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#7a8196;margin-bottom:.15em}
+.v{white-space:pre-wrap;overflow-wrap:anywhere;font-size:1.02em}
+.v.e{color:#aab0c0}
+.figs{display:flex;gap:5mm;align-items:stretch}
+.figs figure{flex:1;margin:0;border:.6pt solid #cfd3df;border-radius:2mm;padding:2.5mm;text-align:center;min-width:0;display:flex;flex-direction:column;justify-content:space-between;gap:1.5mm}
+.figs img{max-width:100%;max-height:58mm;object-fit:contain;margin:0 auto}
+.figs figcaption{font-size:.78em;color:#7a8196}
+.nofig{border:.8pt dashed #c3c8d8;border-radius:2mm;padding:6mm;text-align:center;color:#7a8196;font-size:.95em}
+.decl{margin-top:1.55em;padding:3.2mm 4mm;background:#f4f5fa;border-radius:2mm;font-size:.88em;color:#4a5166;line-height:1.5}
+.decl b{color:#1c2236}
+@page{size:A4;margin:0}
+@media print{
+ *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ body{background:#fff}
+ body.preview-mode>main{display:none!important}
+ .ptool{display:none!important}
+ #pdfpreview{padding:0}
+ .pdf-doc{zoom:1!important}
+ .pdf-page{margin:0;box-shadow:none;break-after:page;page-break-after:always}
+ .pdf-page:last-child{break-after:auto;page-break-after:auto}
 }
+body:not(.preview-mode)>#pdfpreview{display:none}
+</style></head><body>
+<main>
+<header>
+ <div class="brand">Diffraction Lab · Crystal Post</div>
+ <h1>Single-crystal XRD request</h1>
+ <p class="lead">Prepare a clear sample request for your crystallographer. Complete the form, preview the document, then save it as a two-page PDF to share through your agreed channel. Nothing is sent from this page.</p>
+ <div class="steps"><span><b>1</b>Complete the form</span><span><b>2</b>Add your structure</span><span><b>3</b>Preview the PDF</span><span><b>4</b>Save and send</span></div>
+</header>
+<div class="bar"><div class="meter"><i id="meter"></i></div><span id="progress" aria-live="polite"></span><button type="button" class="link" id="expand">Expand all</button><button type="button" class="link" id="collapse">Collapse all</button></div>
+<form id="request" novalidate></form>
+<footer>Crystal Post · a sample-request builder for the single-crystal diffraction community. Collection strategy, instrument settings, unit-cell results and refinement records are completed later by the crystallographer.</footer>
+</main>
+
+<section id="pdfpreview" aria-label="Request document preview" hidden>
+ <div class="ptool"><button type="button" id="editreq" class="sec2">← Back to edit</button><button type="button" id="printreq">Print / Save as PDF</button>
+ <p>In the print window choose <b>Save as PDF</b>, paper size A4, margins <b>None</b>, and untick “Headers and footers”. Supporting files and the safety data sheet are listed by name and must be supplied separately.</p></div>
+ <div class="pdf-doc" id="pdfdoc"></div>
+</section>
+
+<script>
+/* ---------- schema ---------- */
+const SEC=[
+{n:'01',t:'Researcher',s:'Who should the crystallographer contact?',f:[
+ {n:'Researcher',l:'Full name',t:'text',r:1},{n:'email',l:'Email address',t:'email',r:1},
+ {n:'Organisation',l:'University / company',t:'text',r:1},{n:'Supervisor',l:'Group leader / supervisor',t:'text'},
+ {n:'Phone',l:'Phone, including country code',t:'tel'},{n:'Project',l:'Project name or reference',t:'text'}]},
+{n:'02',t:'Scientific question',s:'What should the measurement help you decide?',f:[
+ {n:'Requested_service',l:'Main request',t:'select',r:1,o:['Complete structure determination and refinement','Unit-cell determination / screening','Data collection only','Absolute-structure / configuration assessment','Relative stereochemistry','Polymorph or identity comparison','Advice first / not sure','Other request']},
+ {n:'Timing',l:'Timing',t:'select',r:1,o:['Standard scheduling','Time-sensitive: explain below','Flexible / exploratory']},
+ {n:'Scientific_question',l:'Scientific question',t:'textarea',r:1,w:1,ph:'What decision will these results help you make?'},
+ {n:'Preferred_date',l:'Preferred completion date, if relevant',t:'date'},
+ {n:'Intended_use',l:'Data use',t:'select',o:['Research / publication','Student project / teaching','Industrial R&D','Other / discuss']},
+ {n:'Special_requirements',l:'Timing or special requirements',t:'textarea',w:1,ph:'A requested date is not a confirmed booking.'}]},
+{n:'03',t:'Sample',s:'One form per sample. Give it a memorable code.',f:[
+ {n:'Sample_code',l:'Sample code',t:'text',r:1,ph:'e.g. CTS01'},
+ {n:'Proposed_formula',l:'Proposed molecular formula',t:'text',ph:'Plain text, e.g. C14H12N2O2'},
+ {n:'SMILES',l:'SMILES (optional)',t:'text',ph:'e.g. c1ccccc1C(=O)O'},
+ {n:'Proposed_identity',l:'Compound name / identity, if known',t:'text'},
+ {n:'Material_class',l:'Material class',t:'select',r:1,o:['Organic / pharmaceutical','Coordination compound / organometallic','Inorganic / mineral','Metal–organic framework','Protein / macromolecule','Unknown / other']},
+ {n:'Crystal_habit',l:'Crystal appearance',t:'select',o:['Block / prism','Needle','Plate','Irregular fragment','Mixed shapes','Not yet examined']},
+ {n:'Colour',l:'Colour',t:'select',o:['Colourless','White / opaque','Yellow / orange','Red / pink','Blue / purple','Green','Brown / black','Other']},
+ {n:'Crystal_dimensions',l:'Approximate dimensions, mm',t:'text',ph:'length × width × thickness'},
+ {n:'Amount_available',l:'Amount / number of crystals',t:'text'},
+ {n:'Crystallisation_details',l:'Crystallisation method and mother liquor',t:'textarea',w:1,ph:'Cooling, evaporation, diffusion, slurry, melt… include mother liquor composition.'},
+ {n:'Solvent_history',l:'All solvents the sample has contacted',t:'textarea',r:1,w:1,ph:'Include crystallisation, washing and storage solvents.'},
+ {n:'Supporting_analyses',l:'Supporting analyses already available',t:'check',w:1,o:['NMR','IR / Raman','Mass spectrometry','Elemental analysis','PXRD','DSC / TGA','Other']},
+ {n:'Composition_notes',l:'Expected components, counterions and byproducts',t:'textarea',w:1,ph:'Include possible solvate / hydrate forms and mixtures.'}]},
+{n:'04',t:'Handling and safety',s:'What the crystal needs before it travels.',f:[
+ {n:'Air_sensitivity',l:'Air sensitivity',t:'select',r:1,o:['Stable in air','Air sensitive','Unknown']},
+ {n:'Moisture_sensitivity',l:'Moisture sensitivity',t:'select',r:1,o:['Moisture stable','Moisture sensitive','Unknown']},
+ {n:'Storage',l:'Temperature / storage',t:'select',r:1,o:['Room temperature','Refrigerated','Frozen','Other controlled temperature','Unknown / discuss']},
+ {n:'Solvent_loss',l:'Solvent loss',t:'select',r:1,o:['Stable outside mother liquor','May lose solvent / needs mother liquor','Unknown']},
+ {n:'Hazard_status',l:'Hazard information',t:'select',r:1,o:['Known hazards: details provided below','No known hazards after assessment','Hazards not established: advice required']},
+ {n:'Sample_location',l:'Sample location',t:'select',r:1,o:['Retained in my laboratory pending arrangements','Ready for agreed delivery','Already supplied by prior arrangement']},
+ {n:'Handling_instructions',l:'Hazards, storage and handling instructions',t:'textarea',r:1,w:1,ph:'List known chemical, biological, radiological or other hazards. Explain any unknowns. State safe storage and transport needs.'},
+ {n:'Sample_return',l:'Return preference',t:'select',r:1,o:['Return requested: discuss arrangements','No return needed: agree disposal arrangements','Discuss first']},
+ {n:'Handling_notes',l:'Additional handling notes',t:'textarea',w:1,ph:'Please agree acceptance and delivery before sending physical material.'}]},
+{n:'05',t:'Structure',s:'Draw it, or upload a photo of a sketch. Both are optional.',custom:'structure'},
+{n:'06',t:'Measurement preferences',s:'Your preferences, confirmed by the crystallographer.',f:[
+ {n:'Requested_radiation',l:'Preferred radiation',t:'select',o:['Cu Kα','Mo Kα','Ag Kα','Other: explain below'],nopref:1},
+ {n:'Requested_temperature',l:'Preferred collection temperature',t:'select',o:['100 K','150 K','200 K','250 K','293 K','298 K','Room temperature (actual K to be recorded)','Other temperature / series'],nopref:1},
+ {n:'Other_temperature',l:'Other temperature or series, K',t:'text',ph:'e.g. 120 K, or 100 / 200 / 300 K'},
+ {n:'Absolute_structure_request',l:'Absolute-structure assessment needed?',t:'select',o:['Yes: known enantiopure sample','Yes: assess absolute structure / inversion twinning','Relative stereochemistry only','No','Not sure'],nopref:1},
+ {n:'Additional_collections',l:'Further collections if needed',t:'select',o:['Please contact me before any additional collection','Additional collections authorised within agreed scope','Single dataset only'],nopref:1},
+ {n:'Account_reference',l:'Account / purchase-order reference',t:'text'},
+ {n:'Measurement_notes',l:'Measurement rationale or restrictions',t:'textarea',w:1,ph:'Explain wavelength or temperature needs, known phase transitions or required atom numbering.'},
+ {t:'note',x:'These are requested conditions, not measured values. The final CIF must use the actual radiation, wavelength and collection temperature.'}]},
+{n:'07',t:'Reference structure',s:'Optional data for repeat or comparison measurements.',f:[
+ {n:'Known_structure',l:'Known structure / repeat sample?',t:'select',o:['New structure / no reference available','Known structure: repeat collection','Known unit cell only','Possible match: needs confirmation'],nopref:1},
+ {n:'Structure_reference',l:'DOI, CCDC / ICSD code or previous sample code',t:'text'},
+ {n:'Reference_crystal_system',l:'Reference crystal system',t:'select',o:['Triclinic','Monoclinic','Orthorhombic','Tetragonal','Trigonal','Hexagonal','Cubic','Unknown'],nopref:1},
+ {n:'Reference_space_group',l:'Space group, including setting',t:'text',ph:'e.g. P 21/c, unique axis b'},
+ {n:'Reference_cell_a',l:'a / Å',t:'text',ph:'10.123(4)',im:1},{n:'Reference_cell_b',l:'b / Å',t:'text',ph:'12.456(5)',im:1},{n:'Reference_cell_c',l:'c / Å',t:'text',ph:'15.789(6)',im:1},
+ {n:'Reference_cell_alpha',l:'α / °',t:'text',ph:'90',im:1},{n:'Reference_cell_beta',l:'β / °',t:'text',ph:'103.45(2)',im:1},{n:'Reference_cell_gamma',l:'γ / °',t:'text',ph:'90',im:1},
+ {n:'Reference_cell_temperature',l:'Reference cell temperature / K',t:'text',ph:'e.g. 100(2)',im:1},
+ {n:'Reference_Z',l:'Z, if known',t:'number'},
+ {n:'attachment_reference',l:'Reference CIF (optional)',t:'file',a:'.cif,text/plain'},
+ {n:'Reference_notes',l:'Reference notes / expected differences',t:'textarea',w:1,ph:'Reference conditions, suspected polymorph, isotopic change, repeat sample details…'},
+ {t:'note',x:'Enter only known values and leave unknowns blank; do not assume 90° angles. Values such as 10.123(4) are accepted. Reference cells are exported to a separate CIF block and never replace newly measured values.'}]},
+{n:'08',t:'Supporting information',s:'Safety documentation and anything else that helps.',f:[
+ {n:'attachment_safety',l:'Safety data sheet / risk information',t:'file',a:'.pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg'},
+ {n:'Supporting_links',l:'Links to additional supporting information',t:'textarea',ph:'Optional. Use links you are authorised to share.'},
+ {n:'Additional_notes',l:'Anything else we should know?',t:'textarea',w:1},
+ {t:'note',x:'Only the structure drawing or photo from section 05 is embedded in the PDF. Other files appear by name and must be supplied separately.'}]}
+];
+const form=document.getElementById('request');
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+/* ---------- render form ---------- */
+function fieldHTML(f){
+ if(f.t==='note')return '<p class="hint wide">'+esc(f.x)+'</p>';
+ const star=f.r?'<i aria-hidden="true">*</i>':'',req=f.r?' required':'',w=f.w?' wide':'';
+ if(f.t==='check')return '<fieldset class="checks wide"><legend>'+esc(f.l)+'</legend>'+f.o.map(o=>'<label><input type="checkbox" name="'+f.n+'" value="'+esc(o)+'"> '+esc(o)+'</label>').join('')+'</fieldset>';
+ let ctl;
+ if(f.t==='select')ctl='<select name="'+f.n+'"'+req+'><option value="">'+(f.nopref?'No preference / discuss':'Choose an option')+'</option>'+f.o.map(o=>'<option>'+esc(o)+'</option>').join('')+'</select>';
+ else if(f.t==='textarea')ctl='<textarea name="'+f.n+'" rows="3"'+req+' placeholder="'+esc(f.ph||'')+'"></textarea>';
+ else if(f.t==='file')ctl='<input type="file" name="'+f.n+'" accept="'+esc(f.a||'')+'">';
+ else ctl='<input type="'+f.t+'" name="'+f.n+'"'+req+(f.im?' inputmode="decimal"':'')+(f.t==='number'?' min="1" step="1"':'')+' placeholder="'+esc(f.ph||'')+'">';
+ return '<label class="'+w.trim()+'">'+esc(f.l)+star+ctl+'</label>';
+}
+const STRUCT_HTML=`<div class="wide">
+<div class="tabs" role="tablist"><button type="button" class="tab" role="tab" id="tabdraw" aria-selected="true">Draw structure</button><button type="button" class="tab" role="tab" id="tabup" aria-selected="false">Upload sketch / photo</button></div>
+<div id="pdraw">
+ <div class="tools" id="tools">
+  <button type="button" class="tool" data-t="b1" aria-pressed="true" title="Single bond">─ Single</button>
+  <button type="button" class="tool" data-t="b2" aria-pressed="false" title="Double bond">═ Double</button>
+  <button type="button" class="tool" data-t="b3" aria-pressed="false" title="Triple bond">≡ Triple</button>
+  <button type="button" class="tool" data-t="wedge" aria-pressed="false" title="Wedge bond (towards viewer)">◢ Wedge</button>
+  <button type="button" class="tool" data-t="dash" aria-pressed="false" title="Dashed bond (away from viewer)">┈ Dash</button>
+  <span class="sep"></span>
+  <button type="button" class="tool" data-t="atom" aria-pressed="false" title="Place atom label">A Atom</button>
+  <button type="button" class="tool" data-t="benz" aria-pressed="false" title="Benzene ring">⌬ Benzene</button>
+  <button type="button" class="tool" data-t="hex" aria-pressed="false" title="Cyclohexane ring">⬡ 6-ring</button>
+  <button type="button" class="tool" data-t="pent" aria-pressed="false" title="Five-membered ring">⬠ 5-ring</button>
+  <button type="button" class="tool" data-t="pen" aria-pressed="false" title="Freehand pen">✎ Pen</button>
+  <button type="button" class="tool" data-t="erase" aria-pressed="false" title="Erase item">⌫ Erase</button>
+  <span class="sep"></span>
+  <button type="button" class="tool act" id="skrot" title="Rotate next ring by 30°">⟳ Rotate ring</button>
+  <button type="button" class="tool act" id="skundo">↶ Undo</button>
+  <button type="button" class="tool act" id="skclear">Clear</button>
+  <button type="button" class="tool act" id="sksave">Save PNG</button>
+ </div>
+ <div class="atoms" id="atoms" hidden>Atom:
+  <button type="button" class="tool" data-a="C" aria-pressed="true">C</button><button type="button" class="tool" data-a="N" aria-pressed="false">N</button><button type="button" class="tool" data-a="O" aria-pressed="false">O</button><button type="button" class="tool" data-a="S" aria-pressed="false">S</button><button type="button" class="tool" data-a="P" aria-pressed="false">P</button><button type="button" class="tool" data-a="F" aria-pressed="false">F</button><button type="button" class="tool" data-a="Cl" aria-pressed="false">Cl</button><button type="button" class="tool" data-a="Br" aria-pressed="false">Br</button><button type="button" class="tool" data-a="I" aria-pressed="false">I</button><button type="button" class="tool" data-a="H" aria-pressed="false">H</button>
+  or type <input id="atomcustom" placeholder="OH, NH2, Cu, CO2Me…" aria-label="Custom atom label" maxlength="12">
+ </div>
+ <div class="pad"><canvas id="skcv" aria-label="Structure drawing area"></canvas></div>
+ <p class="hint" style="margin-top:8px">Drag to draw a bond: it snaps to 30° steps and to existing atoms. Click with a ring tool to stamp a ring. Use <b>Atom</b> for heteroatoms, metals and groups (digits become subscripts, + and − become charges). This is a quick sketch for your crystallographer, not a full chemistry editor.</p>
+</div>
+<div id="pup" hidden>
+ <label>Photo or scan of a hand-drawn structure, reaction scheme or crystal photo<input type="file" id="photoin" accept="image/*"></label>
+ <p class="hint" style="margin-top:8px">On a phone this opens the camera. The image is reduced in size and embedded in your PDF. Nothing is uploaded anywhere.</p>
+ <div class="prev" id="photoprev" hidden><img id="photoimg" alt="Uploaded structure preview"><div style="margin-top:8px"><button type="button" class="sec2" id="photorm">Remove image</button></div></div>
+</div>
+</div>`;
+function secHTML(s,i){
+ const body=s.custom==='structure'?STRUCT_HTML:s.f.map(fieldHTML).join('');
+ return '<details class="sec" data-i="'+i+'"'+(i===0?' open':'')+'><summary><span class="num">'+s.n+'</span><span><span class="st">'+esc(s.t)+'</span><span class="ss">'+esc(s.s)+'</span></span><span class="chip"></span><span class="chev"></span></summary><div class="fields">'+body+'</div></details>';
+}
+form.innerHTML=SEC.map(secHTML).join('')+`<section class="review"><h2>Review and export</h2>
+<p class="hint">A request ID (date, time, your initials and sample code, e.g. 2026-11-10-2336-SK-CTS01) is created automatically when you preview, and is used in the PDF and its file name.</p><p class="hint" style="margin-top:6px">Preview shows the document exactly as it will print. Incomplete required fields are flagged in the PDF as a draft.</p>
+<div class="btns"><button type="button" id="previewpdf">Preview / Save as PDF</button><button type="button" class="sec2" id="download">Save a text copy</button><button type="button" class="sec2" id="downloadcif">Download CIF metadata</button></div>
+<label class="consent"><input type="checkbox" name="Submission_confirmation" value="Confirmed" required><span>I have checked the information and included all known sample hazards and handling requirements. <i>*</i></span></label>
+<p class="hint">The CIF export separates requested conditions from reference-cell values. It is a metadata starting point, not a validated structure CIF.</p>
+<p class="hint" style="margin-top:8px">Your entries stay in this page and are not stored after it is closed. Save your PDF before leaving.</p></section>`;
+/* ---------- progress ---------- */
+const $=id=>document.getElementById(id);
+const reqEls=()=>Array.from(form.elements).filter(e=>e.required);
+function updateProgress(){
+ const req=reqEls(),ok=req.filter(e=>e.type==='checkbox'?e.checked:e.value.trim()!=='').length;
+ $('progress').textContent=ok+' of '+req.length+' required fields complete';
+ $('meter').style.width=(req.length?ok/req.length*100:0)+'%';
+ form.querySelectorAll('details.sec').forEach((d,i)=>{
+  const r=Array.from(d.querySelectorAll('[required]')),n=r.filter(e=>e.value.trim()!=='').length,c=d.querySelector('.chip');
+  if(!r.length){c.textContent=SEC[i].custom?'Optional':'';c.className='chip';}
+  else if(n===r.length){c.textContent='✓ Complete';c.className='chip ok';}
+  else{c.textContent=n+' of '+r.length+' required';c.className='chip';}
+ });
+}
+form.addEventListener('input',updateProgress);form.addEventListener('change',updateProgress);
+form.addEventListener('invalid',e=>e.target.closest('details')?.setAttribute('open',''),true);
+$('expand').onclick=()=>form.querySelectorAll('details.sec').forEach(d=>d.open=true);
+$('collapse').onclick=()=>form.querySelectorAll('details.sec').forEach(d=>d.open=false);
+updateProgress();
+/* ---------- structure sketch pad ---------- */
+const SK=(()=>{
+ const cv=$('skcv'),mainCtx=cv.getContext('2d'),W=900,H=520,BL=46,INK='#14181f';
+ cv.width=W*2;cv.height=H*2;
+ let ctx=mainCtx;
+ let items=[],hist=[],tool='b1',atomText='C',ringRot=0,drag=null;
+ const snapH=()=>{hist.push(JSON.stringify(items));if(hist.length>60)hist.shift();};
+ const pos=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)*W/r.width,(e.clientY-r.top)*H/r.height];};
+ const dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
+ function pts(){const o=[];items.forEach(it=>{if(it.k==='b'){o.push(it.a,it.b);}else if(it.k==='a')o.push([it.x,it.y]);});return o;}
+ function snapPt(p,r=14,skip){let best=null,bd=r;pts().forEach(q=>{if(skip&&dist(q,skip)<1)return;const d=dist(p,q);if(d<bd){bd=d;best=q;}});return best;}
+ function runs(t){const out=[];for(let i=0;i<t.length;i++){const c=t[i];if(/\d/.test(c)&&i>0)out.push([c,'sub']);else if(/[+\-−]/.test(c)&&i>0)out.push([c==='-'?'−':c,'sup']);else out.push([c,'n']);}return out;}
+ function labelW(t){ctx.font='600 20px Arial,Helvetica,sans-serif';return runs(t).reduce((w,r)=>w+ctx.measureText(r[0]).width*(r[1]==='n'?1:.7),0);}
+ function drawLabel(x,y,t){const w=labelW(t);ctx.fillStyle='#fff';ctx.fillRect(x-w/2-3,y-13,w+6,26);ctx.fillStyle=INK;ctx.textBaseline='middle';ctx.textAlign='left';
+  let cx=x-w/2;runs(t).forEach(r=>{const sm=r[1]!=='n';ctx.font=(sm?'600 14px':'600 20px')+' Arial,Helvetica,sans-serif';ctx.fillText(r[0],cx,y+(r[1]==='sub'?5:r[1]==='sup'?-7:1));cx+=ctx.measureText(r[0]).width;});}
+ function line(a,b,o=[0,0]){ctx.beginPath();ctx.moveTo(a[0]+o[0],a[1]+o[1]);ctx.lineTo(b[0]+o[0],b[1]+o[1]);ctx.stroke();}
+ function drawBond(it){
+  const a=it.a,b=it.b,dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L,nx=-uy,ny=ux;
+  ctx.strokeStyle=INK;ctx.fillStyle=INK;ctx.lineWidth=2.3;ctx.lineCap='round';
+  if(it.s==='w'){ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0]+nx*5.5,b[1]+ny*5.5);ctx.lineTo(b[0]-nx*5.5,b[1]-ny*5.5);ctx.closePath();ctx.fill();return;}
+  if(it.s==='d'){ctx.lineWidth=2;for(let i=1;i<=7;i++){const t=i/7.5,w=t*5.5,px=a[0]+dx*t,py=a[1]+dy*t;line([px-nx*w,py-ny*w],[px+nx*w,py+ny*w]);}return;}
+  if(it.o===1){line(a,b);return;}
+  if(it.o===3){line(a,b);line(a,b,[nx*5.5,ny*5.5]);line(a,b,[-nx*5.5,-ny*5.5]);return;}
+  if(it.off){line(a,b);const s=it.off*6,k=.14;line([a[0]+dx*k,a[1]+dy*k],[b[0]-dx*k,b[1]-dy*k],[nx*s,ny*s]);return;}
+  line(a,b,[nx*3.4,ny*3.4]);line(a,b,[-nx*3.4,-ny*3.4]);
+ }
+ function drawItems(c,grid){
+  items.forEach(it=>{if(it.k==='b')drawBond(it);else if(it.k==='f'){ctx.strokeStyle=INK;ctx.lineWidth=2;ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();it.p.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]));ctx.stroke();}});
+  items.forEach(it=>{if(it.k==='a')drawLabel(it.x,it.y,it.t);});
+ }
+ function redraw(){
+  ctx.setTransform(2,0,0,2,0,0);ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#d5d9e4';for(let x=BL/2;x<W;x+=BL/2)for(let y=BL/2;y<H;y+=BL/2){ctx.fillRect(x-.7,y-.7,1.4,1.4);}
+  drawItems();
+  if(drag&&drag.kind==='bond'&&drag.end){drawBond({a:drag.start,b:drag.end,o:drag.o,s:drag.s});}
+  if(drag&&drag.kind==='pen'){ctx.strokeStyle=INK;ctx.lineWidth=2;ctx.beginPath();drag.p.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]));ctx.stroke();}
+  if(!items.length&&!drag){ctx.fillStyle='#9aa1b4';ctx.font='500 16px Inter,Arial,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('Draw your structure here',W/2,H/2);}
+ }
+ function bondEnd(s,p){const d=dist(s,p);if(d<10)return null;const sn=snapPt(p,14,s);if(sn&&dist(sn,s)>8)return sn;const st=Math.PI/6,ang=Math.round(Math.atan2(p[1]-s[1],p[0]-s[0])/st)*st;return[s[0]+Math.cos(ang)*BL,s[1]+Math.sin(ang)*BL];}
+ function addRing(c,kind){
+  const n=kind==='pent'?5:6,R=kind==='pent'?BL*.8507:BL,off0=-Math.PI/2+ringRot*Math.PI/6+(n===6?0:0);
+  const v=[];for(let i=0;i<n;i++){const a=off0+i*2*Math.PI/n;v.push([c[0]+R*Math.cos(a),c[1]+R*Math.sin(a)]);}
+  for(let i=0;i<n;i++){const it={k:'b',a:v[i],b:v[(i+1)%n],o:1,s:'n'};if(kind==='benz'&&i%2===0){it.o=2;it.off=1;
+    const mx=(it.a[0]+it.b[0])/2,my=(it.a[1]+it.b[1])/2,dx=it.b[0]-it.a[0],dy=it.b[1]-it.a[1],nx=-dy,ny=dx;
+    it.off=((c[0]-mx)*nx+(c[1]-my)*ny)>0?1:-1;}items.push(it);}
+ }
+ function segDist(p,a,b){const dx=b[0]-a[0],dy=b[1]-a[1],l2=dx*dx+dy*dy||1;let t=((p[0]-a[0])*dx+(p[1]-a[1])*dy)/l2;t=Math.max(0,Math.min(1,t));return Math.hypot(p[0]-a[0]-t*dx,p[1]-a[1]-t*dy);}
+ function eraseAt(p){let bi=-1,bd=12;items.forEach((it,i)=>{let d=1e9;
+  if(it.k==='b')d=segDist(p,it.a,it.b);
+  else if(it.k==='a'){const w=labelW(it.t)/2+4;if(Math.abs(p[0]-it.x)<w&&Math.abs(p[1]-it.y)<14)d=0;}
+  else for(let j=1;j<it.p.length;j++)d=Math.min(d,segDist(p,it.p[j-1],it.p[j]));
+  if(d<bd){bd=d;bi=i;}});if(bi>=0){items.splice(bi,1);return true;}return false;}
+ cv.addEventListener('pointerdown',e=>{e.preventDefault();cv.setPointerCapture(e.pointerId);const p=pos(e);
+  if(tool==='atom'){snapH();const s=snapPt(p,16)||p;const ex=items.findIndex(it=>it.k==='a'&&Math.abs(it.x-s[0])<4&&Math.abs(it.y-s[1])<4);if(ex>=0)items[ex].t=atomText;else items.push({k:'a',x:s[0],y:s[1],t:atomText});redraw();return;}
+  if(tool==='benz'||tool==='hex'||tool==='pent'){snapH();addRing(p,tool);redraw();return;}
+  if(tool==='erase'){snapH();drag={kind:'erase'};if(eraseAt(p))redraw();return;}
+  if(tool==='pen'){drag={kind:'pen',p:[p]};return;}
+  const s=snapPt(p,14)||p;drag={kind:'bond',start:s,end:null,o:tool==='b2'?2:tool==='b3'?3:1,s:tool==='wedge'?'w':tool==='dash'?'d':'n'};redraw();});
+ cv.addEventListener('pointermove',e=>{if(!drag)return;const p=pos(e);
+  if(drag.kind==='bond'){drag.end=bondEnd(drag.start,p);redraw();}
+  else if(drag.kind==='pen'){drag.p.push(p);redraw();}
+  else if(drag.kind==='erase'){if(eraseAt(p))redraw();}});
+ const up=e=>{if(!drag)return;
+  if(drag.kind==='bond'&&drag.end){snapH();items.push({k:'b',a:drag.start,b:drag.end,o:drag.o,s:drag.s});}
+  else if(drag.kind==='pen'&&drag.p.length>2){snapH();items.push({k:'f',p:drag.p});}
+  drag=null;redraw();};
+ cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',()=>{drag=null;redraw();});
+ /* controls */
+ $('tools').addEventListener('click',e=>{const b=e.target.closest('.tool[data-t]');if(!b)return;tool=b.dataset.t;
+  $('tools').querySelectorAll('.tool[data-t]').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  $('atoms').hidden=tool!=='atom';
+  cv.style.cursor=tool==='erase'?'cell':'crosshair';});
+ $('atoms').addEventListener('click',e=>{const b=e.target.closest('.tool[data-a]');if(!b)return;atomText=b.dataset.a;$('atomcustom').value='';
+  $('atoms').querySelectorAll('.tool[data-a]').forEach(x=>x.setAttribute('aria-pressed',x===b));});
+ $('atomcustom').addEventListener('input',e=>{const v=e.target.value.trim();if(v){atomText=v;$('atoms').querySelectorAll('.tool[data-a]').forEach(x=>x.setAttribute('aria-pressed','false'));}});
+ $('skrot').onclick=()=>{ringRot=(ringRot+1)%2;$('skrot').textContent=ringRot?'⟳ Ring: flat':'⟳ Ring: pointy';};
+ $('skundo').onclick=()=>{if(hist.length){items=JSON.parse(hist.pop());redraw();}};
+ $('skclear').onclick=()=>{if(items.length){snapH();items=[];redraw();}};
+ function bbox(){let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;const add=(x,y,rx=8,ry=8)=>{x0=Math.min(x0,x-rx);x1=Math.max(x1,x+rx);y0=Math.min(y0,y-ry);y1=Math.max(y1,y+ry);};
+  items.forEach(it=>{if(it.k==='b'){add(it.a[0],it.a[1]);add(it.b[0],it.b[1]);}else if(it.k==='a')add(it.x,it.y,labelW(it.t)/2+4,15);else it.p.forEach(q=>add(q[0],q[1],3,3));});return[x0,y0,x1,y1];}
+ function exportURL(){
+  if(!items.length)return null;const[x0,y0,x1,y1]=bbox(),pad=24,w=Math.max(180,x1-x0+pad*2),h=Math.max(120,y1-y0+pad*2);
+  const oc=document.createElement('canvas');oc.width=Math.round(w*2.5);oc.height=Math.round(h*2.5);
+  const c=oc.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,oc.width,oc.height);
+  c.setTransform(2.5,0,0,2.5,(w-(x1-x0))/2*2.5-x0*2.5,(h-(y1-y0))/2*2.5-y0*2.5);
+  ctx=c;try{drawItems();}finally{ctx=mainCtx;}
+  return oc.toDataURL('image/png');
+ }
+ redraw();
+ return{exportURL,hasContent:()=>items.length>0};
+})();
+/* ---------- structure tabs, photo, save PNG ---------- */
+let photoData=null;
+function showTab(draw){$('pdraw').hidden=!draw;$('pup').hidden=draw;$('tabdraw').setAttribute('aria-selected',draw);$('tabup').setAttribute('aria-selected',!draw);}
+$('tabdraw').onclick=()=>showTab(true);$('tabup').onclick=()=>showTab(false);
+$('photoin').onchange=e=>{
+ const f=e.target.files[0];if(!f)return;
+ const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{
+  const m=1500,k=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);
+  const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);
+  photoData=c.toDataURL('image/jpeg',.86);$('photoimg').src=photoData;$('photoprev').hidden=false;};
+  im.onerror=()=>{alert('That file could not be read as an image. Try a JPEG or PNG.');};im.src=rd.result;};
+ rd.readAsDataURL(f);};
+$('photorm').onclick=()=>{photoData=null;$('photoin').value='';$('photoprev').hidden=true;$('photoimg').removeAttribute('src');};
+$('sksave').onclick=()=>{const u=SK.exportURL();if(!u){alert('Draw a structure first.');return;}const a=document.createElement('a');a.href=u;a.download=(V('Sample_code').replace(/[^a-zA-Z0-9_-]/g,'_')||'structure')+'_structure.png';a.click();};
+/* ---------- helpers ---------- */
+const V=n=>{const e=form.elements[n];return e&&e.value?e.value.trim():'';};
+const CH=n=>Array.from(form.querySelectorAll('input[name="'+n+'"]:checked')).map(x=>x.value).join(', ');
+const FN=n=>{const e=form.elements[n];return e&&e.files?Array.from(e.files).map(f=>f.name).join(', '):'';};
+const getVal=f=>f.t==='check'?CH(f.n):f.t==='file'?FN(f.n):V(f.n);
+function entries(){const o=[];SEC.forEach(s=>{if(!s.f)return;s.f.forEach(f=>{if(f.t==='note')return;const v=getVal(f);if(v)o.push([f.l,v]);});});return o;}
+/* ---------- text and CIF exports ---------- */
+$('download').onclick=()=>{const t='CRYSTAL POST / SCXRD REQUEST\nLocal copy only. This file is not proof of submission.\n\n'+entries().map(([k,v])=>k+': '+v).join('\n\n');const u=URL.createObjectURL(new Blob([t],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=u;a.download='crystal-request.txt';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);};
+function cifText(v){return '\n;\n'+String(v||'Unknown').replace(/\r\n?/g,'\n').replace(/^;/gm,' ;')+'\n;\n';}
+function cifNumber(v){return v&&/^\d+(?:\.\d+)?(?:\(\d+\))?$/.test(v.trim())?v.trim():'?';}
+function cifExport(){
+ let out='#\\#CIF_2.0\n# Crystal Post submission metadata. UTF-8 CIF 2.0.\n# Requests and reference values only. Not a validated experimental CIF.\ndata_submission_request\n_audit_creation_method'+cifText('Crystal Post researcher submission. All supplied chemical identities are proposed; collection conditions are requests.')+'\n_chemical_compound_source'+cifText(V('Organisation'))+'\n_chemical_formula_sum'+(V('Proposed_formula')?cifText(V('Proposed_formula')):' ?\n')+'\n_exptl_special_details'+cifText(entries().map(([k,val])=>k+': '+val).join('\n'));
+ out+='\n# ACTUAL COLLECTION VALUES: complete only after measurement.\n_diffrn_radiation_type ?\n_diffrn_radiation_wavelength ?\n_diffrn_ambient_temperature ?\n';
+ if(V('Known_structure')&&V('Known_structure')!=='New structure / no reference available'){
+  out+='\ndata_reference_cell\n_audit_creation_method'+cifText('USER-SUPPLIED REFERENCE ONLY. This block is not a new measurement. Reference: '+V('Structure_reference'));
+  const tags={Reference_cell_a:'_cell_length_a',Reference_cell_b:'_cell_length_b',Reference_cell_c:'_cell_length_c',Reference_cell_alpha:'_cell_angle_alpha',Reference_cell_beta:'_cell_angle_beta',Reference_cell_gamma:'_cell_angle_gamma',Reference_cell_temperature:'_cell_measurement_temperature',Reference_Z:'_cell_formula_units_Z'};
+  for(const[n,t]of Object.entries(tags))out+='\n'+t+' '+cifNumber(V(n))+'\n';
+  out+='\n_space_group_name_H-M_alt'+(V('Reference_space_group')?cifText(V('Reference_space_group')):' ?\n');
+  out+='\n_exptl_special_details'+cifText('Reference cell, not measured for this submission. '+V('Reference_notes'));}
+ return out;}
 function cellOK(){
  for(const n of ['Reference_cell_a','Reference_cell_b','Reference_cell_c','Reference_cell_alpha','Reference_cell_beta','Reference_cell_gamma','Reference_cell_temperature']){
- const el=form.elements[n],value=el.value.trim();el.setCustomValidity('');if(!value)continue;
- const num=parseFloat(value);
- if(!/^\d+(?:\.\d+)?(?:\(\d+\))?$/.test(value)||num<=0||(n.match(/alpha|beta|gamma/)&&num>=180)){
- el.setCustomValidity('Enter a positive number, optionally with uncertainty, e.g. 10.123(4). Angles must be between 0 and 180 degrees.');el.closest('details').open=true;el.reportValidity();return false;}
- }return true;
-}
-document.getElementById('downloadcif').onclick=()=>{if(!cellOK())return;const url=URL.createObjectURL(new Blob([cifExport()],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download=(form.elements.Sample_code.value.replace(/[^a-zA-Z0-9_-]/g,'_')||'sample')+'_submission_metadata.cif';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
-form.addEventListener('input',e=>{if(e.target.name.startsWith('Reference_'))e.target.setCustomValidity('');});
-
-form.addEventListener('submit',e=>{e.preventDefault();previewDocument();});
-
-let previewTitle=document.title;
-function fieldLabel(el){
- const wrap=el.closest('label');if(!wrap)return el.name.replaceAll('_',' ');
- const copy=wrap.cloneNode(true);copy.querySelectorAll('input,select,textarea').forEach(n=>n.remove());return copy.textContent.replace(/\*/g,'').trim();
-}
-function previewDocument(){
- if(!cellOK())return;
- const doc=document.getElementById('pdfdocument');doc.replaceChildren();
- const page1=document.createElement('div'),page2=document.createElement('div');page1.className=page2.className='pdf-page';doc.append(page1,page2);
- const add=(tag,txt,parent=page1,cls='')=>{const n=document.createElement(tag);n.textContent=txt;if(cls)n.className=cls;parent.append(n);return n;};
- add('div','Crystal Post / Diffraction Lab',page1,'pdf-top');add('h1','Single-crystal X-ray diffraction request');
- const sample=form.elements.Sample_code.value.trim()||'Sample code not provided';
- const now=new Date();const req=fields().filter(e=>e.required);const missing=req.filter(e=>!e.validity.valid);
- add('div','Sample: '+sample+' · Prepared: '+now.toLocaleString('en-GB')+' · '+(missing.length?'Draft / '+missing.length+' required field(s) incomplete':'Required fields complete / ready to share'),page1,'pdf-meta').style.whiteSpace='pre-wrap';
- if(missing.length)add('div','Draft: complete missing required information before sending this request.',page1,'draft-note');
- add('div','Sample: '+sample+' · Measurement, reference information and supporting files · 2 / 2',page2,'page-caption');
- let sectionIndex=0;
- for(const section of form.querySelectorAll('details.section')){
-  const sec=document.createElement('section');sec.className='pdf-section';(sectionIndex++<4?page1:page2).append(sec);add('h2',section.querySelector('summary strong').textContent,sec);
-  const dl=document.createElement('dl');sec.append(dl);const seen=new Set();
-  for(const el of section.querySelectorAll('input[name],select[name],textarea[name]')){
-   if(el.type==='hidden'||el.name.startsWith('_')||seen.has(el.name))continue;seen.add(el.name);
-   let val,label;
-   if(el.type==='checkbox'){
-    const set=Array.from(section.querySelectorAll('input[type=checkbox]')).filter(x=>x.name===el.name);val=set.filter(x=>x.checked).map(x=>x.value).join(', ')||'Not specified';label=el.closest('fieldset')?.querySelector('legend')?.textContent||fieldLabel(el);
-   }else{label=fieldLabel(el);val=el.type==='file'?(Array.from(el.files).map(x=>x.name).join(', ')||'No file selected'):el.value.trim()||'Not provided';}
-   const row=document.createElement('div');row.className='pdf-row'+(el.tagName==='TEXTAREA'?' wide':'');dl.append(row);add('dt',label,row);add('dd',val,row);
-  }
+  const e=form.elements[n],v=e.value.trim();e.setCustomValidity('');if(!v)continue;const num=parseFloat(v);
+  if(!/^\d+(?:\.\d+)?(?:\(\d+\))?$/.test(v)||num<=0||(/alpha|beta|gamma/.test(n)&&num>=180)){
+   e.setCustomValidity('Enter a positive number, optionally with uncertainty, e.g. 10.123(4). Angles must be between 0 and 180 degrees.');e.closest('details').open=true;e.reportValidity();return false;}}
+ return true;}
+form.addEventListener('input',e=>{if(e.target.name&&e.target.name.startsWith('Reference_'))e.target.setCustomValidity('');});
+$('downloadcif').onclick=()=>{if(!cellOK())return;const u=URL.createObjectURL(new Blob([cifExport()],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=u;a.download=(V('Sample_code').replace(/[^a-zA-Z0-9_-]/g,'_')||'sample')+'_submission_metadata.cif';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);};
+/* ---------- PDF document ---------- */
+const el=(tag,cls,txt)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(txt!=null)n.textContent=txt;return n;};
+function row(g,label,val,wide,missing){const r=el('div','r'+(wide?' wide':''));r.append(el('div','k',label),el('div','v'+(val?'':' e'),val||(missing?'Required: not provided':'—')));g.append(r);}
+function secP(s){const sec=el('section','sec-p'),h=el('h2');h.append(el('span',null,s.n),document.createTextNode(s.t));sec.append(h);return sec;}
+function figure(src,cap){const f=el('figure'),i=el('img');i.src=src;i.alt=cap;f.append(i,el('figcaption',null,cap));return f;}
+function buildSec(s){
+ const sec=secP(s);
+ if(s.custom==='structure'){
+  const sk=SK.hasContent()?SK.exportURL():null;
+  if(!sk&&!photoData){sec.append(el('div','nofig','No structure supplied. Please send a drawing, ChemDraw file or crystal photo to your crystallographer separately.'));return sec;}
+  const fs=el('div','figs');if(sk)fs.append(figure(sk,'Structure drawing'));if(photoData)fs.append(figure(photoData,'Uploaded sketch / photo'));sec.append(fs);
+  const f=V('Proposed_formula'),sm=V('SMILES');if(f||sm){const g=el('div','grid');g.style.marginTop='.8em';if(f)row(g,'Proposed formula',f);if(sm)row(g,'SMILES',sm);sec.append(g);}
+  return sec;}
+ const g=el('div','grid');sec.append(g);
+ if(s.n==='07'){
+  const ks=V('Known_structure'),ref=['Structure_reference','Reference_crystal_system','Reference_space_group','Reference_cell_a','Reference_cell_b','Reference_cell_c','Reference_cell_alpha','Reference_cell_beta','Reference_cell_gamma','Reference_cell_temperature','Reference_Z','Reference_notes'].some(n=>V(n))||FN('attachment_reference');
+  if((!ks||ks.startsWith('New structure'))&&!ref){row(g,'Reference structure',ks||'None supplied',1);return sec;}
+  [['Known structure / repeat sample',ks],['Reference (DOI, CCDC / ICSD, sample code)',V('Structure_reference')],['Crystal system',V('Reference_crystal_system')],['Space group',V('Reference_space_group')]].forEach(x=>{if(x[1])row(g,x[0],x[1]);});
+  const c=[['a','Reference_cell_a','Å'],['b','Reference_cell_b','Å'],['c','Reference_cell_c','Å'],['α','Reference_cell_alpha','°'],['β','Reference_cell_beta','°'],['γ','Reference_cell_gamma','°']].filter(x=>V(x[1])).map(x=>x[0]+' = '+V(x[1])+' '+x[2]);
+  if(V('Reference_cell_temperature'))c.push('T = '+V('Reference_cell_temperature')+' K');if(V('Reference_Z'))c.push('Z = '+V('Reference_Z'));
+  if(c.length)row(g,'Reference unit cell (not a new measurement)',c.join('   ·   '),1);
+  if(FN('attachment_reference'))row(g,'Reference CIF (supply separately)',FN('attachment_reference'),1);
+  if(V('Reference_notes'))row(g,'Reference notes',V('Reference_notes'),1);return sec;}
+ s.f.forEach(f=>{if(f.t==='note')return;
+  const label=f.t==='file'?f.l+' (supply separately)':f.l;
+  const val=getVal(f);if(!val&&!f.r)return;
+  row(g,label,val,f.t==='textarea'||f.t==='check'||f.w,f.r);});
+ if(!g.children.length){const n=el('div','v e','No optional details supplied.');g.append(n);}
+ return sec;}
+function fitDoc(doc){
+ doc.style.setProperty('--s',1);doc.style.removeProperty('--z');
+ const over=()=>Array.from(doc.querySelectorAll('.pg-body')).some(b=>b.scrollHeight>b.clientHeight+1);
+ let s=1;while(over()&&s>0.9){s=+(s-.02).toFixed(2);doc.style.setProperty('--s',s);}
+ for(let i=0;i<doc.children.length;i++){
+  const b=doc.children[i].querySelector('.pg-body');
+  while(b.scrollHeight>b.clientHeight+1&&b.querySelectorAll('.sec-p').length>1){
+   const last=Array.from(b.querySelectorAll('.sec-p')).pop();
+   if(!doc.children[i+1]){const pg=el('div','pdf-page'),nb=el('div','pg-body'),ft=el('div','pg-foot');pg.append(nb,ft);doc.append(pg);nb.append(runHead());}
+   const nb=doc.children[i+1].querySelector('.pg-body');nb.insertBefore(last,nb.children[1]||null);}}
  }
- const confirmation=form.querySelector('[name="Submission_confirmation"]');
- add('p','Submitter confirmation: '+(confirmation.checked?'Confirmed':'Not yet confirmed')+'.\nRequested radiation and temperature are preferences. Known cell parameters are reference information, not new measurements.\nAttachments are not embedded in this document. Supply original files separately.\nPrepared locally for the researcher to share with their chosen crystallographer. This document does not confirm sample acceptance or a booking.',page2,'pdf-note').style.whiteSpace='pre-wrap';
- const frame=document.getElementById('pdfpreview');frame.hidden=false;document.body.classList.add('preview-mode');
- previewTitle=document.title;document.title=(sample.replace(/[^a-zA-Z0-9_-]/g,'_')||'Sample')+'_SCXRD_request';
- window.scrollTo({top:0});document.getElementById('editrequest').focus();
+let sampleCode='',reqId='',prepared=null;
+const TITLES=/^(dr|drs|prof|professor|mr|mrs|ms|miss|mx|sir|dame|rev)\.?$/i;
+function initials(name){
+ const w=name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').split(/\s+/).map(x=>x.replace(/[^A-Za-z-]/g,'')).filter(x=>x&&!TITLES.test(x));
+ if(!w.length)return 'XX';
+ return (w[0][0]+(w.length>1?w[w.length-1][0]:'')).toUpperCase();}
+function tidyCode(c){return c.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/\s+/g,'-').replace(/[^A-Z0-9_-]/g,'').replace(/-+/g,'-').replace(/^-|-$/g,'')||'NOCODE';}
+function makeId(d){const z=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())+'-'+z(d.getHours())+z(d.getMinutes())+'-'+initials(V('Researcher'))+'-'+tidyCode(V('Sample_code'));}
+function runHead(){const d=el('div','run');d.append(el('span',null,'Crystal Post · Single-crystal XRD request'),el('span',null,sampleCode));return d;}
+function buildPDF(){
+ const doc=$('pdfdoc');doc.replaceChildren();
+ prepared=new Date();reqId=makeId(prepared);sampleCode=reqId;
+ const miss=reqEls().filter(e=>e.type==='checkbox'?!e.checked:!e.value.trim()).length;
+ const mk=()=>{const pg=el('div','pdf-page'),body=el('div','pg-body'),ft=el('div','pg-foot');pg.append(body,ft);doc.append(pg);return body;};
+ const b1=mk(),b2=mk();
+ const hd=el('div','hd'),l=el('div'),r=el('div','code');
+ l.append(el('div','br','Crystal Post · Diffraction Lab'),el('h1',null,'Single-crystal X-ray diffraction request'));
+ const who=[V('Researcher'),V('Organisation')].filter(Boolean).join(' · ');
+ l.append(el('div','meta',(who||'Researcher not provided')+(V('email')?'  ·  '+V('email'):'')));
+ l.append(el('div','meta','Sample code '+(V('Sample_code')||'not provided')+'  ·  Prepared '+prepared.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+', '+prepared.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})));
+ r.append(el('small',null,'Request ID'),el('b',null,reqId),el('span','pill '+(miss?'dr':'ok'),miss?'Draft · '+miss+' required incomplete':'Ready to share'));
+ hd.append(l,r);b1.append(hd);
+ b2.append(runHead());
+ SEC.forEach((s,i)=>(i<4?b1:b2).append(buildSec(s)));
+ const dc=el('div','decl'),c=form.elements.Submission_confirmation;
+ dc.append(el('b',null,'Submitter confirmation: '+(c.checked?'Confirmed.':'not yet confirmed.')),document.createTextNode(' Requested radiation and temperature are preferences. Reference cell parameters are supplied information, not new measurements. Supporting files are listed by name and must be supplied separately. Prepared by the researcher for their chosen crystallographer on '+prepared.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' at '+prepared.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})+' (request ID '+reqId+'). This document does not confirm sample acceptance or a booking.'));
+ const sc=el('section','sec-p');sc.append(dc);b2.append(sc);
+ doc.style.visibility='hidden';$('pdfpreview').hidden=false;document.body.classList.add('preview-mode');
+ fitDoc(doc);
+ const who2=[V('Researcher'),V('Organisation')].filter(Boolean).join(', ');
+ Array.from(doc.children).forEach((pg,i,a)=>{const ft=pg.querySelector('.pg-foot');ft.replaceChildren(el('span',null,'Crystal Post · '+sampleCode+(who2?' · '+who2:'')),el('span',null,'Page '+(i+1)+' of '+a.length));});
+ doc.style.visibility='';zoomDoc();
 }
-document.getElementById('previewpdf').onclick=previewDocument;
-document.getElementById('editrequest').onclick=()=>{document.body.classList.remove('preview-mode');document.getElementById('pdfpreview').hidden=true;document.title=previewTitle;document.getElementById('previewpdf').focus();};
-document.getElementById('printrequest').onclick=()=>{document.getElementById('printstatus').textContent='Choose Save as PDF in the print dialog, or select your printer.';window.print();};
-</script></body></html>
+function zoomDoc(){const d=$('pdfdoc');if(!$('pdfpreview').hidden)d.style.setProperty('--z',Math.min(1,(document.documentElement.clientWidth-24)/793.7).toFixed(3));}
+window.addEventListener('resize',zoomDoc);
+let prevTitle=document.title;
+function showPreview(){if(!cellOK())return;prevTitle=document.title;buildPDF();document.title=reqId;window.scrollTo({top:0});$('editreq').focus({preventScroll:true});}
+$('previewpdf').onclick=showPreview;
+form.addEventListener('submit',e=>{e.preventDefault();showPreview();});
+$('editreq').onclick=()=>{document.body.classList.remove('preview-mode');$('pdfpreview').hidden=true;document.title=prevTitle;$('previewpdf').focus();};
+$('printreq').onclick=()=>window.print();
+</script>
+</body></html>
