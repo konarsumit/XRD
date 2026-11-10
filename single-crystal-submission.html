@@ -9,6 +9,11 @@ main{max-width:920px;padding-top:20px}header{display:block;padding:8px 0 18px}he
 @media(max-width:650px){header h1{font-size:29px}.pdf-document{padding:22px 18px}.pdf-section dl{display:block}.pdf-section dt{margin-top:9px}.pdf-section dd{margin-top:2px}.preview-toolbar button{width:100%}.fields{gap:13px}}
 @page{size:A4;margin:15mm}
 @media print{body{background:white!important}body>main{display:none!important}#pdfpreview{display:block!important;max-width:none;margin:0;padding:0}.preview-toolbar{display:none!important}.pdf-document{border:0;padding:0;box-shadow:none}.pdf-section{break-inside:auto}.pdf-section h2{break-after:avoid}.pdf-section dl{display:block}.pdf-row{display:block;break-inside:avoid;margin:0 0 9px}.pdf-row dt{margin:0;font-size:10px;color:#555}.pdf-row dd{font-size:11px;margin:2px 0 0}.pdf-meta,.pdf-note{font-size:10px}.draft-note{background:none;border:1px solid #999}a{color:inherit}}
+
+/* Compact two-page document: related short fields share rows. */
+.pdf-document{padding:0;border:0;background:transparent;box-shadow:none}.pdf-page{background:white;padding:12mm;margin:0 0 20px;border:1px solid #ddd;min-height:270mm}.pdf-document h1{font:700 20px system-ui;margin:5px 0 8px}.pdf-meta{font-size:10px;line-height:1.35;padding-bottom:7px}.pdf-section{margin-top:11px}.pdf-section h2{font:700 12px system-ui;margin:0 0 5px;padding-bottom:3px}.pdf-section dl{display:grid;grid-template-columns:1fr 1fr;gap:5px 18px;font-size:10px;line-height:1.3;margin:5px 0}.pdf-row{display:block;min-width:0}.pdf-row dt,.pdf-row dd{display:inline;margin:0;font-size:10px}.pdf-row dt{font-weight:700;color:#414258}.pdf-row dt::after{content:': '}.pdf-row dd{white-space:pre-wrap;overflow-wrap:anywhere}.pdf-row.wide{grid-column:1/-1}.pdf-note{font-size:9px;line-height:1.3;margin-top:10px;padding-top:6px}.draft-note{font-size:10px;padding:5px;margin-top:5px}.page-caption{font-size:9px;color:#666;border-bottom:1px solid #ddd;padding-bottom:6px;margin-bottom:9px}
+@page{size:A4;margin:10mm}
+@media print{.pdf-page{border:0;padding:0;margin:0;min-height:0;break-after:page}.pdf-page:last-child{break-after:auto}.pdf-section dl{display:grid!important;grid-template-columns:1fr 1fr;gap:4px 14px}.pdf-row{display:block;margin:0;break-inside:avoid}.pdf-row dt,.pdf-row dd{display:inline;font-size:9pt;margin:0}.pdf-section h2{font-size:10pt}.pdf-section{margin-top:9px}.pdf-meta{font-size:8pt}.pdf-note{font-size:7.5pt}.pdf-document h1{font-size:15pt}}
 </style></head><body><main>
 <header><div><div class="brand">Diffraction Lab / Crystal Post</div><h1>Single-crystal XRD request</h1><p>Prepare a clear sample request for your crystallographer, wherever you work. Fill in the details, preview your document and save it as a PDF to share with your chosen laboratory.</p></div><aside class="ticket"><span class="brand">Your sample’s next chapter</span><strong>From crystal<br>to clarity.</strong><small>SCXRD request<br>One sample. One scientific story.</small></aside></header>
 <div class="route"><b>01 Researcher</b><span>02 Question</span><span>03 Sample</span><span>04 Handling</span><span>05 Measurement</span><span>06 Reference</span><span>07 Clues</span></div>
@@ -67,14 +72,17 @@ function fieldLabel(el){
 function previewDocument(){
  if(!cellOK())return;
  const doc=document.getElementById('pdfdocument');doc.replaceChildren();
- const add=(tag,txt,parent=doc,cls='')=>{const n=document.createElement(tag);n.textContent=txt;if(cls)n.className=cls;parent.append(n);return n;};
- add('div','Crystal Post / Diffraction Lab',doc,'pdf-top');add('h1','Single-crystal X-ray diffraction request');
+ const page1=document.createElement('div'),page2=document.createElement('div');page1.className=page2.className='pdf-page';doc.append(page1,page2);
+ const add=(tag,txt,parent=page1,cls='')=>{const n=document.createElement(tag);n.textContent=txt;if(cls)n.className=cls;parent.append(n);return n;};
+ add('div','Crystal Post / Diffraction Lab',page1,'pdf-top');add('h1','Single-crystal X-ray diffraction request');
  const sample=form.elements.Sample_code.value.trim()||'Sample code not provided';
  const now=new Date();const req=fields().filter(e=>e.required);const missing=req.filter(e=>!e.validity.valid);
- add('div','Sample: '+sample+'\nPrepared: '+now.toLocaleString('en-GB')+'\nDocument status: '+(missing.length?'Draft / '+missing.length+' required field(s) incomplete':'Required fields complete / ready to share'),doc,'pdf-meta').style.whiteSpace='pre-wrap';
- if(missing.length)add('div','Draft: complete missing required information before sending this request.',doc,'draft-note');
+ add('div','Sample: '+sample+' · Prepared: '+now.toLocaleString('en-GB')+' · '+(missing.length?'Draft / '+missing.length+' required field(s) incomplete':'Required fields complete / ready to share'),page1,'pdf-meta').style.whiteSpace='pre-wrap';
+ if(missing.length)add('div','Draft: complete missing required information before sending this request.',page1,'draft-note');
+ add('div','Sample: '+sample+' · Measurement, reference information and supporting files · 2 / 2',page2,'page-caption');
+ let sectionIndex=0;
  for(const section of form.querySelectorAll('details.section')){
-  const sec=document.createElement('section');sec.className='pdf-section';doc.append(sec);add('h2',section.querySelector('summary strong').textContent,sec);
+  const sec=document.createElement('section');sec.className='pdf-section';(sectionIndex++<4?page1:page2).append(sec);add('h2',section.querySelector('summary strong').textContent,sec);
   const dl=document.createElement('dl');sec.append(dl);const seen=new Set();
   for(const el of section.querySelectorAll('input[name],select[name],textarea[name]')){
    if(el.type==='hidden'||el.name.startsWith('_')||seen.has(el.name))continue;seen.add(el.name);
@@ -82,11 +90,11 @@ function previewDocument(){
    if(el.type==='checkbox'){
     const set=Array.from(section.querySelectorAll('input[type=checkbox]')).filter(x=>x.name===el.name);val=set.filter(x=>x.checked).map(x=>x.value).join(', ')||'Not specified';label=el.closest('fieldset')?.querySelector('legend')?.textContent||fieldLabel(el);
    }else{label=fieldLabel(el);val=el.type==='file'?(Array.from(el.files).map(x=>x.name).join(', ')||'No file selected'):el.value.trim()||'Not provided';}
-   const row=document.createElement('div');row.className='pdf-row';dl.append(row);add('dt',label,row);add('dd',val,row);
+   const row=document.createElement('div');row.className='pdf-row'+(el.tagName==='TEXTAREA'?' wide':'');dl.append(row);add('dt',label,row);add('dd',val,row);
   }
  }
  const confirmation=form.querySelector('[name="Submission_confirmation"]');
- add('p','Submitter confirmation: '+(confirmation.checked?'Confirmed':'Not yet confirmed')+'.\nRequested radiation and temperature are preferences. Known cell parameters are reference information, not new measurements.\nAttachments are not embedded in this document. Supply original files separately.\nPrepared locally for the researcher to share with their chosen crystallographer. This document does not confirm sample acceptance or a booking.',doc,'pdf-note').style.whiteSpace='pre-wrap';
+ add('p','Submitter confirmation: '+(confirmation.checked?'Confirmed':'Not yet confirmed')+'.\nRequested radiation and temperature are preferences. Known cell parameters are reference information, not new measurements.\nAttachments are not embedded in this document. Supply original files separately.\nPrepared locally for the researcher to share with their chosen crystallographer. This document does not confirm sample acceptance or a booking.',page2,'pdf-note').style.whiteSpace='pre-wrap';
  const frame=document.getElementById('pdfpreview');frame.hidden=false;document.body.classList.add('preview-mode');
  previewTitle=document.title;document.title=(sample.replace(/[^a-zA-Z0-9_-]/g,'_')||'Sample')+'_SCXRD_request';
  window.scrollTo({top:0});document.getElementById('editrequest').focus();
