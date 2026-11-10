@@ -44,6 +44,7 @@ input[type=checkbox]{width:18px;height:18px;min-height:0;accent-color:var(--acce
 button{font:600 14px var(--sans);border:1px solid var(--accent);border-radius:8px;padding:11px 18px;cursor:pointer;background:var(--accent);color:#fff}
 button.sec2{background:#fff;color:var(--accent)}
 button:hover{filter:brightness(.95)}
+.draftbar{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:14px;color:var(--muted);margin:14px 0 0}.draftmsg{background:#eaf5ef;border:1px solid #bfe0cf;color:#17543a;border-radius:9px;padding:10px 14px;font-size:13.5px;margin:10px 0}.draftmsg.err{background:#fbeaea;border-color:#efc3c3;color:#8a2430}
 .review{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:22px;margin-top:16px}
 .review h2{font:600 22px var(--serif);margin:0 0 6px}
 .btns{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
@@ -123,13 +124,15 @@ body:not(.preview-mode)>#pdfpreview{display:none}
  <p class="lead">Prepare a clear sample request for your crystallographer. Complete the form, preview the document, then save it as a two-page PDF to share through your agreed channel. Nothing is sent from this page.</p>
  <div class="steps"><span><b>1</b>Complete the form</span><span><b>2</b>Add your structure</span><span><b>3</b>Preview the PDF</span><span><b>4</b>Save and send</span></div>
 </header>
+<div class="draftbar"><span>Starting from an earlier request?</span><button type="button" class="link" id="loaddraft">Load a saved draft</button><input type="file" id="draftin" accept=".json,application/json" hidden></div>
+<div id="draftmsg" class="draftmsg" role="status" hidden></div>
 <div class="bar"><div class="meter"><i id="meter"></i></div><span id="progress" aria-live="polite"></span><button type="button" class="link" id="expand">Expand all</button><button type="button" class="link" id="collapse">Collapse all</button></div>
 <form id="request" novalidate></form>
 <footer>Crystal Post · a sample-request builder for the single-crystal diffraction community. Collection strategy, instrument settings, unit-cell results and refinement records are completed later by the crystallographer.</footer>
 </main>
 
 <section id="pdfpreview" aria-label="Request document preview" hidden>
- <div class="ptool"><button type="button" id="editreq" class="sec2">← Back to edit</button><button type="button" id="printreq">Print / Save as PDF</button>
+ <div class="ptool"><button type="button" id="editreq" class="sec2">← Back to edit</button><button type="button" id="printreq">Print / Save as PDF</button><button type="button" id="savedraft2" class="sec2">Save draft to reuse later</button>
  <p>In the print window choose <b>Save as PDF</b>, paper size A4, margins <b>None</b>, and untick “Headers and footers”. Supporting files and the safety data sheet are listed by name and must be supplied separately.</p></div>
  <div class="pdf-doc" id="pdfdoc"></div>
 </section>
@@ -255,10 +258,10 @@ function secHTML(s,i){
 }
 form.innerHTML=SEC.map(secHTML).join('')+`<section class="review"><h2>Review and export</h2>
 <p class="hint">A request ID (date, time, your initials and sample code, e.g. 2026-11-10-2336-SK-CTS01) is created automatically when you preview, and is used in the PDF and its file name.</p><p class="hint" style="margin-top:6px">Preview shows the document exactly as it will print. Incomplete required fields are flagged in the PDF as a draft.</p>
-<div class="btns"><button type="button" id="previewpdf">Preview / Save as PDF</button><button type="button" class="sec2" id="download">Save a text copy</button><button type="button" class="sec2" id="downloadcif">Download CIF metadata</button></div>
+<div class="btns"><button type="button" id="previewpdf">Preview / Save as PDF</button><button type="button" class="sec2" id="savedraft">Save draft to reuse later</button><button type="button" class="sec2" id="download">Save a text copy</button><button type="button" class="sec2" id="downloadcif">Download CIF metadata</button></div>
 <label class="consent"><input type="checkbox" name="Submission_confirmation" value="Confirmed" required><span>I have checked the information and included all known sample hazards and handling requirements. <i>*</i></span></label>
 <p class="hint">The CIF export separates requested conditions from reference-cell values. It is a metadata starting point, not a validated structure CIF.</p>
-<p class="hint" style="margin-top:8px">Your entries stay in this page and are not stored after it is closed. Save your PDF before leaving.</p></section>`;
+<p class="hint" style="margin-top:8px">A saved draft is a small file you can load next time to start a similar request without retyping. Your entries otherwise stay in this page and are not stored after it is closed. Save your PDF before leaving.</p></section>`;
 /* ---------- progress ---------- */
 const $=id=>document.getElementById(id);
 const reqEls=()=>Array.from(form.elements).filter(e=>e.required);
@@ -367,7 +370,7 @@ const SK=(()=>{
   return oc.toDataURL('image/png');
  }
  redraw();
- return{exportURL,hasContent:()=>items.length>0};
+ return{exportURL,hasContent:()=>items.length>0,getItems:()=>JSON.parse(JSON.stringify(items)),setItems:a=>{items=Array.isArray(a)?a:[];hist=[];redraw();}};
 })();
 /* ---------- structure tabs, photo, save PNG ---------- */
 let photoData=null;
@@ -492,5 +495,38 @@ $('previewpdf').onclick=showPreview;
 form.addEventListener('submit',e=>{e.preventDefault();showPreview();});
 $('editreq').onclick=()=>{document.body.classList.remove('preview-mode');$('pdfpreview').hidden=true;document.title=prevTitle;$('previewpdf').focus();};
 $('printreq').onclick=()=>window.print();
+
+/* ---------- save / load draft ---------- */
+function collectDraft(){
+ const f={};
+ Array.from(form.elements).forEach(e=>{
+  if(!e.name||e.type==='file'||e.name==='Submission_confirmation'||e.type==='button')return;
+  if(e.type==='checkbox'){(f[e.name]=f[e.name]||[]);if(e.checked)f[e.name].push(e.value);}
+  else f[e.name]=e.value;});
+ return{app:'crystal-post',v:1,saved:new Date().toISOString(),fields:f,sketch:SK.getItems(),photo:photoData};}
+function saveDraft(){
+ const d=collectDraft(),name='crystal-post-draft_'+tidyCode(V('Sample_code')||'untitled')+'_'+d.saved.slice(0,10)+'.json';
+ const u=URL.createObjectURL(new Blob([JSON.stringify(d)],{type:'application/json'})),a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);
+ draftMsg('Draft saved as '+name+'. Keep it with your PDF; load it next time to start a similar request.',false);}
+function draftMsg(t,err){const m=$('draftmsg');m.textContent=t;m.hidden=false;m.className='draftmsg'+(err?' err':'');}
+function loadDraft(d,fname){
+ if(!d||d.app!=='crystal-post'||typeof d.fields!=='object')throw new Error('not a Crystal Post draft');
+ Array.from(form.elements).forEach(e=>{
+  if(!e.name||e.type==='file'||e.type==='button'||!(e.name in d.fields))return;
+  const v=d.fields[e.name];
+  if(e.type==='checkbox')e.checked=Array.isArray(v)&&v.includes(e.value);
+  else if(typeof v==='string')e.value=v;});
+ form.elements.Sample_code.value='';form.elements.Preferred_date.value='';form.elements.Submission_confirmation.checked=false;
+ SK.setItems(Array.isArray(d.sketch)?d.sketch.filter(it=>it&&['b','a','f'].includes(it.k)):[]);
+ if(typeof d.photo==='string'&&/^data:image\/(jpeg|png);base64,/.test(d.photo)){photoData=d.photo;$('photoimg').src=photoData;$('photoprev').hidden=false;}
+ else{photoData=null;$('photoprev').hidden=true;$('photoimg').removeAttribute('src');}
+ updateProgress();
+ draftMsg('Draft loaded from '+fname+'. Enter a new sample code, check every section (especially the structure, formula and handling details), then tick the confirmation. Attached files are not stored in drafts, so add them again if needed.',false);
+ form.querySelectorAll('details.sec').forEach(x=>x.open=true);}
+$('savedraft').onclick=saveDraft;$('savedraft2').onclick=saveDraft;
+$('loaddraft').onclick=()=>$('draftin').click();
+$('draftin').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
+ if(f.size>12e6){draftMsg('That file is too large to be a draft.',true);return;}
+ const rd=new FileReader();rd.onload=()=>{try{loadDraft(JSON.parse(rd.result),f.name);}catch(x){draftMsg('That file could not be loaded: it is not a Crystal Post draft.',true);}};rd.readAsText(f);};
 </script>
 </body></html>
