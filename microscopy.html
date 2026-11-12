@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Microscopy Lab</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#edf0f2;--paper:#fff;--ink:#121a24;--muted:#56606e;--rule:#cfd6dd;--accent:#0d6b7c;--accent-soft:#d8ecef;--chip:#e3e8ec;--good:#176542;--bad:#9b3029;--f-display:"Source Serif 4",Georgia,serif;--f-body:"Public Sans",system-ui,sans-serif;--f-mono:"JetBrains Mono",monospace}
+@media(prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#0f1418;--paper:#171e24;--ink:#e3e8ec;--muted:#aab5c0;--rule:#394550;--accent:#72d3df;--accent-soft:#16323a;--chip:#232d35;--good:#72d4a0;--bad:#ff978e}}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;padding-inline:clamp(12px,3vw,28px);background:var(--bg);color:var(--ink);font:15px/1.55 var(--f-body)}
+.wrap,header,main,.panel,.stack{display:flex;flex-direction:column;gap:14px;min-width:0}.wrap{margin:auto}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;line-height:1.2;margin:0}h2{font-size:1.65rem}h3{font-size:1.16rem}p,ul,ol{margin:0}ul,ol{padding-left:1.3em}li+li{margin-top:.35em}
+a{color:var(--accent);text-underline-offset:.14em}button,select,input{font:inherit;color:inherit}button{cursor:pointer}button:disabled{cursor:default;opacity:.6}
+button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.panel,details{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:clamp(14px,3vw,24px)}
+details>summary{cursor:pointer;font-weight:600}details[open]>summary{margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:14px}
+.card{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:16px;text-align:left;display:grid;gap:6px;align-content:start}
+button.card:hover{border-color:var(--accent);background:var(--accent-soft)}.muted,small{color:var(--muted)}.note{background:var(--accent-soft);padding:10px 13px;border-radius:7px}
+.table-wrap{overflow-x:auto;border:1px solid var(--rule);border-radius:8px}table{border-collapse:collapse;width:100%;min-width:560px}th,td{padding:10px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--rule)}thead{background:var(--chip)}tbody tr:last-child>*{border-bottom:0}
+.controls{display:flex;gap:10px 14px;align-items:flex-end;flex-wrap:wrap}.controls label{display:grid;gap:4px;font-weight:600}select,input,.btn{border:1px solid var(--rule);border-radius:7px;background:var(--paper);padding:8px 10px}.btn.primary{background:var(--accent-soft);color:var(--accent);border-color:var(--accent);font-weight:600}
+.result{padding:12px;border:1px solid var(--rule);border-radius:8px}.value{font-family:var(--f-mono);font-size:1.04rem}.opt{text-align:left}.opt.correct{border-color:var(--good)}.opt.incorrect{border-color:var(--bad)}.correct-text{color:var(--good)}.incorrect-text{color:var(--bad)}
+.skip{position:absolute;left:12px;top:0;transform:translateY(-120%);background:var(--paper);padding:8px;z-index:10}.skip:focus{transform:none}
+@media(max-width:600px){.controls label{min-width:0;max-width:100%}.controls select{max-width:100%}}
+</style>
+<style id="instrument-lab-series">
+/* Shared instrument-lab shell. Embedded so each HTML page can be opened on its own. */
+body{margin:0;padding-block:24px 52px}
+.wrap{width:100%;max-width:1360px;gap:20px}
+.lab-header{padding:clamp(16px,3vw,28px);gap:16px;background:var(--paper);border:1px solid var(--rule);border-radius:14px}
+.lab-masthead{display:flex;align-items:center;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid var(--rule)}
+.lab-series{color:var(--ink);font-weight:600;font-size:.9rem}
+.lab-links{display:flex;flex-wrap:wrap;gap:5px}
+.lab-links a{color:var(--muted);font-size:.86rem;font-weight:600;text-decoration:none;padding:6px 10px;border-radius:7px}
+.lab-links a:hover{background:var(--chip);color:var(--ink)}
+.lab-links a[aria-current="page"]{background:var(--accent-soft);color:var(--accent)}
+.lab-intro{display:grid;gap:6px}
+.lab-intro h1{font-size:clamp(2rem,4vw,2.65rem);letter-spacing:-.025em;text-wrap:wrap}
+.lab-intro p{max-width:74ch;color:var(--muted)}
+.lab-header :is(#prim,#primarynav,#modeseg,#subnav){display:flex;flex-wrap:wrap;gap:7px;background:transparent;border:0;border-radius:0;overflow:visible;width:100%}
+.lab-header :is(#prim,#primarynav,#modeseg,#subnav) button{
+  flex:0 1 auto;min-height:40px;padding:7px 12px;border:1px solid var(--rule);border-radius:8px;
+  background:var(--paper);color:var(--ink);font:600 .86rem/1.3 var(--f-body);text-align:left;white-space:normal
+}
+.lab-header :is(#prim,#primarynav,#modeseg,#subnav) button:hover{background:var(--chip)}
+.lab-header :is(#prim,#primarynav,#modeseg,#subnav) button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
+.lab-header #subnav button{min-height:36px;font-weight:500}
+.lab-header #subnav:empty{display:none}
+.lab-context{display:grid;gap:4px;max-width:82ch}
+.lab-header .lab-context .eyebrow{color:var(--accent)}
+.lab-header .lab-context .sub{font-size:.9rem}
+.lab-header .lab-note{font-size:.78rem;color:var(--muted);max-width:90ch}
+.lab-header a:focus-visible,.lab-header button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.layout{grid-template-columns:220px minmax(0,1fr)}
+.sheet,details.card,.step .card{border-radius:10px}
+@media(max-width:960px){.layout{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){
+  body{padding-block:12px 36px}
+  .wrap{gap:14px}
+  .lab-header{gap:12px}
+  .lab-masthead{gap:8px;padding-bottom:10px}
+  .lab-links{width:100%}
+}
+</style></head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<div class="wrap">
+<header class="lab-header">
+  <div class="lab-masthead">
+    <span class="lab-series">Interactive Chemistry · Instrument Labs</span>
+    <nav class="lab-links" aria-label="Instrument labs">
+      <a href="./diffraction.html">Diffraction</a><a href="./spectroscopy.html">Spectroscopy</a><a href="./thermal.html">Thermal</a><a href="./microscopy.html" aria-current="page">Microscopy</a>
+    </nav>
+  </div>
+  <div class="lab-intro"><h1>Microscopy Lab</h1><p>Explore scanning and transmission electron microscopy, from choosing a technique to interpreting images, spectra and diffraction patterns.</p></div>
+  <nav id="prim" aria-label="Microscopy topics">
+    <button type="button" data-page="start">Start here</button><button type="button" data-page="sem">SEM</button><button type="button" data-page="tem">TEM and STEM</button><button type="button" data-page="instruments">Instruments</button><button type="button" data-page="practice">Planning and interpretation</button><button type="button" data-page="quiz">Check your knowledge</button>
+  </nav>
+  <p class="lab-note">Teaching models illustrate selected effects. Follow your facility’s approved procedures and manufacturer instructions for hands-on operation.</p>
+</header>
+<main id="content" tabindex="-1"></main>
+</div>
+<template id="start">
+  <section class="panel"><h2>Choose SEM or TEM</h2><p>Start with the question, the size of the feature and how much preparation the specimen can tolerate.</p>
+    <div class="controls"><label for="goal">What do you need to see?
+      <select id="goal">
+        <option value="surface">Fracture surfaces or particle shape</option><option value="chemistry">Micrometre-scale compositional variation</option>
+        <option value="texture">Grain orientation and texture</option><option value="interface">A buried nanoscale interface</option>
+        <option value="phase">Diffraction from an individual nanoparticle</option><option value="states">Local bonding or oxidation-state information</option>
+        <option value="protein">Frozen-hydrated macromolecular structure</option>
+      </select></label></div>
+    <div class="result stack" id="choice" aria-live="polite"></div>
+  </section>
+  <div class="grid">
+    <button class="card" data-page="sem"><strong>Scanning electron microscopy</strong><span>Trace the scan, compare SE, BSE, EDS and EBSD, and explore the effect of beam energy.</span></button>
+    <button class="card" data-page="tem"><strong>Transmission electron microscopy</strong><span>Compare conventional TEM, diffraction and STEM, and calculate ideal diffraction angles.</span></button>
+    <button class="card" data-page="instruments"><strong>Compare instruments</strong><span>Match current and established platforms to the measurement and specimen.</span></button>
+  </div>
+  <details open><summary>At a glance</summary><div class="table-wrap" tabindex="0" role="region" aria-label="SEM and TEM comparison">
+    <table><thead><tr><th scope="col">Question</th><th scope="col">SEM</th><th scope="col">TEM / STEM</th></tr></thead><tbody>
+      <tr><th scope="row">How is the signal collected?</th><td>A focused probe rasters across the specimen. Detectors record emitted or scattered signals at each position.</td><td>Electrons pass through a thin specimen. TEM forms an image or diffraction pattern using lenses. STEM rasters a focused probe and records transmitted signals.</td></tr>
+      <tr><th scope="row">What does it reveal?</th><td>Surface morphology, composition contrast, X-ray microanalysis and near-surface crystallographic orientation.</td><td>Projected internal structure, local diffraction, defects, interfaces, chemistry and, with appropriate instrumentation, atomic-scale detail.</td></tr>
+      <tr><th scope="row">How is the sample prepared?</th><td>Bulk pieces, cross-sections and powders can be mounted. Conductivity, vacuum compatibility and geometry matter.</td><td>Powders dispersed on grids, thin sections, ion-milled foils or site-specific lamellae. Thickness depends on the measurement and material.</td></tr>
+      <tr><th scope="row">Where do results mislead?</th><td>Charging, coating, topographic contrast, interaction-volume effects and detector geometry.</td><td>Projection overlap, thickness, dynamical scattering, defocus, drift and beam damage.</td></tr>
+    </tbody></table></div>
+  </details>
+</template>
+<template id="sem">
+  <section class="panel"><h2>How SEM works</h2>
+    <p>An electron gun supplies electrons. Electromagnetic lenses and apertures set the probe conditions, and scan coils move the focused beam across the specimen. A pixel records the detector signal at that scan position. The displayed scale depends on scan calibration.</p>
+    <div class="grid">
+      <article class="card"><h3>Secondary electrons (SE)</h3><p>Low-energy electrons escape mainly from near the surface. Edges and tilted facets can appear bright. Detector position, charging and SE generated by backscattered electrons can also alter contrast.</p></article>
+      <article class="card"><h3>Backscattered electrons (BSE)</h3><p>Some primary electrons scatter back out of the specimen. On a flat, polished section, phases with higher mean atomic number often appear brighter. Surface slope, orientation and detector geometry can also change the intensity.</p></article>
+      <article class="card"><h3>Energy-dispersive X-ray spectroscopy (EDS)</h3><p>Inner-shell ionisation can produce characteristic X-rays. Separate overlapping lines and account for background, absorption and matrix effects before quantifying. The X-ray generation volume can be much larger than the image probe.</p></article>
+      <article class="card"><h3>Electron backscatter diffraction (EBSD)</h3><p>Kikuchi patterns from a tilted crystalline specimen can be indexed to map orientation, grain boundaries and candidate phases. Surface damage, poor polish and overlapping patterns can reduce indexing reliability.</p></article>
+    </div>
+  </section>
+  <section class="panel"><h2>Explore beam energy and X-ray excitation</h2>
+    <p>Change the landing energy, target edge and specimen. The overvoltage ratio compares beam energy with the ionisation edge. The range estimate illustrates why lowering energy often improves localisation.</p>
+    <div class="controls">
+      <label>Landing energy<select id="sem-energy"><option>3</option><option>5</option><option selected>10</option><option>15</option><option>20</option><option>30</option></select><small>keV</small></label>
+      <label>Specimen for range estimate<select id="sem-material"><option value="si">Silicon</option><option value="al">Aluminium</option><option value="fe">Iron</option></select></label>
+      <label>Target K edge<select id="sem-edge"><option value="1.5596">Al (1.560 keV)</option><option value="1.839">Si (1.839 keV)</option><option value="7.112" selected>Fe (7.112 keV)</option><option value="8.979">Cu (8.979 keV)</option></select></label>
+    </div>
+    <div class="result stack" id="sem-result" aria-live="polite"></div>
+    <p class="muted">The Kanaya–Okayama expression is an approximate electron range for a homogeneous elemental target. It does not give SE escape depth, EDS spatial resolution, or a beam-broadening diameter. The target-edge selector is independent of the range material. Excitation above threshold alone does not guarantee a usable peak.</p>
+  </section>
+  <details><summary>Choose settings for the task</summary><div class="stack">
+    <p><strong>Surface detail.</strong> Try a lower landing energy and an appropriate SE detector. Choose working distance for the detector, specimen clearance and desired resolution.</p>
+    <p><strong>Composition maps.</strong> Choose energy and current that excite the relevant lines with acceptable count rate. Check dead time, overlaps and take-off angle. Match map pixel size to the actual X-ray resolution.</p>
+    <p><strong>Insulators.</strong> Establish a good conducting path. Low landing energy, low-vacuum operation or a compatible coating may help. A coating may obscure fine features or introduce its own peaks.</p>
+    <p><strong>Source.</strong> Tungsten and thermionic sources suit many routine tasks. Schottky field emission balances brightness and probe current; cold field emission can offer high brightness and narrow energy spread. Usable resolution depends on the complete column and operating conditions.</p>
+  </div></details>
+</template>
+<template id="tem">
+  <section class="panel"><h2>How TEM and STEM work</h2>
+    <p>Electrons are accelerated and directed through an electron-transparent specimen. The objective lens forms a real-space image and a diffraction pattern in different planes. Projector lenses select the plane displayed on the camera. In STEM, a focused probe scans the specimen while detectors collect transmitted intensity as a function of position and scattering angle.</p>
+    <div class="grid">
+      <article class="card"><h3>Bright-field and dark-field TEM</h3><p>Bright field typically selects the direct beam, and dark field selects a diffracted beam. Thickness, orientation and diffraction can all contribute to contrast. Compare images at different tilts before assigning a feature to composition.</p></article>
+      <article class="card"><h3>SAED and nanobeam diffraction</h3><p>Selected-area electron diffraction uses an aperture to select an image region; nanobeam diffraction uses a small illuminated probe. Rings or spots can constrain phase and orientation. Check overlap, calibration and dynamical scattering.</p></article>
+      <article class="card"><h3>HRTEM and STEM-HAADF</h3><p>HRTEM lattice contrast depends on imaging conditions, thickness and orientation. HAADF collects high-angle scattering and often highlights higher-Z columns. Thickness, channeling and detector angles also affect intensity.</p></article>
+      <article class="card"><h3>STEM-EDS and EELS</h3><p>EDS maps characteristic X-rays. EELS measures the energy lost by transmitted electrons and can probe composition, bonding and electronic structure. Fine-structure assignments need suitable references, thickness and dose control.</p></article>
+      <article class="card"><h3>4D-STEM and tomography</h3><p>4D-STEM records a diffraction pattern at each scan point. Tomography reconstructs three-dimensional information from projections across a tilt series; limited tilt can leave a missing wedge.</p></article>
+      <article class="card"><h3>Resolution and dose</h3><p>Electron wavelength is only one constraint. Lens aberrations, convergence angle, drift, specimen thickness, stability and dose all matter. A higher voltage can reduce some scattering effects while increasing knock-on damage in susceptible materials.</p></article>
+    </div>
+  </section>
+  <section class="panel"><h2>Calculate an ideal TEM diffraction angle</h2>
+    <p>Choose the accelerating voltage, lattice-plane spacing and effective camera length. The model uses the relativistic electron wavelength and first-order Bragg diffraction. It assumes a flat detector perpendicular to the direct beam.</p>
+    <div class="controls"><label>Accelerating voltage<select id="tem-voltage"><option>80</option><option>120</option><option selected>200</option><option>300</option></select><small>kV</small></label>
+      <label>Plane spacing, d<input id="tem-spacing" type="number" min="0.05" max="5" step="0.01" value="0.20"><small>nm</small></label>
+      <label>Effective camera length<input id="tem-length" type="number" min="50" max="2000" step="10" value="500"><small>mm</small></label>
+    </div>
+    <div class="result stack" id="tem-result" aria-live="polite"></div>
+    <p class="muted">The radius is measured from the direct beam. For small angles, R ≈ Lλ/d. Real diffraction patterns require calibration for the chosen lens settings; wavelength is not the instrument’s spatial resolution.</p>
+  </section>
+</template>
+<template id="instruments">
+  <section class="panel"><h2>Instrument families and capabilities</h2>
+    <p>Choose a platform by the signal, specimen and measurement conditions. These examples include currently listed families and one clearly marked installed legacy model. Confirm regional availability, options and performance on your specimen with the facility or supplier.</p>
+    <div class="controls"><label>Instrument type<select id="instrument-type"><option value="all">All instruments</option><option value="sem">SEM</option><option value="tem">TEM / STEM</option></select></label><label>Search models or capabilities<input type="search" id="instrument-search" placeholder="Try EDS, cryo or low vacuum"></label></div>
+    <p class="muted" id="instrument-count" aria-live="polite"></p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Instrument comparison table"><table><thead><tr><th scope="col">Model and source</th><th scope="col">Platform</th><th scope="col">Capabilities and fit</th><th scope="col">What to verify</th></tr></thead><tbody id="instrument-rows"></tbody></table></div>
+    <p id="instrument-empty" hidden>No matching instruments. Try another term or choose All instruments.</p>
+  </section>
+  <section class="panel"><h2>Compare configurations on your specimen</h2>
+    <ul>
+      <li><strong>SEM.</strong> Ask for performance at the landing energy, working distance and probe current you need. Check detector availability, chamber clearance, stage tilt and low-vacuum limits.</li>
+      <li><strong>TEM / STEM.</strong> Ask which accelerating voltages, probe and image correctors, detectors, spectrometers and holders are fitted. Check stability and performance at your dose and specimen thickness.</li>
+      <li><strong>Analytical work.</strong> Verify EDS solid angle and holder shadowing, EELS energy resolution, or EBSD camera geometry and indexing performance. Ask for raw data from a representative measurement.</li>
+    </ul>
+  </section>
+</template>
+<template id="practice">
+  <section class="panel"><h2>Plan, acquire and report</h2>
+    <ol>
+      <li><strong>Define the question.</strong> Identify the feature size, required signal and whether an image, composition, orientation map or diffraction pattern is needed.</li>
+      <li><strong>Choose preparation.</strong> SEM may need mounting, coating or a polished section. TEM may need particle dispersion on a grid, sectioning, electropolishing, ion milling or a site-specific FIB lamella. Inspect for preparation artefacts such as redeposition, amorphised surfaces and preferential loss.</li>
+      <li><strong>Check specimen constraints.</strong> Tell facility staff about powders, volatile materials, magnetism, vacuum sensitivity and beam sensitivity. For dose-sensitive work plan the order of survey, focus and acquisition.</li>
+      <li><strong>Record a control.</strong> Compare blank support or coating where relevant. Check calibrations and collect replicate areas before generalising.</li>
+      <li><strong>Report enough to repeat it.</strong> Include model, source, voltage, detectors, preparation, calibration, acquisition settings and any processing. Retain original data and metadata.</li>
+    </ol>
+  </section>
+  <details open><summary>What to report for each mode</summary><div class="table-wrap" tabindex="0" role="region" aria-label="Reporting checklist">
+    <table><thead><tr><th scope="col">Mode</th><th scope="col">Record</th></tr></thead><tbody>
+    <tr><th scope="row">SEM imaging</th><td>Landing energy, working distance, detector, vacuum mode, coating, scale calibration and image processing.</td></tr>
+    <tr><th scope="row">SEM-EDS / EBSD</th><td>Beam energy and current or probe setting, detector geometry, acquisition time, map step and processing. For EDS report lines, quantification method and standards. For EBSD report phase files, indexing criteria and cleanup.</td></tr>
+    <tr><th scope="row">TEM / STEM imaging</th><td>Voltage, preparation, thickness estimate where relevant, imaging mode, orientation, detector angles for STEM, and dose or exposure when it matters.</td></tr>
+    <tr><th scope="row">Diffraction / spectroscopy</th><td>Calibrated camera length or reciprocal scale, selected area or probe, and indexing assumptions. For EDS/EELS include collection conditions, energy calibration and quantification assumptions.</td></tr>
+    </tbody></table></div></details>
+  <details><summary>Troubleshooting and interpretation</summary><div class="table-wrap" tabindex="0" role="region" aria-label="Troubleshooting table">
+    <table><thead><tr><th scope="col">What you see</th><th scope="col">What to check</th></tr></thead><tbody>
+    <tr><th scope="row">SEM contrast reverses or the image streaks</th><td>Test for charging, drift or contamination. Check grounding and compare low-dose frames or approved low-vacuum conditions.</td></tr>
+    <tr><th scope="row">An EDS map shows a broad interface</th><td>Check interaction volume, map sampling, specimen geometry, peak overlaps and drift before inferring diffusion.</td></tr>
+    <tr><th scope="row">TEM lattice fringes disappear on tilting</th><td>Check orientation and contrast transfer. Absence of fringes in one image cannot establish that the specimen is amorphous.</td></tr>
+    <tr><th scope="row">A STEM-HAADF feature appears brighter</th><td>Compare thickness, orientation and detector settings before assigning an atomic-number difference.</td></tr>
+    <tr><th scope="row">Features change with repeated scans</th><td>Check dose-dependent damage, contamination or motion. Compare with a fresh area and record dose where possible.</td></tr>
+    </tbody></table></div></details>
+  <details><summary>References and calibration</summary><ul>
+    <li><a href="https://www.jeol.com/words/emterms/" target="_blank" rel="noopener noreferrer">JEOL electron microscopy glossary</a></li>
+    <li><a href="https://www.uni-augsburg.de/en/fakultaet/mntf/physik/research/electron-microscopy-center/tem-preparation/" target="_blank" rel="noopener noreferrer">University of Augsburg TEM specimen preparation</a></li>
+    <li><a href="https://pubmed.ncbi.nlm.nih.gov/22886950/" target="_blank" rel="noopener noreferrer">Newbury and Ritchie on quantitative SEM-EDS</a></li>
+    <li><a href="https://fy.chalmers.se/~f10mh/Halvarsson/EM_intro_course_files/EDX%20intro.pdf" target="_blank" rel="noopener noreferrer">Chalmers microanalysis notes · overvoltage and electron-range models</a></li>
+    <li><a href="https://www.physics.nist.gov/cgi-bin/XrayTrans/search.pl?element=All&amp;sorttype=energy&amp;trans=Kedge&amp;units=eV" target="_blank" rel="noopener noreferrer">NIST X-ray Transition Energies · K-edge reference values</a></li>
+    <li><a href="https://www.iso.org/standard/65375.html" target="_blank" rel="noopener noreferrer">ISO 16700:2016 · SEM magnification calibration</a></li>
+    <li><a href="https://www.iso.org/standard/86942.html" target="_blank" rel="noopener noreferrer">ISO 29301:2023 · TEM image magnification calibration</a></li>
+  </ul></details>
+</template>
+<template id="quiz">
+  <section class="panel"><h2>Check your knowledge</h2>
+    <p>Choose a topic and work through questions on measurement choices and interpretation. Each answer includes an explanation.</p>
+    <div class="controls"><label>Topic<select id="quiz-topic"><option value="all">All topics</option><option value="sem">SEM and microanalysis</option><option value="tem">TEM and STEM</option><option value="choice">Choosing and interpreting</option></select></label>
+      <button class="btn primary" id="quiz-start">Start quiz</button></div>
+    <div id="quiz-body" class="stack"></div>
+  </section>
+</template>
+<script>
+'use strict';
+
+const choices = {
+  surface: ['SEM with SE imaging', 'SE contrast is sensitive to surface shape. Compare multiple tilts or detectors where a feature may be an imaging artefact.'],
+  chemistry: ['SEM with BSE and EDS', 'Use a polished section for BSE and confirm composition by EDS. Check whether the X-ray interaction volume resolves the feature.'],
+  texture: ['SEM with EBSD', 'Map orientations on a suitably prepared crystalline surface. Check pattern quality and sampling step against grain size.'],
+  interface: ['Cross-sectional TEM or STEM', 'A site-specific thin lamella can expose the interface. Compare thickness, projection and damage when interpreting contrast.'],
+  phase: ['TEM with nanobeam diffraction', 'Use a sufficiently small probe and verify that nearby particles or the support do not contribute. Calibrate and index multiple spacings and angles.'],
+  states: ['STEM-EELS', 'Near-edge fine structure can probe bonding or oxidation state. Check energy calibration, thickness and dose, and compare with appropriate references.'],
+  protein: ['Cryo-TEM', 'Vitrification can preserve a frozen-hydrated state. Choose single-particle analysis or tomography according to the specimen and question.']
+};
+
+const instruments = [
+  ['sem','JEOL JSM-IT710HR','High-resolution SEM','Analytical imaging and integrated SEM–EDS workflows, depending on version.','Installed detector and EDS package.','https://www.jeol.com/products/scientific/sem/JSM-IT710HR.php'],
+  ['sem','JEOL JSM-IT810','Schottky FE-SEM','Automated high-resolution SEM. Specify options for analytical workflows.','Detector package, vacuum modes and analytical geometry.','https://www.jeol.com/products/scientific/sem/JSM-IT810.php'],
+  ['sem','ZEISS Sigma / GeminiSEM 360 and 460','FE-SEM families','Surface imaging with in-column detection options. Analytical configurations can support EDS or EBSD.','Exact column, vacuum option, detector and probe current.','https://asset-downloads.zeiss.com/catalogs/download/mic/d08dcd2e-6ec0-41a0-8e53-020b37baad5f/EN_product-info_GeminiSEM_Family_rel-3_6.pdf'],
+  ['sem','Thermo Scientific Apreo 2','FE-SEM','Imaging and analytical SEM with low-vacuum variants.','Detector, vacuum variant and installed EDS or EBSD.','https://www.thermofisher.com/us/en/home/electron-microscopy/products/accessories-em/sem-accessories-upgrades.html'],
+  ['sem','Thermo Scientific Quattro','Environmental SEM','Environmental and low-vacuum workflows for difficult specimens. Environmental experiments require appropriate stage and conditions.','Pressure range, gas, sample stage and detector configuration.','https://documents.thermofisher.com/TFS-Assets/MSD/brochures/quattro-brochure-br0148-en.pdf'],
+  ['sem','Hitachi SU3800 / SU3900 series','Variable-pressure SEM','Routine imaging of bulk specimens with high- and low-vacuum options in the product family.','Stage load and travel, exact source and VP configuration.','https://hte.hitachi-hightech.com/hubfs/Product%20Page%20-%20SU3800SE%20%2B%20SU3900SE/Hitachi_VP%20FE%20SEM%20Family.pdf?hsLang=en'],
+  ['sem','Hitachi SU7000 / SU8700','Field-emission SEM','High-resolution imaging and analytical workflows.','Which in-column detectors, vacuum modes and transmission accessories are fitted.','https://hte.hitachi-hightech.com/hubfs/UKI_2025_01_PPC_Product%20Awareness/Hitachi_HighRes%20FE%20SEM.pdf'],
+  ['sem','Tescan MIRA / CLARA 2 / MAGNA','FE-SEM families','Field-emission platforms with different column and wide-field imaging capabilities.','Low-energy performance and analytical options for each model.','https://info.tescan.com/hubfs/TESCAN-Wide-Field-MS-TN-25-04-11%20%282%29.pdf?hsLang=en'],
+  ['tem','JEOL JEM-120i','120 kV TEM','Routine thin-section and soft-material imaging.','Camera, specimen holders and diffraction workflow.','https://www.jeol.com/products/scientific/tem/JEM-120i.php'],
+  ['tem','JEOL JEM-1400Flash','120 kV TEM · legacy','Installed systems support routine imaging across materials and life sciences. JEOL marks this model discontinued.','Local configuration and support status.','https://www.jeol.com/products/scientific/tem/JEM-1400Flash.php'],
+  ['tem','Hitachi HT7800 series','120 kV TEM','Routine transmission imaging for thin sections, nanoparticles and soft materials.','Objective and detector configuration and required contrast.','https://www.hitachi-hightech.com/global/en/sinews/technical_explanation/100301/'],
+  ['tem','JEOL JEM-F200','200 kV-class analytical TEM/STEM','Multipurpose field-emission TEM/STEM for imaging, diffraction and analysis.','Source choice, EDS/EELS options and holders.','https://www.jeol.com/products/scientific/tem/JEM-F200.php'],
+  ['tem','Thermo Scientific Talos F200X G2','200 kV-class analytical TEM/STEM','Analytical TEM/STEM with multi-detector EDS for elemental mapping.','Holder shadowing, detector geometry and dose requirements.','https://assets.thermofisher.com/TFS-Assets/MSD/Technical-Notes/talos-f200x-battery-tech-note.pdf'],
+  ['tem','Thermo Scientific Spectra 300','300 kV-class TEM/STEM','High-resolution STEM and analytical imaging. The linked Cornell instrument is one installed configuration.','Whether a corrector, monochromator, EELS and fast diffraction detector are fitted.','https://www.ccmr.cornell.edu/facilities/instruments/imaging/scanning-transmission-electron-microscopy-stem/thermo-fisher-spectra-300-andromeda'],
+  ['tem','JEOL GRAND ARM 2 (JEM-ARM300F2)','Atomic-resolution analytical TEM/STEM','High-resolution imaging and analytical workflows over a range of accelerating voltages.','Corrector, detector package and supported operating conditions.','https://www.jeol.com/products/scientific/tem/JEM-ARM300F2.php'],
+  ['tem','Tescan TENSOR','Dedicated analytical STEM','4D-STEM and analytical workflows. Cryogenic configurations are available.','Detector speed, low-dose workflow and installed cryogenic hardware.','https://tescan.com/product-portfolio/stem/tensor'],
+  ['tem','Thermo Scientific Glacios 2 / Krios 5','Cryo-TEM families','Cryogenic workflows for frozen-hydrated specimens, including single-particle work and tomography where configured.','Energy filter, camera, automation and accessible tilt range.','https://documents.thermofisher.com/TFS-Assets/MSD/brochures/see-beyond-surface-volume-electron-microscopy-ebook.pdf']
+];
+
+const quiz = [
+  ['sem','How does an SEM form an image?','It records a detector signal at each position of a rastered probe.','A lens projects a transmitted image onto a camera.','X-rays expose a film in one step.','The detector records a diffraction pattern at every pixel in every mode.','The scan coordinates supply the image positions. The selected detector determines what its brightness represents.'],
+  ['sem','Which signal usually highlights the edges of a rough fracture surface?','Secondary electrons','Transmitted bright-field electrons','Selected-area diffraction','An EELS zero-loss peak','SE escape and collection depend strongly on surface geometry. Edges can therefore appear bright.'],
+  ['sem','A polished phase appears brighter in BSE. What is a sensible interpretation?','It may have a higher mean atomic number. Verify with EDS and consider orientation effects.','It is necessarily thicker.','The phase must be iron.','The image gives the exact atomic fraction.','BSE brightness can reflect composition, but orientation and collection geometry can contribute.'],
+  ['sem','At 5 keV, can the incident electrons directly ionise an Fe K shell with a 7.112 keV edge?','No, the incident energy is below that edge.','Yes, if the dwell time is long enough.','Yes, if a higher current is selected.','Yes, when the detector is close enough.','Beam current and dwell time change counts. They do not raise electron energy above the ionisation threshold.'],
+  ['sem','Why might a high-resolution SEM image show an interface much sharper than an EDS map?','Characteristic X-rays can originate from a larger volume than the image-forming signal.','EDS always uses a larger pixel size.','SEM images never contain real interface information.','The EDS detector measures only the coating.','Interaction volume and X-ray escape affect spatial localisation, even when map pixels are very small.'],
+  ['sem','Which method maps the orientations of grains on a polished surface?','EBSD','Secondary electron imaging alone','Conventional EDS','An uncalibrated BSE image','Indexing Kikuchi patterns gives local orientation. A good surface and sufficient pattern quality are important.'],
+  ['sem','Which change can help when an insulating specimen charges?','Improve grounding and assess low landing energy, low vacuum or a suitable coating.','Always increase current.','Always increase accelerating voltage.','Calibrate camera length.','Charging reflects an imbalance between arriving and escaping charge. The best remedy depends on the specimen and measurement.'],
+  ['sem','Why record the coating material for SEM-EDS?','The coating can contribute X-ray lines and attenuate some specimen signals.','It defines the crystal orientation.','It determines the ionisation energy of the primary beam.','It converts SE into BSE.','A coating can influence chemistry, especially for low-energy lines and small features.'],
+  ['tem','Why must a conventional TEM specimen be sufficiently thin?','Electrons must transmit, and excessive multiple scattering can obscure the intended signal.','Thick specimens prevent the electron gun from emitting.','The image is made only by secondary electrons.','Thickness never changes contrast.','Suitable thickness depends on the material, energy and measurement.'],
+  ['tem','What changes when a TEM switches from imaging to diffraction mode?','The projector lenses select the objective image plane or its back focal plane.','The specimen is moved outside the vacuum.','The beam changes from electrons to X-rays.','The gun must change from field emission to tungsten.','The objective forms a real-space image and a diffraction pattern in different planes.'],
+  ['tem','What is recorded in 4D-STEM?','A two-dimensional diffraction pattern at each point of a two-dimensional scan.','Four secondary-electron images.','Only the mean probe current over time.','A tomogram from four sample tilts.','The two scan dimensions and two detector dimensions give the four-dimensional dataset.'],
+  ['tem','What can make HAADF intensity differ even at constant composition?','Thickness, orientation and channeling','Only camera length','Only specimen colour','Only the selected EDS peak','HAADF is sensitive to high-angle scattering. Several variables influence the amount collected.'],
+  ['tem','Which signal is most directly useful for near-edge fine structure?','EELS','SEM secondary electrons','Bright-field intensity alone','EBSD pattern contrast alone','EELS records transmitted-electron energy losses. Core-loss fine structure can probe bonding and electronic structure when interpreted with suitable references.'],
+  ['tem','At fixed camera length and voltage, how does ring radius change as plane spacing decreases?','It increases.','It decreases.','It stays constant.','It changes sign.','For small angles, R ≈ Lλ/d, so smaller d corresponds to a larger radius.'],
+  ['tem','What is the electron wavelength at 200 kV, approximately?','2.51 pm','0.20 nm','1.54 Å','532 nm','The relativistic de Broglie wavelength is about 2.51 pm. Practical microscope resolution is considerably coarser.'],
+  ['tem','What causes the missing wedge in many electron tomograms?','A limited specimen tilt range leaves projections unsampled.','The detector cannot record any high-angle electrons.','The material has no lattice planes.','EDS mapping removes part of the image.','The missing projections lead to directional uncertainty and artefacts in the reconstruction.'],
+  ['tem','What does a bright-field TEM dark region prove on its own?','Only that less intensity reaches the detector under those imaging conditions.','That the region has higher atomic number.','That it is always a different phase.','That it has no crystalline order.','Diffraction, absorption, thickness and aperture selection can all change bright-field intensity.'],
+  ['choice','What is a good starting method for a buried 10 nm interface at a specific device location?','Cross-sectional TEM or STEM on a site-specific thin lamella.','SE imaging on an intact unsectioned device.','A bulk SEM-EDS spot at high voltage.','A single image with no scale calibration.','A targeted lamella can expose the interface, although preparation and projection effects must be checked.'],
+  ['choice','An element is absent from a quick SEM-EDS map. What can you conclude?','It was not detected under these conditions. Check the line, acquisition and detection limit.','Its concentration is exactly zero.','It is present only at the surface.','The material is amorphous.','Peak overlap, low concentration, absorption and insufficient excitation or counts can all hide a signal.'],
+  ['choice','Which comparison helps distinguish beam damage from an original specimen feature?','Compare the first low-dose frame with later frames and a fresh area.','Increase dose until contrast stops changing.','Compare only two processed crops from the same frame.','Change only the scale-bar label.','Dose-dependent evolution and replication in fresh areas help separate damage from original structure.'],
+  ['choice','Two TEM images show the same interface but differ in contrast. What should you compare first?','Thickness, tilt, imaging mode and detector settings.','Only the software version.','Only the material name.','Only the image file size.','Electron microscopy contrast reflects the specimen and acquisition conditions together.'],
+  ['choice','What is the best way to choose between two FE-SEMs for a low-energy imaging job?','Request comparable images on the same specimen at the required energy and geometry.','Choose by maximum voltage alone.','Choose by brochure magnification alone.','Choose the instrument with the largest chamber regardless of use.','Useful performance depends on the exact configuration and operating conditions.'],
+  ['choice','A FIB lamella shows an altered layer at a milled surface. What should you check?','Ion-induced damage, redeposition and preparation history.','The SEM emission current only.','Whether the microscope has a longer camera length.','Whether the image is saved as PNG.','Milling can change near-surface structure and composition. Compare an alternative preparation or finishing condition where appropriate.'],
+  ['choice','Which record is most useful when reporting a STEM-HAADF image?','Voltage, probe and detector conditions, orientation, thickness where relevant, and scale calibration.','Only magnification.','Only instrument model.','Only the colour palette.','These details affect interpretation and allow other users to reproduce the measurement.']
+];
+
+const root = document.querySelector('#content');
+const topics = document.querySelector('#prim');
+const pages = new Set([...topics.querySelectorAll('button')].map(button => button.dataset.page));
+const el = (tag, text, className) => {
+  const node = document.createElement(tag);
+  if (text !== undefined) node.textContent = text;
+  if (className) node.className = className;
+  return node;
+};
+
+function render() {
+  const hash = location.hash.slice(1);
+  const page = pages.has(hash) ? hash : 'start';
+  if (root.dataset.page === page) return;
+  root.dataset.page = page;
+  root.replaceChildren(document.getElementById(page).content.cloneNode(true));
+  for (const button of topics.querySelectorAll('button')) {
+    button.setAttribute('aria-pressed', String(button.dataset.page === page));
+  }
+  const setup = { start: setupChoice, sem: setupSem, tem: setupTem, instruments: setupInstruments, quiz: setupQuiz };
+  setup[page]?.();
+}
+function setupChoice() {
+  const select = root.querySelector('#goal');
+  const output = root.querySelector('#choice');
+  const update = () => {
+    const [method, explanation] = choices[select.value];
+    output.replaceChildren(el('strong', method), el('p', explanation));
+  };
+  select.addEventListener('change', update);
+  update();
+}
+function setupSem() {
+  const energy = root.querySelector('#sem-energy');
+  const material = root.querySelector('#sem-material');
+  const edge = root.querySelector('#sem-edge');
+  const output = root.querySelector('#sem-result');
+  const elements = { si: [28.085, 14, 2.329], al: [26.982, 13, 2.70], fe: [55.845, 26, 7.874] };
+  const update = () => {
+    const e = Number(energy.value);
+    const [a, z, density] = elements[material.value];
+    const range = 0.0276 * a * e ** 1.67 / (density * z ** 0.89);
+    const u = e / Number(edge.value);
+    const note = u <= 1 ? 'Below or at threshold. Direct excitation of this K shell is not expected.'
+      : u < 1.5 ? 'Above threshold, but close to it. The line may be weak; check alternatives and overlaps.'
+      : 'Above threshold. Verify the line and its count rate with a spectrum under the planned conditions.';
+    output.replaceChildren(el('p', `Overvoltage U = ${u.toFixed(2)} · Estimated electron range = ${range.toFixed(2)} µm`, 'value'), el('p', note));
+  };
+  for (const control of [energy, material, edge]) control.addEventListener('change', update);
+  update();
+}
+function setupTem() {
+  const voltage = root.querySelector('#tem-voltage');
+  const spacing = root.querySelector('#tem-spacing');
+  const length = root.querySelector('#tem-length');
+  const output = root.querySelector('#tem-result');
+  const update = () => {
+    const d = spacing.valueAsNumber, camera = length.valueAsNumber;
+    if (!(d >= 0.05 && d <= 5 && camera >= 50 && camera <= 2000)) {
+      output.textContent = 'Enter a spacing from 0.05 to 5 nm and a camera length from 50 to 2,000 mm.';
+      return;
+    }
+    const h = 6.62607015e-34, m = 9.1093837139e-31, q = 1.602176634e-19, c = 299792458;
+    const kinetic = q * Number(voltage.value) * 1000;
+    const wavelength = h / Math.sqrt(2 * m * kinetic * (1 + kinetic / (2 * m * c ** 2))) * 1e9;
+    const angle = 2 * Math.asin(wavelength / (2 * d));
+    const radius = camera * Math.tan(angle);
+    output.replaceChildren(el('p', `λ = ${(wavelength * 1000).toFixed(3)} pm · 2θ = ${(angle * 180 / Math.PI).toFixed(3)}°`, 'value'),
+      el('p', `Ideal radius on the detector: ${radius.toFixed(2)} mm.`));
+  };
+  voltage.addEventListener('change', update);
+  spacing.addEventListener('input', update);
+  length.addEventListener('input', update);
+  update();
+}
+function setupInstruments() {
+  const type = root.querySelector('#instrument-type');
+  const search = root.querySelector('#instrument-search');
+  const rows = root.querySelector('#instrument-rows');
+  const update = () => {
+    const terms = search.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    const filtered = instruments.filter(([kind, ...fields]) =>
+      (type.value === 'all' || type.value === kind) && terms.every(term => fields.slice(0, 4).join(' ').toLowerCase().includes(term)));
+    rows.replaceChildren(...filtered.map(([, model, platform, capabilities, verify, url]) => {
+      const row = el('tr');
+      const heading = el('th');
+      heading.scope = 'row';
+      const source = el('a', model);
+      source.href = url;
+      source.target = '_blank';
+      source.rel = 'noopener noreferrer';
+      heading.append(source);
+      row.append(heading, el('td', platform), el('td', capabilities), el('td', verify));
+      return row;
+    }));
+    root.querySelector('#instrument-count').textContent = `${filtered.length} of ${instruments.length} instrument entries`;
+    root.querySelector('#instrument-empty').hidden = filtered.length > 0;
+  };
+  type.addEventListener('change', update);
+  search.addEventListener('input', update);
+  update();
+}
+function shuffle(values) {
+  const items = [...values];
+  for (let i = items.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [items[i], items[j]] = [items[j], items[i]];
+  }
+  return items;
+}
+function setupQuiz() {
+  const topic = root.querySelector('#quiz-topic');
+  const start = root.querySelector('#quiz-start');
+  const body = root.querySelector('#quiz-body');
+  const updateLabel = () => {
+    const count = quiz.filter(row => topic.value === 'all' || row[0] === topic.value).length;
+    start.textContent = `Start quiz (${count} questions)`;
+  };
+  topic.addEventListener('change', updateLabel);
+  updateLabel();
+  start.addEventListener('click', () => run(shuffle(quiz.filter(row => topic.value === 'all' || row[0] === topic.value))));
+  function run(items) {
+    let index = 0, score = 0;
+    const missed = [];
+    function show() {
+      if (index === items.length) {
+        const result = el('h3', `Score: ${score} of ${items.length}`);
+        result.tabIndex = -1;
+        body.replaceChildren(result);
+        if (missed.length) {
+          const retry = el('button', 'Retry missed questions', 'btn');
+          retry.addEventListener('click', () => run(shuffle(missed)));
+          body.append(retry);
+        }
+        result.focus();
+        return;
+      }
+      const [, question, correct, wrong1, wrong2, wrong3, explanation] = items[index];
+      const heading = el('h3', question);
+      heading.tabIndex = -1;
+      const feedback = el('p');
+      feedback.setAttribute('role', 'status');
+      const next = el('button', index === items.length - 1 ? 'See results' : 'Next question', 'btn primary');
+      next.hidden = true;
+      next.addEventListener('click', () => { index++; show(); });
+      const options = shuffle([correct, wrong1, wrong2, wrong3]).map(option => {
+        const button = el('button', option, 'btn opt');
+        button.addEventListener('click', () => {
+          const right = option === correct;
+          if (right) score++; else missed.push(items[index]);
+          for (const candidate of options) {
+            candidate.disabled = true;
+            if (candidate.textContent === correct) candidate.classList.add('correct');
+          }
+          if (!right) button.classList.add('incorrect');
+          feedback.className = right ? 'correct-text' : 'incorrect-text';
+          feedback.textContent = (right ? 'Correct. ' : `Correct answer: ${correct} `) + explanation;
+          next.hidden = false;
+          next.focus();
+        });
+        return button;
+      });
+      body.replaceChildren(el('p', `Question ${index + 1} of ${items.length}`, 'muted'), heading, ...options, feedback, next);
+      heading.focus();
+    }
+    show();
+  }
+}
+
+document.addEventListener('click', event => {
+  const button = event.target.closest('button[data-page]');
+  if (!button || !pages.has(button.dataset.page)) return;
+  location.hash = button.dataset.page;
+  render();
+  root.focus({ preventScroll: true });
+  window.scrollTo(0, 0);
+});
+window.addEventListener('hashchange', render);
+render();
+</script>
+</body>
+</html>
