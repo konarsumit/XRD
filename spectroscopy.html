@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Spectroscopy Lab</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#edf0f2;--paper:#fff;--ink:#121a24;--muted:#56606e;--rule:#cfd6dd;--accent:#0d6b7c;--accent-soft:#d8ecef;--amber:#b86a0a;--good:#1f7a4c;--bad:#b23a32;--chip:#e3e8ec;--c1:#0d6b7c;--c2:#c97a12;--c3:#7b52ab;--c4:#2f7d4a;--c5:#b5466b;
+--f-display:"Source Serif 4",Georgia,serif;--f-body:"Public Sans",system-ui,sans-serif;--f-mono:"JetBrains Mono",ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1418;--paper:#171e24;--ink:#e3e8ec;--muted:#9aa6b2;--rule:#2b353e;--accent:#5fc0cf;--accent-soft:#16323a;--amber:#f0a646;--good:#5cc48e;--bad:#ef7d74;--chip:#232d35;--c1:#5fc0cf;--c2:#f0a646;--c3:#b394e0;--c4:#6fcf8e;--c5:#ee86a8}}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--f-body);padding:20px max(16px,env(safe-area-inset-right)) 56px max(16px,env(safe-area-inset-left))}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;margin:0;line-height:1.15;text-wrap:balance}
+h1{font-size:2rem}h3{font-size:1.02rem}p{margin:0}.muted{color:var(--muted)}.small{font-size:.84rem}
+.eyebrow{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header{display:flex;flex-direction:column;gap:6px}header .sub{max-width:80ch;color:var(--muted)}
+.prim{display:flex;flex-wrap:wrap;gap:8px}
+.prim button{font:600 .95rem var(--f-body);border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:9px;padding:9px 16px;cursor:pointer}
+.prim button[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.subnav{display:flex;flex-wrap:wrap;gap:6px}
+.subnav button{font:500 .86rem var(--f-body);border:1px solid var(--rule);background:transparent;color:var(--ink);border-radius:20px;padding:5px 13px;cursor:pointer}
+.subnav button[aria-pressed=true]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
+button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+main{display:flex;flex-direction:column;gap:9px;min-width:0}
+.lead{color:var(--muted);max-width:80ch;margin:2px 0 4px}
+details.card{background:var(--paper);border:1px solid var(--rule);border-radius:10px;min-width:0}
+details.card>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:13px 16px;font:600 1.02rem var(--f-display)}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary::after{content:"";margin-left:auto;width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);flex:none;margin-bottom:3px;transition:transform .15s}
+details.card[open]>summary::after{transform:rotate(225deg);margin-bottom:-3px}
+.tag{font:500 .66rem var(--f-mono);letter-spacing:.05em;text-transform:uppercase;background:var(--accent-soft);color:var(--accent);border-radius:5px;padding:2px 6px}
+.body{padding:2px 18px 18px;display:flex;flex-direction:column;gap:12px;border-top:1px solid var(--rule);padding-top:14px;min-width:0}
+.body p,.body li{max-width:84ch}.body ul,.body ol{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:5px}
+.body h4{margin:6px 0 0;font:600 .9rem var(--f-body)}
+.note{background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:6px;padding:9px 12px;font-size:.9rem}
+.warn{background:color-mix(in srgb,var(--amber) 14%,var(--paper));border-left:3px solid var(--amber);border-radius:6px;padding:9px 12px;font-size:.9rem}
+.bad{background:color-mix(in srgb,var(--bad) 12%,var(--paper));border-left:3px solid var(--bad);border-radius:6px;padding:9px 12px;font-size:.9rem}
+.tbl{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{border-bottom:1px solid var(--rule);padding:7px 9px;text-align:left;vertical-align:top}th{font:600 .74rem var(--f-mono);letter-spacing:.04em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+code,.mono{font-family:var(--f-mono);font-size:.86em}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.mini{border:1px solid var(--rule);border-radius:9px;padding:11px 13px;display:flex;flex-direction:column;gap:5px;background:var(--bg)}
+.mini h3{font:600 .98rem var(--f-body)}.mini .chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{font:500 .68rem var(--f-mono);background:var(--chip);color:var(--muted);border-radius:5px;padding:2px 6px}.chip.ok{background:color-mix(in srgb,var(--good) 18%,var(--paper));color:var(--good)}
+.mini a{color:var(--accent);font-size:.84rem}
+.ctl{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-end}
+label.fld{display:flex;flex-direction:column;gap:3px;font-size:.76rem;color:var(--muted);min-width:0}
+label.fld select,label.fld input[type=number],label.fld input[type=text]{font:inherit;font-size:.9rem;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:6px 8px}
+label.fld input[type=number]{width:104px}label.fld input[type=range]{width:150px;accent-color:var(--accent)}
+.rv{font:500 .8rem var(--f-mono);color:var(--ink)}
+label.chk{display:flex;gap:6px;align-items:center;font-size:.85rem;color:var(--ink)}
+canvas.plot{width:100%;height:300px;display:block;background:var(--paper);border:1px solid var(--rule);border-radius:8px;touch-action:pan-y}
+.ro{display:flex;flex-wrap:wrap;gap:6px 18px;font:500 .8rem var(--f-mono);color:var(--muted)}.ro b{color:var(--ink)}
+.btn{font:500 .88rem var(--f-body);border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:8px;padding:7px 13px;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.calc{border:1px dashed var(--rule);border-radius:9px;padding:12px;display:flex;flex-direction:column;gap:9px;background:var(--bg)}
+.calc .out{font:500 .9rem var(--f-mono)}
+ol.steps{counter-reset:s;list-style:none;padding:0;display:flex;flex-direction:column;gap:7px}
+ol.steps li{display:grid;grid-template-columns:26px 1fr;gap:9px;align-items:start}
+ol.steps li::before{counter-increment:s;content:counter(s);width:24px;height:24px;border-radius:50%;background:var(--chip);color:var(--muted);display:grid;place-items:center;font:600 .74rem var(--f-mono);margin-top:1px}
+ol.steps li.on::before{background:var(--good);color:var(--paper)}
+ol.steps li label{display:flex;gap:8px;cursor:pointer;align-items:flex-start}
+.bars{display:flex;flex-direction:column;gap:8px}.bar{display:grid;grid-template-columns:70px 1fr 40px;gap:8px;align-items:center;font-size:.86rem}
+.bar i{display:block;height:12px;border-radius:6px;background:var(--accent);transition:width .25s}.bar span{background:var(--chip);border-radius:6px;overflow:hidden;display:block}
+.q{display:flex;flex-direction:column;gap:12px}.q .opts{display:flex;flex-direction:column;gap:8px}
+.q .opt{text-align:left;font:inherit;border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:9px;padding:10px 13px;cursor:pointer}
+.q .opt:hover:not(:disabled){border-color:var(--accent)}.q .opt.right{border-color:var(--good);background:color-mix(in srgb,var(--good) 14%,var(--paper))}.q .opt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,var(--paper))}
+.qbar{height:6px;background:var(--chip);border-radius:6px;overflow:hidden}.qbar i{display:block;height:100%;background:var(--accent)}
+.cats{display:flex;flex-wrap:wrap;gap:6px}.cats button{font:500 .82rem var(--f-body);border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:20px;padding:5px 12px;cursor:pointer}.cats button[aria-pressed=true]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
+@media (max-width:640px){body{padding-top:14px}h1{font-size:1.55rem}.body{padding:12px 13px 14px}canvas.plot{height:250px}label.fld input[type=range]{width:130px}.bar{grid-template-columns:56px 1fr 34px}}
+
+</style>
+<style id="instrument-lab-series">
+/* Shared instrument-lab shell. Embedded so each HTML page can be opened on its own. */
+body{margin:0;padding-block:24px 52px}
+.wrap{width:100%;max-width:1360px;gap:20px}
+.lab-header{padding:clamp(16px,3vw,28px);gap:16px;background:var(--paper);border:1px solid var(--rule);border-radius:14px}
+.lab-masthead{display:flex;align-items:center;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid var(--rule)}
+.lab-series{color:var(--ink);font-weight:600;font-size:.9rem}
+.lab-links{display:flex;flex-wrap:wrap;gap:5px}
+.lab-links a{color:var(--muted);font-size:.86rem;font-weight:600;text-decoration:none;padding:6px 10px;border-radius:7px}
+.lab-links a:hover{background:var(--chip);color:var(--ink)}
+.lab-links a[aria-current="page"]{background:var(--accent-soft);color:var(--accent)}
+.lab-intro{display:grid;gap:6px}
+.lab-intro h1{font-size:clamp(2rem,4vw,2.65rem);letter-spacing:-.025em;text-wrap:wrap}
+.lab-intro p{max-width:74ch;color:var(--muted)}
+.lab-header :is(#prim,#primarynav,#modeseg,#subnav){display:flex;flex-wrap:wrap;gap:7px;background:transparent;border:0;border-radius:0;overflow:visible;width:100%}
+.lab-header :is(#prim,#primarynav,#modeseg,#subnav) button{
+  flex:0 1 auto;min-height:40px;padding:7px 12px;border:1px solid var(--rule);border-radius:8px;
+  background:var(--paper);color:var(--ink);font:600 .86rem/1.3 var(--f-body);text-align:left;white-space:normal
+}
+.lab-header :is(#prim,#primarynav,#modeseg,#subnav) button:hover{background:var(--chip)}
+.lab-header :is(#prim,#primarynav,#modeseg,#subnav) button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
+.lab-header #subnav button{min-height:36px;font-weight:500}
+.lab-header #subnav:empty{display:none}
+.lab-context{display:grid;gap:4px;max-width:82ch}
+.lab-header .lab-context .eyebrow{color:var(--accent)}
+.lab-header .lab-context .sub{font-size:.9rem}
+.lab-header .lab-note{font-size:.78rem;color:var(--muted);max-width:90ch}
+.lab-header a:focus-visible,.lab-header button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.layout{grid-template-columns:220px minmax(0,1fr)}
+.sheet,details.card,.step .card{border-radius:10px}
+@media(max-width:960px){.layout{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){
+  body{padding-block:12px 36px}
+  .wrap{gap:14px}
+  .lab-header{gap:12px}
+  .lab-masthead{gap:8px;padding-bottom:10px}
+  .lab-links{width:100%}
+}
+</style></head><body><div class="wrap">
+<header class="lab-header">
+<div class="lab-masthead">
+  <span class="lab-series">Interactive Chemistry · Instrument Labs</span>
+  <nav class="lab-links" aria-label="Instrument labs"><a href="./Diffraction.html">Diffraction</a><a href="./spectroscopy-lab.html" aria-current="page">Spectroscopy</a><a href="./thermal-lab.html">Thermal</a></nav>
+</div>
+<div class="lab-intro"><h1>Spectroscopy Lab</h1><p>Raman and FTIR simulators, instrument comparisons, operating guides and quizzes.</p></div>
+<nav class="prim" id="prim" aria-label="Sections"></nav>
+<nav class="subnav" id="subnav" aria-label="Subsections" hidden></nav>
+<p class="lab-note">Teaching simulations are illustrative. For instrument operation, use the manufacturer’s instructions and your lab’s approved procedures.</p>
+</header>
+<main id="main"></main>
+</div>
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const h=(t,a={},...k)=>{const e=document.createElement(t);for(const[n,v]of Object.entries(a||{})){if(n==='class')e.className=v;else if(n.startsWith('on'))e.addEventListener(n.slice(2),v);else if(v!==false&&v!=null)e.setAttribute(n,v===true?'':v);}k.flat(9).forEach(c=>{if(c==null||c===false)return;e.append(c.nodeType?c:document.createTextNode(String(c)));});return e;};
+const fmt=(v,d=2)=>Number.isFinite(v)?(Math.abs(v)>=1e5||(Math.abs(v)<1e-3&&v!==0)?v.toExponential(2):(+v.toFixed(d)).toString()):'–';
+/* seeded noise */
+function rng(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function gauss(r){let u=0,v=0;while(!u)u=r();v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+/* controls */
+function sel(opts,val,on){const s=h('select',{onchange:e=>on(e.target.value)},opts.map(o=>h('option',{value:o.v!==undefined?o.v:o},o.t||o)));s.value=val;return s;}
+function fld(label,input,extra){return h('label',{class:'fld'},label,input,extra);}
+function slider(min,max,step,val,on,show,log){
+ const lo=log?Math.log10(min):min,hi=log?Math.log10(max):max,st=log?0.01:step;
+ const r=h('input',{type:'range',min:lo,max:hi,step:st});const out=h('span',{class:'rv'});
+ const get=()=>log?Math.pow(10,+r.value):+r.value;
+ const fin=v=>log?(v<10?+v.toPrecision(2):Math.round(v)):v;
+ const upd=()=>{out.textContent=show(fin(get()));};
+ r.value=log?Math.log10(val):val;upd();
+ r.addEventListener('input',()=>{upd();on(fin(get()));});
+ return{el:h('span',{style:'display:flex;gap:8px;align-items:center'},r,out),get:()=>fin(get()),set:v=>{r.value=log?Math.log10(v):v;upd();}};}
+function chk(label,val,on){const c=h('input',{type:'checkbox'});c.checked=val;c.addEventListener('change',()=>on(c.checked));return h('label',{class:'chk'},c,label);}
+/* plot */
+const PLOTS=[];
+function niceTicks(a,b,n){const span=b-a;if(!(span>0))return[a];const s0=span/n,mag=Math.pow(10,Math.floor(Math.log10(s0))),r=s0/mag,step=(r<1.5?1:r<3?2:r<7?5:10)*mag;const o=[];for(let v=Math.ceil(a/step)*step;v<=b+1e-9;v+=step)o.push(+v.toFixed(10));return o;}
+function Plot(cv){
+ const ctx=cv.getContext('2d');const S={d:null,hover:null};
+ const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+ S.set=d=>{S.d=d;S.draw();};
+ const P={l:54,r:14,t:14,b:40};
+ S.draw=()=>{
+  const r=cv.getBoundingClientRect(),dpr=window.devicePixelRatio||1;if(r.width<20||!S.d)return;
+  const w=Math.round(r.width*dpr),hh=Math.round(r.height*dpr);if(cv.width!==w||cv.height!==hh){cv.width=w;cv.height=hh;}
+  ctx.setTransform(dpr,0,0,dpr,0,0);const W=r.width,H=r.height,d=S.d;
+  const ink=css('--ink'),mu=css('--muted'),ru=css('--rule');
+  ctx.clearRect(0,0,W,H);
+  let y0=d.ymin,y1=d.ymax;if(y0==null||y1==null){let lo=1e99,hi=-1e99;d.series.forEach(s=>{for(let i=0;i<s.y.length;i++){const v=s.y[i];if(v<lo)lo=v;if(v>hi)hi=v;}});const pad=(hi-lo)*.08||1;if(y0==null)y0=d.zero?Math.min(0,lo):lo-pad;if(y1==null)y1=hi+pad;}
+  S.y0=y0;S.y1=y1;
+  const px=v=>P.l+((d.rev?(d.x1-v):(v-d.x0))/(d.x1-d.x0))*(W-P.l-P.r),py=v=>H-P.b-((v-y0)/(y1-y0))*(H-P.t-P.b);
+  S.px=px;S.inv=X=>{const f=(X-P.l)/(W-P.l-P.r);return d.rev?d.x1-f*(d.x1-d.x0):d.x0+f*(d.x1-d.x0);};
+  ctx.font='11px '+css('--f-mono');ctx.lineWidth=1;ctx.strokeStyle=ru;ctx.fillStyle=mu;
+  ctx.textAlign='center';niceTicks(d.x0,d.x1,Math.max(3,Math.floor(W/90))).forEach(v=>{const x=px(v);ctx.beginPath();ctx.moveTo(x,P.t);ctx.lineTo(x,H-P.b);ctx.stroke();ctx.fillText(v,x,H-P.b+14);});
+  ctx.textAlign='right';niceTicks(y0,y1,5).forEach(v=>{const y=py(v);ctx.beginPath();ctx.moveTo(P.l,y);ctx.lineTo(W-P.r,y);ctx.stroke();ctx.fillText(d.yfmt?d.yfmt(v):fmt(v,v>100?0:3),P.l-6,y+4);});
+  ctx.strokeStyle=mu;ctx.strokeRect(P.l,P.t,W-P.l-P.r,H-P.t-P.b);
+  ctx.fillStyle=ink;ctx.font='12px '+css('--f-body');ctx.textAlign='center';ctx.fillText(d.xlab||'',P.l+(W-P.l-P.r)/2,H-6);
+  ctx.save();ctx.translate(13,P.t+(H-P.t-P.b)/2);ctx.rotate(-Math.PI/2);ctx.fillText(d.ylab||'',0,0);ctx.restore();
+  ctx.save();ctx.beginPath();ctx.rect(P.l,P.t,W-P.l-P.r,H-P.t-P.b);ctx.clip();
+  d.series.forEach(s=>{ctx.beginPath();ctx.strokeStyle=css(s.color||'--c1');ctx.lineWidth=s.lw||1.4;if(s.dash)ctx.setLineDash(s.dash);else ctx.setLineDash([]);
+   for(let i=0;i<s.y.length;i++){const x=px(s.x[i]),y=py(s.y[i]);i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.stroke();});ctx.setLineDash([]);ctx.restore();
+  ctx.fillStyle=mu;ctx.font='10.5px '+css('--f-mono');ctx.textAlign='center';
+  (d.marks||[]).forEach(m=>{const x=px(m.x);if(x<P.l+4||x>W-P.r-4)return;const y=Math.max(P.t+10,py(m.y)-6);ctx.fillText(m.t,x,y);});
+  if(S.hover!=null){const x=px(S.hover);ctx.strokeStyle=css('--accent');ctx.beginPath();ctx.moveTo(x,P.t);ctx.lineTo(x,H-P.b);ctx.stroke();
+   const lines=d.readout?d.readout(S.hover):[];ctx.font='11px '+css('--f-mono');const bw=Math.max(...lines.map(l=>ctx.measureText(l).width),10)+14,bx=x>W/2?x-bw-8:x+8;
+   ctx.fillStyle=css('--paper');ctx.globalAlpha=.92;ctx.fillRect(bx,P.t+6,bw,lines.length*15+8);ctx.globalAlpha=1;ctx.strokeStyle=ru;ctx.strokeRect(bx,P.t+6,bw,lines.length*15+8);
+   ctx.fillStyle=ink;ctx.textAlign='left';lines.forEach((l,i)=>ctx.fillText(l,bx+7,P.t+21+i*15));}
+ };
+ const mv=e=>{const r=cv.getBoundingClientRect();if(!S.inv)return;const v=S.inv(e.clientX-r.left);S.hover=(v>=Math.min(S.d.x0,S.d.x1)&&v<=Math.max(S.d.x0,S.d.x1))?v:null;S.draw();};
+ cv.addEventListener('pointermove',mv);cv.addEventListener('pointerdown',mv);cv.addEventListener('pointerleave',()=>{S.hover=null;S.draw();});
+ new ResizeObserver(()=>S.draw()).observe(cv);PLOTS.push(S);return S;}
+matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>PLOTS.forEach(p=>p.draw()));
+function nearest(xs,v){let lo=0,hi=xs.length-1;while(hi-lo>1){const m=(lo+hi)>>1;if(xs[m]<v)lo=m;else hi=m;}return Math.abs(xs[lo]-v)<Math.abs(xs[hi]-v)?lo:hi;}
+/* calculators */
+function calc(title,fields,fn,note){
+ const out=h('div',{class:'out'}),vals={};const els=[];
+ const run=()=>{const v={};fields.forEach(f=>{v[f.k]=f.sel?vals[f.k].value:parseFloat(vals[f.k].value);});try{out.innerHTML=fn(v);}catch(e){out.textContent='–';}};
+ fields.forEach(f=>{const i=f.sel?sel(f.sel,f.v,()=>run()):h('input',{type:'number',step:f.step||'any',value:f.v,oninput:run});vals[f.k]=i;els.push(fld(f.l,i));});
+ const box=h('div',{class:'calc'},h('strong',{style:'font:600 .9rem var(--f-body)'},title),h('div',{class:'ctl'},els),out,note?h('p',{class:'small muted'},note):null);run();return box;}
+const calcHTML=k=>'<div data-calc="'+k+'"></div>';
+
+/* ===== Raman simulator (teaching model) ===== */
+const RS={
+ ps:{n:'Polystyrene',fl:0.3,dmg:15,pk:[[621,.5,8],[796,.5,10],[1001,4,4],[1031,1.2,5],[1155,.4,8],[1583,.5,10],[1602,1.5,10],[2852,.8,15],[2905,1,20],[3054,2,14]]},
+ si:{n:'Silicon wafer',fl:0,dmg:60,pk:[[520.7,10,4],[960,.06,70]]},
+ cal:{n:'Calcite (CaCO₃)',fl:.05,dmg:40,pk:[[155,1,8],[282,1.2,8],[712,.6,6],[1086,3.5,6],[1436,.15,10],[1748,.04,8]]},
+ ana:{n:'Anatase (TiO₂)',fl:.1,dmg:25,pk:[[144,9,10],[197,.6,14],[399,1.4,18],[513,1.2,20],[639,3,22]]},
+ chx:{n:'Cyclohexane (liquid)',fl:0,dmg:50,pk:[[384,.4,8],[426,.3,8],[802,3,4],[1029,.6,6],[1157,.3,8],[1267,.7,8],[1444,1.2,10],[2852,4.5,12],[2923,2.2,15],[2938,3,15]]},
+ par:{n:'Paracetamol (tablet-grade)',fl:1.4,dmg:20,pk:[[329,.4,8],[390,.3,8],[465,.5,8],[651,1.2,6],[710,.5,8],[797,1.8,6],[858,1.2,7],[1168,.6,8],[1236,1.2,10],[1323,3,10],[1371,.6,8],[1561,.8,10],[1613,3.2,10],[1648,1,10],[2931,.8,20],[3064,.8,15]]},
+ gra:{n:'Graphite / graphene',fl:0,dmg:3,pk:[[1350,1.2,40],[1582,4,18],[1620,.3,14],[2700,3,60]]}
+};
+const RQE={473:1,532:1,633:.95,785:.7,1064:.25},RFL={473:1.4,532:1,633:.45,785:.12,1064:.01};
+const GR_RES={300:8,600:4,1200:2,1800:1.5},GR_WIN={300:5000,600:2600,1200:1300,1800:850};
+function ramanSim(){
+ const st={s:'ps',lam:532,P:5,t:1,N:4,g:600,c:1800,fl:RS.ps.fl,base:false,lab:true,seed:7};
+ const cv=h('canvas',{class:'plot'}),pl=Plot(cv),ro=h('div',{class:'ro'}),msg=h('div');
+ const warnBox=h('div',{style:'display:flex;flex-direction:column;gap:6px'});
+ const fl=slider(0,5,.05,st.fl,v=>{st.fl=v;up();},v=>v.toFixed(2));
+ const P=slider(.1,500,1,st.P,v=>{st.P=v;up();},v=>v+' mW',true);
+ const T=slider(.1,60,1,st.t,v=>{st.t=v;up();},v=>v+' s',true);
+ const N=slider(1,64,1,st.N,v=>{st.N=v;up();},v=>v);
+ const C=slider(100,3500,50,st.c,v=>{st.c=v;up();},v=>v+' cm⁻¹');
+ const gsel=sel([{v:300,t:'300 g/mm (wide, coarse)'},{v:600,t:'600 g/mm'},{v:1200,t:'1200 g/mm'},{v:1800,t:'1800 g/mm (narrow, fine)'}],st.g,v=>{st.g=+v;up();});
+ const lsel=sel([{v:473,t:'473 nm (blue)'},{v:532,t:'532 nm (green)'},{v:633,t:'633 nm (red)'},{v:785,t:'785 nm (NIR)'},{v:1064,t:'1064 nm (FT-Raman)'}],st.lam,v=>{st.lam=+v;up();});
+ const ssel=sel(Object.entries(RS).map(([k,v])=>({v:k,t:v.n})),st.s,v=>{st.s=v;st.fl=RS[v].fl;fl.set(st.fl);up();});
+ function compute(){
+  const S=RS[st.s],lam=st.lam,ft=lam===1064;
+  const rel=Math.pow(532/lam,4)*RQE[lam],inst=ft?4:GR_RES[st.g]*Math.pow(lam/532,2);
+  let W=ft?3400:GR_WIN[st.g]*Math.pow(532/lam,2);W=Math.min(W,3500);
+  let lo=ft?100:st.c-W/2,hi=ft?3500:st.c+W/2;if(lo<50){hi+=50-lo;lo=50;}if(hi>3600){lo-=hi-3600;hi=3600;}lo=Math.max(50,lo);
+  const stp=W>2000?1:.5,n=Math.round((hi-lo)/stp)+1,xs=new Float64Array(n),sig=new Float64Array(n),bg=new Float64Array(n);
+  const exp=st.P*st.t*st.N,K=300;
+  for(let i=0;i<n;i++){const v=lo+i*stp;xs[i]=v;bg[i]=30*st.fl*RFL[lam]*exp*Math.exp(-Math.pow((v-1800)/2600,2))*(.6+.4*v/3500)+2*st.t*st.N;}
+  let top=0,topI=0;
+  S.pk.forEach(([v0,I,w])=>{const fw=Math.sqrt(w*w+inst*inst),area=K*rel*I*exp;const L=2/(Math.PI*fw),G=2*Math.sqrt(Math.LN2/Math.PI)/fw;
+   const a=Math.max(0,Math.floor((v0-lo-8*fw)/stp)),b=Math.min(n-1,Math.ceil((v0-lo+8*fw)/stp));
+   for(let i=a;i<=b;i++){const d=xs[i]-v0;sig[i]+=area*stp*(.6*L/(1+4*d*d/(fw*fw))+.4*G*Math.exp(-4*Math.LN2*d*d/(fw*fw)));}
+   if(v0>=lo&&v0<=hi&&area*L>top){top=area*L*stp;topI=v0;}});
+  const r=rng(st.seed+Math.round(st.P*7+st.t*13+st.N*17+lam)),y=new Float64Array(n),satLim=65000*st.N;let sat=false,bgMean=0;
+  for(let i=0;i<n;i++){const m=sig[i]+bg[i],s=Math.sqrt(m+25*st.N);let v=m+s*gauss(r);if(v<0)v=0;if(v>satLim){v=satLim;sat=true;}y[i]=st.base?v-bg[i]:v;bgMean+=bg[i];}
+  bgMean/=n;const nb=Math.sqrt(bgMean+25*st.N);
+  return{xs,y,sig,bg,lo,hi,inst,W,rel,top,topI,snr:top/nb,sat,bgMean,S,ft,missing:S.pk.filter(p=>p[0]<lo||p[0]>hi).length,maxI:Math.max(...S.pk.map(p=>p[1]))};}
+ function up(){
+  const c=compute(),S=c.S;
+  const marks=[];if(st.lab)S.pk.forEach(([v,I])=>{if(I>=.25*c.maxI&&v>=c.lo&&v<=c.hi){const k=nearest(c.xs,v);marks.push({x:v,y:c.y[k],t:Math.round(v)});}});
+  pl.set({x0:c.lo,x1:c.hi,series:[{x:c.xs,y:c.y,color:'--c1',lw:1.2}],marks,xlab:'Raman shift (cm⁻¹)',ylab:'Counts (summed accumulations)',zero:true,yfmt:v=>v>=1000?(v/1000)+'k':fmt(v,0),
+   readout:x=>{const k=nearest(c.xs,x),nm=1e7/(1e7/st.lam-x);return['shift '+fmt(c.xs[k],1)+' cm⁻¹','λ(Stokes) '+fmt(nm,1)+' nm','counts '+fmt(c.y[k],0)];}});
+  ro.replaceChildren(...[['Window',Math.round(c.lo)+'–'+Math.round(c.hi)+' cm⁻¹'],['Instrument width','≈'+fmt(c.inst,1)+' cm⁻¹'],['Total time',fmt(st.t*st.N,1)+' s'],['Peak S/N',c.top>0?'≈'+fmt(c.snr,0):'–'],['Scattering vs 532 nm',fmt(c.rel,2)+'×']].map(([k,v])=>h('span',{},k+': ',h('b',{},v))));
+  const w=[];
+  if(c.ft)w.push(['note','This 1064 nm preset represents FT-Raman with a wide window and 4 cm⁻¹ resolution. The λ⁻⁴ approximation gives about 16× less scattering than at 532 nm. In practice, check the detector, sample stability and permitted power before changing exposure or laser power.']);
+  if(c.sat)w.push(['bad','Detector saturated: peaks are clipped. Reduce power or exposure per accumulation, then add accumulations instead.']);
+  if(st.P>S.dmg)w.push(['bad','Laser power is high for this sample (more than about '+S.dmg+' mW in this model). In practice that risks heating, peak shifts or burning. Check the sample under the microscope afterwards.']);
+  if(c.bgMean>2*c.top&&c.top>0)w.push(['warn','Fluorescence is swamping the Raman peaks. Try a longer wavelength (785 or 1064 nm), photobleach briefly, or accept a baseline correction (it removes the offset but not the noise).']);
+  if(c.missing)w.push(['warn',c.missing+' peak(s) of this sample fall outside the current window. Move the window centre or choose fewer grooves per mm.']);
+  if(c.top<=0&&!c.ft&&c.missing===S.pk.length)w.push(['warn','No Raman peaks are inside the window.']);
+  warnBox.replaceChildren(...w.map(([k,t])=>h('div',{class:k},t)));
+ }
+ const root=h('div',{class:'col',style:'display:flex;flex-direction:column;gap:11px'},
+  h('div',{class:'ctl'},fld('Sample',ssel),fld('Laser',lsel),fld('Laser power at sample',P.el),fld('Exposure per accumulation',T.el),fld('Accumulations',N.el)),
+  h('div',{class:'ctl'},fld('Grating',gsel),fld('Window centre',C.el),fld('Fluorescent background',fl.el),chk('Label peaks',true,v=>{st.lab=v;up();}),chk('Baseline-corrected view',false,v=>{st.base=v;up();}),h('button',{class:'btn',onclick:()=>{st.seed+=1;up();}},'New noise')),
+  cv,ro,warnBox,h('p',{class:'small muted'},'Teaching model: peak positions are approximate literature values and intensities are illustrative, not instrument data. Hover the plot to read values.'));
+ setTimeout(up,0);return root;}
+
+/* ===== FTIR simulator ===== */
+const IS={
+ ps:{n:'Polystyrene film',b:[[3082,.06,14],[3060,.12,14],[3026,.18,14],[2924,.28,28],[2850,.15,22],[1944,.02,40],[1601,.12,8],[1583,.04,8],[1493,.25,8],[1452,.25,10],[1028,.07,8],[756,.45,12],[698,.8,10],[540,.12,14]]},
+ eth:{n:'Ethanol (liquid)',b:[[3340,.9,300],[2974,.5,25],[2928,.3,30],[2880,.3,30],[1454,.2,25],[1380,.2,15],[1088,.6,30],[1045,.9,25],[880,.2,20]]},
+ ace:{n:'Acetone (liquid)',b:[[3005,.05,20],[1715,1,18],[1431,.2,20],[1364,.45,15],[1221,.6,25],[1092,.1,15],[903,.1,14],[530,.15,14]]},
+ asp:{n:'Aspirin (solid)',b:[[2900,.18,350],[1750,.85,16],[1690,.9,16],[1605,.3,10],[1458,.1,15],[1306,.4,15],[1220,.5,20],[1185,.9,18],[1020,.2,15],[920,.2,15],[750,.35,12],[705,.3,12]]},
+ pet:{n:'PET film',b:[[3050,.04,20],[2960,.07,25],[1715,1,22],[1578,.05,10],[1504,.05,10],[1470,.08,14],[1410,.25,12],[1340,.2,15],[1240,.9,28],[1100,.8,25],[1018,.3,12],[972,.15,12],[871,.12,10],[725,.4,12]]},
+ cc:{n:'Calcium carbonate (powder)',b:[[2510,.04,40],[1798,.06,20],[1420,1,130],[875,.6,12],[712,.12,10]]}
+};
+const IATR={dia:{n:'Diamond',n1:2.4},zn:{n:'ZnSe',n1:2.4},ge:{n:'Germanium',n1:4.0}};
+const VAP=(()=>{const r=rng(11),L=[];const add=(a,b,sp,env,c,wd,amp)=>{for(let v=a;v<b;v+=sp*(.6+.8*r())){L.push([v,amp*(.15+.85*r())*Math.exp(-Math.pow((v-c)/wd,2))]);}};
+ add(3500,3950,5,0,3750,160,.6);add(1300,1920,2.8,0,1600,230,.7);
+ for(let i=-35;i<=35;i++){L.push([2349+ (i<0?i*1.6-1:i*1.6+1),1.6*Math.exp(-Math.pow(i/16,2))*(i%2?.7:1)]);}
+ L.push([667.4,1.4]);L.push([662,.5]);L.push([672,.5]);return L;})();
+function irDp(nu,n1,n2,th){const s=Math.sin(th*Math.PI/180);const q=s*s-(n2/n1)*(n2/n1);if(q<=0)return null;return(1e4/nu)/(2*Math.PI*n1*Math.sqrt(q));}
+function ftirSim(){
+ const st={s:'ps',mode:'atr',res:4,N:16,apo:'hg',thick:1,cr:'dia',th:45,n2:1.5,corr:false,press:1,age:30,purge:false,atmo:true,T:false,lab:true,seed:3};
+ const cv=h('canvas',{class:'plot'}),pl=Plot(cv),ro=h('div',{class:'ro'}),warnBox=h('div',{style:'display:flex;flex-direction:column;gap:6px'});
+ const ssel=sel(Object.entries(IS).map(([k,v])=>({v:k,t:v.n})),st.s,v=>{st.s=v;up();});
+ const msel=sel([{v:'atr',t:'ATR (diamond/ZnSe/Ge)'},{v:'trans',t:'Transmission (thin film / cell)'}],st.mode,v=>{st.mode=v;up();});
+ const rsel=sel([16,8,4,2,1,0.5].map(v=>({v,t:v+' cm⁻¹'})),st.res,v=>{st.res=+v;up();});
+ const asel=sel([{v:'box',t:'Boxcar (no apodization)'},{v:'tri',t:'Triangular'},{v:'hg',t:'Happ–Genzel'},{v:'nb',t:'Norton–Beer (strong)'}],st.apo,v=>{st.apo=v;up();});
+ const crsel=sel(Object.entries(IATR).map(([k,v])=>({v:k,t:v.n+' (n='+v.n1+')'})),st.cr,v=>{st.cr=v;up();});
+ const thsel=sel([{v:45,t:'45°'},{v:60,t:'60°'}],st.th,v=>{st.th=+v;up();});
+ const N=slider(1,256,1,st.N,v=>{st.N=v;up();},v=>v+' scans',true);
+ const TH=slider(.2,2,.05,st.thick,v=>{st.thick=v;up();},v=>v.toFixed(2)+'×');
+ const PR=slider(.2,1,.05,st.press,v=>{st.press=v;up();},v=>Math.round(v*100)+'%');
+ const AG=slider(0,120,5,st.age,v=>{st.age=v;up();},v=>v+' min');
+ function ils(x,res,apo){const a=Math.abs(x);if(apo==='box'){const u=2*Math.PI*x/res;return(2/res)*(Math.abs(u)<1e-9?1:Math.sin(u)/u);}
+  if(apo==='tri'){const u=Math.PI*x/res;return(1/res)*(Math.abs(u)<1e-9?1:Math.pow(Math.sin(u)/u,2));}
+  const f=res*(apo==='hg'?.91:1.2),s=f/2.3548;return Math.exp(-x*x/(2*s*s))/(s*Math.sqrt(2*Math.PI));}
+ function fwhm(res,apo){return res*({box:.6,tri:.886,hg:.91,nb:1.2}[apo]);}
+ function compute(){
+  const S=IS[st.s],f=fwhm(st.res,st.apo),stp=Math.max(.125,Math.min(.5,st.res/4)),lo=400,hi=4000,n=Math.round((hi-lo)/stp)+1;
+  const xs=new Float64Array(n),A=new Float64Array(n);for(let i=0;i<n;i++)xs[i]=lo+i*stp;
+  const cr=IATR[st.cr];let bad=false;
+  const dpAt=nu=>st.mode==='atr'?irDp(nu,cr.n1,st.n2,st.th):null;
+  if(st.mode==='atr'&&dpAt(1000)===null)bad=true;
+  const dpRef=bad?1:(dpAt(1000)||1);
+  const sc=nu=>{if(st.mode!=='atr')return 1;const d=dpAt(nu);return d===null?0:(d/6)*st.press;};
+  const corrf=nu=>{if(!(st.corr&&st.mode==='atr'))return 1;const d=dpAt(nu);return d?dpRef/d:1;};
+  S.b.forEach(([v0,a,w])=>{const wo=Math.sqrt(w*w+f*f),hh=a*st.thick*w/wo;const i0=Math.max(0,Math.floor((v0-lo-12*wo)/stp)),i1=Math.min(n-1,Math.ceil((v0-lo+12*wo)/stp));
+   const k=sc(v0)*corrf(v0);for(let i=i0;i<=i1;i++){const d=xs[i]-v0;A[i]+=hh*k/(1+4*d*d/(wo*wo));}});
+  let vapMax=0;
+  if(st.atmo){const m=(.03+.5*st.age/120)*(st.purge?.2:1),win=Math.max(8,f*25);
+   VAP.forEach(([v0,amp])=>{const area=amp*.2355*m;const i0=Math.max(0,Math.floor((v0-lo-win)/stp)),i1=Math.min(n-1,Math.ceil((v0-lo+win)/stp));
+    for(let i=i0;i<=i1;i++){const val=area*ils(xs[i]-v0,st.res,st.apo)*stp*(1/stp);A[i]+=val;}});}
+  const r=rng(st.seed+st.N*3+Math.round(st.res*10)),sg=.0012*Math.sqrt(4/st.res)/Math.sqrt(st.N);
+  for(let i=0;i<n;i++)A[i]+=sg*gauss(r);
+  let mx=0;for(let i=0;i<n;i++){if(xs[i]>1100&&xs[i]<3200&&!(xs[i]>2280&&xs[i]<2400)&&A[i]>mx)mx=A[i];}
+  return{xs,A,bad,sg,S,f,stp,maxA:mx,dpAt};}
+ function up(){
+  const c=compute(),S=c.S;let y,ylab,yfmt,ymin,ymax;
+  if(st.T){y=Float64Array.from(c.A,a=>100*Math.pow(10,-a));ylab='Transmittance (%)';ymin=0;ymax=105;yfmt=v=>fmt(v,0);}
+  else{y=c.A;ylab='Absorbance';}
+  const marks=[];if(st.lab){const mxa=Math.max(...S.b.map(b=>b[1]));S.b.forEach(([v,a])=>{if(a>=.2*mxa){const k=nearest(c.xs,v);marks.push({x:v,y:y[k],t:v});}});}
+  pl.set({x0:400,x1:4000,rev:true,series:[{x:c.xs,y,color:'--c1',lw:1.2}],marks,xlab:'Wavenumber (cm⁻¹)',ylab,ymin,ymax,yfmt,zero:!st.T,
+   readout:x=>{const k=nearest(c.xs,x);return['ṽ '+fmt(c.xs[k],1)+' cm⁻¹','λ '+fmt(1e4/c.xs[k],2)+' µm',(st.T?'%T ':'A ')+fmt(y[k],st.T?1:4)];}});
+  const dp=st.mode==='atr'?[c.dpAt(1000),c.dpAt(3000)]:null,tscan=.3*(4/st.res);
+  ro.replaceChildren(...[['Lineshape width','≈'+fmt(c.f,2)+' cm⁻¹'],['Time per scan','≈'+fmt(tscan,2)+' s'],['Total time','≈'+fmt(tscan*st.N,1)+' s'],['Noise (rms)',fmt(c.sg*1000,2)+' mAU'],dp&&dp[0]?['ATR depth 1000 / 3000 cm⁻¹',fmt(dp[0],2)+' / '+fmt(dp[1],2)+' µm']:null].filter(Boolean).map(([k,v])=>h('span',{},k+': ',h('b',{},v))));
+  const w=[];
+  if(c.bad)w.push(['bad','Total internal reflection fails here: the crystal index must exceed the sample index divided by sin(angle). Choose a higher-index crystal (Ge) or a larger angle.']);
+  if(c.maxA>1.2)w.push(['warn','Strong bands exceed an absorbance of about 1.2, where the response is no longer linear. Use a thinner film or cell, or less sample on the crystal.']);
+  if(st.mode==='atr'&&st.press<.5)w.push(['warn','Poor contact: bands are weak and the spectrum is noisy relative to the signal. Apply reproducible pressure.']);
+  if(st.atmo&&st.age>60&&!st.purge)w.push(['warn','The background is old, so water vapour and CO₂ do not cancel. Collect a fresh background or purge.']);
+  if(st.res<=1&&st.res>=.5&&st.N<32)w.push(['note','Fine resolution is only useful for gas-phase or very sharp bands. Solids and liquids gain nothing below about 4 cm⁻¹ but cost time and noise.']);
+  if(st.apo==='box'&&st.res<=2&&st.atmo)w.push(['note','Boxcar gives the narrowest lines but sidelobes (ringing) appear next to sharp vapour lines. Compare with Happ–Genzel.']);
+  warnBox.replaceChildren(...w.map(([k,t])=>h('div',{class:k},t)));}
+ const root=h('div',{style:'display:flex;flex-direction:column;gap:11px'},
+  h('div',{class:'ctl'},fld('Sample',ssel),fld('Sampling mode',msel),fld('Resolution',rsel),fld('Scans',N.el),fld('Apodization',asel)),
+  h('div',{class:'ctl'},fld('ATR crystal',crsel),fld('Angle',thsel),fld('Contact / pressure',PR.el),fld('Sample amount / thickness',TH.el),fld('Background age',AG.el)),
+  h('div',{class:'ctl'},chk('Water vapour and CO₂ present',true,v=>{st.atmo=v;up();}),chk('Purged',false,v=>{st.purge=v;up();}),chk('ATR correction',false,v=>{st.corr=v;up();}),chk('Show %T',false,v=>{st.T=v;up();}),chk('Label bands',true,v=>{st.lab=v;up();})),
+  cv,ro,warnBox,h('p',{class:'small muted'},'Teaching model: band positions are approximate literature values; intensities, noise and scan times are illustrative. Hover to read values.'));
+ setTimeout(up,0);return root;}
+
+/* ===== technique chooser ===== */
+function picker(){
+ const Q=[
+  ['state','Sample form',[['solid','Solid or powder'],['liquid','Neat liquid or oil'],['aq','Aqueous solution'],['film','Thin film on metal'],['gas','Gas']]],
+  ['look','Appearance',[['norm','Pale, not fluorescent'],['dark','Dark or black'],['fluor','Coloured or fluorescent']]],
+  ['res','Spatial resolution needed',[['bulk','Bulk only'],['mid','1–10 µm'],['sub','Below 1 µm']]],
+  ['bonds','What you want to see',[['polar','Polar groups (C=O, O–H, N–H)'],['sym','Backbone, C=C, S–S, ring modes'],['lat','Lattice or metal–oxygen modes'],['both','Not sure']]],
+  ['pack','Measure through glass or plastic?',[['no','No'],['yes','Yes']]]];
+ const A={state:'solid',look:'norm',res:'bulk',bonds:'both',pack:'no'};
+ const out=h('div',{class:'bars'}),why=h('ul');
+ function score(){let r=0,f=0;const R=[];const add=(dr,df,t)=>{r+=dr;f+=df;R.push(t);};
+  if(A.state==='aq')add(2,-1,'Water is a weak Raman scatterer but absorbs infrared strongly.');
+  if(A.state==='gas')add(-1,2,'Gases are dilute: infrared gas cells work well, Raman signals are very weak.');
+  if(A.state==='film')add(0,1,'Thin films on metal suit grazing-angle or reflection infrared.');
+  if(A.state==='solid'||A.state==='liquid')add(1,1,'Both techniques handle neat solids and liquids with little preparation.');
+  if(A.look==='dark')add(-1,1,'Dark samples absorb the laser and can burn; ATR with germanium handles them well.');
+  if(A.look==='fluor')add(-2,1,'Fluorescence can swamp Raman at visible wavelengths. Infrared is unaffected; Raman at 785 or 1064 nm can help.');
+  if(A.res==='sub')add(2,-2,'Raman spots reach about 0.5–1 µm; infrared microscopes are limited to roughly the wavelength (3–10 µm).');
+  if(A.res==='mid')add(1,1,'Both can map at this scale.');
+  if(A.bonds==='polar')add(-1,2,'Polar bonds give strong infrared absorption and often weak Raman scattering.');
+  if(A.bonds==='sym')add(2,-1,'Symmetric, polarizable bonds give strong Raman bands and weak infrared bands.');
+  if(A.bonds==='lat')add(2,-1,'Low-frequency lattice and metal–oxygen modes are easy in Raman; infrared needs far-IR optics.');
+  if(A.bonds==='both')add(1,1,'Using both gives complementary information.');
+  if(A.pack==='yes')add(2,-2,'Raman can measure through transparent packaging; infrared cannot.');
+  return{r,f,R};}
+ function up(){const s=score(),mx=Math.max(Math.abs(s.r),Math.abs(s.f),4),nr=Math.max(0,s.r),nf=Math.max(0,s.f);
+  const bar=(n,v,col)=>h('div',{class:'bar'},h('strong',{},n),h('span',{},h('i',{style:'width:'+Math.round(Math.max(.04,v/(Math.max(nr,nf,3)))*100)+'%;background:'+col})),h('span',{class:'mono'},v));
+  const lead=s.r===s.f?'Both are good choices: they complement each other.':(s.r>s.f?'Raman looks like the better first choice.':'FTIR looks like the better first choice.');
+  out.replaceChildren(bar('Raman',nr,'var(--c1)'),bar('FTIR',nf,'var(--c2)'),h('p',{},h('strong',{},lead)));
+  why.replaceChildren(...s.R.map(t=>h('li',{},t)));}
+ const ctl=h('div',{class:'ctl'},Q.map(([k,l,o])=>fld(l,sel(o.map(([v,t])=>({v,t})),A[k],v=>{A[k]=v;up();}))));
+ setTimeout(up,0);
+ return h('div',{style:'display:flex;flex-direction:column;gap:12px'},ctl,out,h('h4',{},'Why'),why,h('p',{class:'small muted'},'A rule-of-thumb guide, not a verdict. Sample, budget and available instruments matter too, and measuring with both is often best.'));}
+
+const tbl=(head,rows)=>'<div class="tbl"><table><thead><tr>'+head.map(x=>'<th>'+x+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>';
+const ul=a=>'<ul>'+a.map(x=>'<li>'+x+'</li>').join('')+'</ul>';
+const RAMAN_DIAGRAM=`<svg viewBox="0 0 720 160" role="img" aria-label="Raman spectrometer layout: laser, filter, objective, sample, edge filter, spectrograph, detector" style="width:100%;max-width:720px;height:auto;font:12px var(--f-body)">
+<defs><marker id="ar" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8z" fill="var(--muted)"/></marker></defs>
+<g fill="var(--paper)" stroke="var(--rule)" stroke-width="1.5">
+<rect x="6" y="52" width="92" height="46" rx="8"/><rect x="128" y="52" width="92" height="46" rx="8"/><rect x="250" y="52" width="92" height="46" rx="8"/><rect x="372" y="52" width="92" height="46" rx="8"/><rect x="494" y="52" width="92" height="46" rx="8"/><rect x="616" y="52" width="98" height="46" rx="8"/></g>
+<g fill="var(--ink)" text-anchor="middle"><text x="52" y="72">Laser</text><text x="52" y="88" fill="var(--muted)">532–1064 nm</text>
+<text x="174" y="72">Beam splitter</text><text x="174" y="88" fill="var(--muted)">+ laser filter</text>
+<text x="296" y="72">Objective</text><text x="296" y="88" fill="var(--muted)">focus, collect</text>
+<text x="418" y="72">Sample</text><text x="418" y="88" fill="var(--muted)">scatters light</text>
+<text x="540" y="72">Edge filter</text><text x="540" y="88" fill="var(--muted)">blocks Rayleigh</text>
+<text x="665" y="72">Spectrograph</text><text x="665" y="88" fill="var(--muted)">grating + CCD</text></g>
+<g stroke="var(--muted)" stroke-width="1.6" marker-end="url(#ar)"><path d="M98 75H126"/><path d="M220 75H248"/><path d="M342 75H370"/><path d="M464 75H492"/><path d="M586 75H614"/></g>
+<text x="360" y="124" text-anchor="middle" fill="var(--muted)">Backscatter geometry: one objective delivers the laser and collects the scattered light.</text><text x="360" y="142" text-anchor="middle" fill="var(--muted)">A confocal pinhole sits in front of the spectrograph.</text></svg>`;
+const FTIR_DIAGRAM=`<svg viewBox="0 0 720 300" role="img" aria-label="Michelson interferometer in an FTIR spectrometer: source, beamsplitter, fixed and moving mirrors, sample and detector" style="width:100%;max-width:720px;height:auto;font:12px var(--f-body)">
+<defs><marker id="ar2" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8z" fill="var(--c1)"/></marker><marker id="ar3" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8z" fill="var(--c2)"/></marker></defs>
+<g fill="var(--paper)" stroke="var(--rule)" stroke-width="1.5"><rect x="10" y="105" width="96" height="42" rx="8"/><rect x="255" y="190" width="100" height="36" rx="8"/><rect x="255" y="250" width="100" height="40" rx="8"/></g>
+<g fill="var(--ink)" stroke="var(--ink)" stroke-width="1"><rect x="272" y="20" width="66" height="8" rx="2"/><rect x="520" y="94" width="8" height="64" rx="2"/></g>
+<line x1="286" y1="150" x2="324" y2="102" stroke="var(--muted)" stroke-width="4"/>
+<g fill="none" stroke-width="2"><path d="M106 126H300" stroke="var(--c1)" marker-end="url(#ar2)"/><path d="M305 120V36" stroke="var(--c1)" marker-end="url(#ar2)"/><path d="M312 126H512" stroke="var(--c1)" marker-end="url(#ar2)"/><path d="M305 134V186" stroke="var(--c2)" marker-end="url(#ar3)"/><path d="M305 226V248" stroke="var(--c2)" marker-end="url(#ar3)"/></g>
+<g fill="var(--ink)" text-anchor="middle"><text x="58" y="123">IR source</text><text x="58" y="139" fill="var(--muted)">globar</text><text x="305" y="212">Sample</text><text x="305" y="268">Detector</text><text x="305" y="283" fill="var(--muted)">DTGS or MCT</text></g>
+<g fill="var(--muted)"><text x="350" y="30">Fixed mirror</text><text x="540" y="122" fill="var(--ink)">Moving mirror</text><text x="540" y="138">moves back and forth</text><text x="196" y="164" text-anchor="middle">Beamsplitter</text><text x="372" y="214">Recombined beam passes</text><text x="372" y="230">through the sample</text><text x="372" y="268">Detector records the interferogram;</text><text x="372" y="284">a Fourier transform gives the spectrum.</text></g>
+<g stroke="var(--muted)" stroke-width="1.5" fill="none"><path d="M598 100l8-8 8 8M598 152l8 8 8-8" opacity="0"/><path d="M524 80V70M524 172V182" opacity="0"/></g></svg>`;
+
+const CARDS={};
+CARDS['raman/method']=[
+{t:'What Raman spectroscopy measures',b:`<p>Light that hits a molecule is mostly scattered at the same wavelength (<strong>Rayleigh</strong> scattering). About one photon in a million or more is scattered with a small change in energy because the light has exchanged energy with a molecular vibration. That inelastic scattering is the <strong>Raman effect</strong>.</p>
+${ul(['The energy lost or gained is the vibrational energy, so a spectrum of <strong>Raman shift</strong> (in cm⁻¹) is a fingerprint of the bonds present.','A vibration is Raman active if it changes the molecule’s <strong>polarizability</strong> (how easily its electron cloud is distorted). Infrared needs a change in dipole moment instead.','Raman shift does not depend on the laser colour. The band positions are the same at 532 and 785 nm; only intensity, fluorescence and resolution change.'])}
+<div class="note">Raman is intrinsically weak, so most of the craft is in collecting enough scattered light while avoiding fluorescence and damage.</div>`},
+{t:'How a Raman instrument works',b:`<p>A laser is focused on the sample, the scattered light is collected, the intense Rayleigh line is removed by a filter, and the rest is dispersed by a grating onto a CCD detector.</p>${RAMAN_DIAGRAM}
+${ul(['<strong>Laser:</strong> narrow, stable line. Choice of wavelength is the biggest decision (see Settings).','<strong>Edge or notch filter:</strong> removes the laser line (a million times stronger than Raman light). Its cut-off decides how close to the laser line you can see, often about 50–100 cm⁻¹.','<strong>Confocal pinhole:</strong> rejects light from above and below the focus, improving depth resolution and cutting fluorescence from surrounding material.','<strong>Spectrograph:</strong> a grating splits the light by wavelength; more grooves per mm gives finer resolution but a narrower window.','<strong>CCD:</strong> a cooled silicon detector reads the whole spectrum at once. Beyond roughly 1000 nm silicon becomes insensitive, so 1064 nm systems use an interferometer and an InGaAs or germanium detector instead (FT-Raman).'])}`},
+{t:'Simulator: laser, power, exposure and resolution',tag:'Simulator',sim:'ramanSim',hint:'Try 532 nm with the paracetamol sample, then switch to 785 nm. Then raise the grating to 1800 g/mm and see the window shrink.'},
+{t:'Stokes, anti-Stokes and Rayleigh',b:`<p>Three things leave the sample at once: Rayleigh light (same energy as the laser), <strong>Stokes</strong> light (lower energy, longer wavelength) and <strong>anti-Stokes</strong> light (higher energy, shorter wavelength).</p>
+${ul(['At room temperature almost all molecules start in the ground vibrational state, so Stokes lines are much stronger. Most spectra show only the Stokes side.','The anti-Stokes to Stokes intensity ratio depends on temperature, which is used to measure sample temperature locally.','For a 532 nm laser, a 1000 cm⁻¹ Stokes line appears at about 562 nm; use the calculator below.'])}`},
+{t:'Calculator: Raman shift and wavelength',tag:'Tool',calcs:['rshift','rrev']},
+{t:'Reading a Raman spectrum: characteristic bands',b:`<p>Positions are approximate and shift with environment. Strong in Raman does not mean strong in infrared.</p>${tbl(['Group / feature','Region (cm⁻¹)','Comment'],[
+['C–H stretch','2800–3100','Strong; aromatic above 3000, aliphatic below'],['C≡C and C≡N','2100–2260','Often a relatively uncluttered region; band intensity depends on the bond and molecule'],['C=O','1650–1800','Present but usually weaker than in infrared'],['C=C (alkene, aromatic)','1580–1680','Strong; aromatic ring breathing near 1000'],['CH₂ / CH₃ deformation','1400–1470','Medium'],['S–S, C–S','450–750','Easy in Raman, hard in infrared'],['S–H','2550–2600','Sharp, isolated band'],['Carbonate, sulfate, nitrate, phosphate','1085, 981, 1050, 960','Strongest symmetric stretch of each ion'],['Metal–oxygen and lattice modes','below 800','Oxide polymorphs (anatase, rutile) separate clearly'],['Silicon','520.7','Standard calibration line'],['Graphene and graphite','D ≈1350, G ≈1582, 2D ≈2700','D grows with defects; 2D shape tells layer number']])}`},
+{t:'Strengths, limits and common pitfalls',b:`${tbl(['Strengths','Limits'],[['Little or no preparation; measures through glass and clear plastic','Weak signal; needs care with laser power and time'],['Water is a weak scatterer, so aqueous samples are fine','Fluorescence can hide everything at visible wavelengths'],['Sub-micron spatial resolution in a microscope','Dark or absorbing samples can burn'],['Sees symmetric, non-polar and low-frequency modes','Spectra need a stable calibration for fair comparison']])}
+<h4>Frequent mistakes</h4>${ul(['Using too much power on a dark sample and burning it (always start low).','Reading a broad hump as a Raman band when it is fluorescence.','Mistaking single-pixel cosmic-ray spikes for peaks (acquire at least twice).','Comparing spectra taken with different laser wavelengths or objectives without noting the setup.'])}`}
+];
+CARDS['raman/settings']=[
+{t:'Laser wavelength',b:`<p>The first and most important choice. Shorter wavelengths scatter more strongly (roughly as 1/λ⁴), but excite more fluorescence and heat dark samples.</p>${tbl(['Laser','Strength','Weakness','Typical use'],[['325 / 244 nm (UV)','Avoids fluorescence, resonance enhancement','Damages organics, needs UV optics','Wide-bandgap materials, carbon, biomolecules'],['473 / 532 nm','Strong scattering, best CCD response','Fluorescence from coloured or organic samples','Inorganics, carbon, general first choice'],['633 nm','Compromise','Less scattering than green','Many minerals and polymers'],['785 nm','Much less fluorescence','Weaker scattering; CCD less sensitive','Pharmaceuticals, organics, biology'],['1064 nm (FT-Raman)','Almost no fluorescence','Weakest scattering, needs high power','Dyes, coloured or fluorescent samples, bulk solids']])}
+<div class="note">Rule of thumb: start with 532 or 633 nm; if fluorescence appears, move to 785 nm, then 1064 nm.</div>`},
+{t:'Laser power',b:`<p>More power gives more signal but also more heat. At the focus of a microscope objective even a few milliwatts is a very high power density.</p>${ul(['<strong>Start low</strong> (about 1% or under 1 mW at the sample) and increase in steps.','Dark, absorbing or thin samples heat fastest: graphite, carbon-filled polymers, pigments, thin films.','Signs of damage: peaks shifting or broadening between repeats, a growing broad background, a visible mark under the microscope.','If you need more signal, collect for longer instead of raising power.'])}`},
+{t:'Objective and numerical aperture',b:`<p>The objective sets both the spot size and how much scattered light you collect. Higher numerical aperture (NA) gives a smaller spot and much better collection.</p>${ul(['<strong>×5 or ×10:</strong> large field, big spot, low power density; good for finding the area and for rough or heterogeneous samples.','<strong>×50 or ×100 (NA ≈ 0.75–0.9):</strong> sub-micron spot and best signal; short working distance.','Long-working-distance objectives let you measure through windows and in cells, at the cost of NA.','Immersion or inverted objectives suit liquids and samples in dishes.'])}`},
+{t:'Calculator: spot size and depth',tag:'Tool',calcs:['spot']},
+{t:'Grating, spectral window and resolution',b:`<p>The grating splits the light. <strong>More grooves per mm gives better resolution but a narrower window per exposure.</strong> Wide, low-resolution gratings show the full spectrum in one go; fine gratings need several windows stitched together.</p>${tbl(['Grating (g/mm)','Window (532 nm)','Resolution','Use'],[['300','≈ 4000–5000 cm⁻¹','coarse','Quick look, mapping many peaks'],['600','≈ 2500 cm⁻¹','moderate','General routine work'],['1200','≈ 1300 cm⁻¹','fine','Separating close peaks, polymorphs'],['1800+','≈ 800 cm⁻¹','finest','Low-frequency modes, stress shifts']])}<p class="small muted">Values are typical, not specifications. Resolution in cm⁻¹ gets coarser at longer laser wavelengths for the same grating.</p>`},
+{t:'Confocal pinhole and slit',b:`<p>A smaller pinhole or slit improves depth selectivity and spectral resolution but passes less light.</p>${ul(['<strong>Wide open:</strong> maximum signal; good for weak scatterers and bulk samples.','<strong>Closed down:</strong> thin-layer analysis, isolating one phase in a composite, rejecting fluorescence from the substrate.','Use a depth scan (Z profile) to find the best focus on transparent or layered samples.'])}`},
+{t:'Exposure time and accumulations',b:`<p>Signal grows with exposure time; random noise grows only as its square root. <strong>Four times the total collection time doubles the signal-to-noise ratio.</strong></p>${ul(['Choose an exposure that keeps the strongest peak well below detector saturation (a 16-bit CCD saturates near 65,000 counts).','Use <strong>several accumulations</strong> rather than one long exposure: cosmic rays are removed by comparison, and a saturated frame is easier to avoid.','Typical starting point: 1–10 s × 2–5 accumulations; adjust after one test spectrum.'])}`},
+{t:'Spectral range and centre',b:`${ul(['Set the window to include the region of interest and, if possible, the silicon or an internal reference peak.','Raman shift is relative to the laser line. If you change laser, recalibrate.','Edge filters hide the lowest region (typically below 50–100 cm⁻¹); ultra-low-frequency filters reach 10 cm⁻¹ or lower for lattice phonons.'])}`},
+{t:'Mapping settings',b:`${ul(['<strong>Step size:</strong> at most about half the spot size to avoid missing small features; much larger steps are fine for coarse phase maps.','<strong>Time per point × number of points = total time.</strong> A 100 × 100 map at 1 s per point takes about 2.8 hours.','Use focus tracking or autofocus on rough surfaces; a defocused corner of the map is a common artefact.','Check for drift or damage by re-measuring the first point at the end.','Save raw data; baseline and cosmic-ray processing come afterwards.'])}`},
+{t:'Calibration and daily check',b:`${ul(['Measure a <strong>silicon wafer</strong>: the peak should be at 520.7 cm⁻¹ (most labs accept ±1 cm⁻¹).','Compare the peak height with the last check to spot laser or alignment problems early.','Neon or argon lamps calibrate the wavelength axis across the full range.','For quantitative or pharmaceutical use, a standard such as 4-acetamidophenol (ASTM E1840) covers many peaks.','Log date, laser, objective, grating and the result.'])}`},
+{t:'Quick-start recipes',b:tbl(['Sample','Laser','Power','Grating','Time'],[['Inorganic powder or mineral','532 nm','low–medium','600–1200','1–10 s × 3'],['Pharmaceutical tablet','785 nm','medium','600–1200','5–20 s × 3'],['Polymer','633 or 785 nm','low–medium','600','5–10 s × 3'],['Graphene or carbon','532 nm','very low','600','1–5 s × 5'],['Coloured, fluorescent bulk solid','1064 nm','high (FT-Raman)','n/a','1–5 min'],['Silicon check','532 nm','low','600–1800','1 s × 2']])+'<p class="small muted">Starting points only. Test one spectrum and adjust, always watching for damage.</p>'}
+];
+
+const UNV='Verify configuration with the manufacturer';
+CARDS['raman/inst']=[
+{t:'Choose a Raman instrument by task',open:true,b:tbl(['Task','Example platforms','What to verify'],[
+['Micrometre-scale point spectra or mapping','Renishaw inVia Qontor; HORIBA LabRAM Soleil; WITec alpha300 R; Thermo DXR3xi','Laser and filter combination, spatial resolution, autofocus and acquisition time on your sample'],
+['Bulk samples with strong fluorescence','Bruker MultiRAM; 1064 nm dispersive systems such as Rigaku Progeny','Signal strength at 1064 nm, sample heating and whether you need microscopy'],
+['Incoming raw-material ID through suitable packaging','Agilent Vaya or Resolve (SORS)','Container material, wall thickness and method validation'],
+['Custom or in-situ optical coupling','Thermo DXR3 Flex; fibre-coupled systems','Probe optics, sampling geometry and trigger or integration requirements']
+])},
+{t:'How to read this list',b:`<p>These are widely used instrument lines, grouped by type. Listing is not a recommendation or a ranking, and models change often.</p>${ul(['A tag <span class="chip ok">maker site</span> means the model was found on the manufacturer’s own page when this lab was written. The rest are well-known lines to check on the maker’s datasheet.','Numerical specifications are quoted with their source and should be compared under equivalent measurement conditions. Always ask the vendor for current specifications and a demo on <strong>your own samples</strong>.','Questions worth asking: laser options and how they are switched; lowest accessible wavenumber; spectral resolution at the wavelength you will use; automation and mapping speed; software and data formats; service and consumables; whether a service engineer is local.'])}`},
+{t:'Research confocal Raman microscopes',inst:[
+{m:'Renishaw inVia / inVia Qontor',tags:['confocal','multi-laser'],best:'General-purpose research and mapping; widely found in university facilities.',note:'The Qontor variant adds focus tracking aimed at rough surfaces. Several laser and spectrometer configurations are offered.',url:'https://renishaw.com/invia',v:1},
+{m:'HORIBA LabRAM Soleil',tags:['confocal','imaging'],best:'Fast, automated Raman imaging and multi-laser work.',note:'Low-frequency optics reach 30 cm⁻¹ as standard. Up to 1,400 spectra/s is the SWIFT XS Ultra acquisition figure; usable speed depends on signal, sample and settings.',url:'https://www.horiba.com/int/scientific/products/detail/action/show/Product/labram-soleil-1998/',v:1},
+{m:'HORIBA LabRAM HR Evolution',tags:['confocal','high resolution'],best:'High spectral resolution and flexible research setups.',note:'Long-focal-length research platform with automated grating switching and Raman and photoluminescence configurations.',url:'https://static.horiba.com/fileadmin/Horiba/Products/Scientific/Molecular_and_Microanalysis/LabRAM_HR_Evolution/LabRAM_HR_Evolution_Raman_microscope_Brochure.pdf',v:1},
+{m:'Oxford Instruments WITec alpha300 R / Ri',tags:['confocal','imaging'],best:'Modular confocal Raman imaging, combinable with AFM or SNOM; the Ri is inverted for samples in dishes and liquids.',note:'The R uses an upright microscope; the Ri uses an inverted arrangement. Correlative AFM or SEM requires a compatible configuration; RISE is the Raman–SEM platform.',url:'https://raman.oxinst.com/assets/uploads/raman/materials/WITec-AppNote-RISE-WebVersion.pdf',v:1},
+{m:'Thermo Scientific DXR3 / DXR3xi',tags:['microscope','imaging'],best:'Raman microscope and imaging system with guided workflows.',note:'DXR3 is the general microscope; DXR3xi is designed for rapid chemical imaging. Verify laser, grating and filter combinations against the family specification.',url:'https://knowledge1.thermofisher.com/Molecular_Spectroscopy/Dispersive_Raman/Raman_Operator_Manuals/Thermo_Scientific_DXR3_Raman_Family_-_Product_Specifications',v:1},
+{m:'Bruker SENTERRA II',tags:['confocal','compact'],best:'Compact confocal Raman microscope for routine and research use.',note:'Automated confocal microscope for point spectra and mapping, operated through OPUS. Check laser options and sample-stage configuration.',url:'https://www.bruker.com/en/products-and-solutions/raman-spectroscopy/raman-microscopes/senterra-ii.html',v:1}]},
+{t:'Compact and benchtop dispersive Raman',inst:[
+{m:'Horiba XploRA PLUS',tags:['compact micro-Raman'],best:'Teaching labs and routine microanalysis.',note:'Smaller footprint than a full research microscope.'},
+{m:'Thermo Scientific DXR3 SmartRaman',tags:['benchtop','sample compartment'],best:'Routine identification of bulk samples, liquids and vials.',note:'Bulk sample compartment and interchangeable sampling accessories. The DXR3 family also includes DXR3 Flex for integration with third-party experiments.',url:'https://knowledge1.thermofisher.com/Molecular_Spectroscopy/Dispersive_Raman/Raman_Operator_Manuals/Thermo_Scientific_DXR3_Raman_Family_-_Product_Specifications',v:1},
+{m:'Edinburgh Instruments RM5',tags:['micro-Raman'],best:'Combined Raman and photoluminescence work.',note:'Modular configuration.'}]},
+{t:'FT-Raman (1064 nm)',inst:[
+{m:'Bruker MultiRAM',tags:['1064 nm','FT-Raman'],best:'Fluorescent, coloured or dyed bulk samples that defeat visible lasers.',note:'Interferometer-based, bulk-sample oriented rather than microscopy.'},
+{m:'Bruker RAM II (module)',tags:['1064 nm','module'],best:'Adds FT-Raman to a Bruker research FT-IR such as the VERTEX.',note:'Shares the interferometer with the infrared system.'},
+{m:'Thermo Scientific Nicolet FT-Raman modules',tags:['1064 nm','module'],best:'FT-Raman add-ons to Nicolet research FT-IR platforms.',note:'Availability depends on the host spectrometer.'}]},
+{t:'Handheld and portable Raman',inst:[
+{m:'Rigaku Progeny',tags:['handheld','1064 nm'],best:'Identification of raw materials and unknowns, including coloured samples.',note:'Maker page: 1064 nm excitation is its distinguishing feature, which can reduce the fluorescence that strongly coloured materials cause with the common 785 nm handheld lasers.',url:'https://rigaku.com/techniques/handheld-raman',v:1},
+{m:'Rigaku CQL series (Gen-ID, Max-ID, Narc-ID)',tags:['handheld'],best:'Security, narcotics and hazardous-material screening.',note:'Listed on the same maker page.',url:'https://rigaku.com/techniques/handheld-raman',v:1},
+{m:'Metrohm Instant Raman Analyzer (MIRA)',tags:['handheld','SERS options'],best:'Field identification and raw-material checks.',note:'Includes variants for surface-enhanced Raman.'},
+{m:'Bruker BRAVO',tags:['handheld'],best:'Handheld identification with fluorescence mitigation.',note:'Designed to cope with fluorescent samples.'},
+{m:'Agilent Vaya / Resolve',tags:['handheld','SORS'],best:'Identification through opaque containers by spatially offset Raman.',note:'Used in pharmaceutical and security work.'},
+{m:'Metrohm i-Raman (B&W Tek line)',tags:['fibre probe','portable'],best:'Portable fibre-coupled systems for labs and process work.',note:'785 and 1064 nm variants have been offered.'}]},
+{t:'Modular and build-your-own',inst:[
+{m:'Andor (Oxford Instruments) spectrographs and cameras',tags:['components'],best:'Custom setups and home-built Raman systems.',note:'Kymera and Shamrock spectrographs paired with cooled CCD or EMCCD cameras.'},
+{m:'Teledyne Princeton Instruments spectrographs and cameras',tags:['components'],best:'Research setups needing low noise and flexible optics.',note:'IsoPlane spectrographs with cooled detectors.'},
+{m:'Ocean Insight Raman systems',tags:['compact','fibre-based'],best:'Teaching and low-cost or OEM Raman.',note:'Fibre-coupled spectrometer based builds.'}]}
+];
+CARDS['raman/sop']=[
+{t:'Manufacturer reference',b:`<p><a href="https://knowledge1.thermofisher.com/Molecular_Spectroscopy/Dispersive_Raman/Raman_Operator_Manuals" target="_blank" rel="noopener noreferrer">Thermo Scientific Raman operator manuals</a></p><p class="small muted">Select the manual for the exact model. Use the local approved SOP for operation.</p>`},
+{t:'SOP: Raman laser safety',sop:{purpose:'Protect eyes and skin when working with Raman lasers. Adapt to your institution’s rules and your Laser Safety Officer’s instructions.',warn:'Raman lasers are typically Class 3B or Class 4 inside the instrument. A closed, interlocked enclosure makes the whole system Class 1, but open microscopes, fibre probes and alignment can expose the beam.',steps:['Confirm you are trained and listed as an authorised user for this instrument.','Check the laser class and wavelength on the instrument label and the local rules.','Keep interlocks and covers in place; never defeat an interlock.','If the beam path is open, wear eyewear rated for the wavelength with the correct optical density, and remove reflective jewellery and watches.','Never look into the beam, down the objective or into a fibre end; never point a handheld at a person.','Block stray reflections from shiny samples and tools.','Post a warning sign or indicator when the laser is on; keep unauthorised people out of the room.','Turn the laser to standby when changing samples if the design allows it.','Report any suspected exposure, damaged interlock or beam path fault immediately and stop work.'],notes:'Alignment of internal optics is for trained service staff only.'}},
+{t:'SOP: Routine Raman measurement (microscope)',sop:{purpose:'Obtain a reliable Raman spectrum of a solid or liquid sample on a confocal microscope.',steps:['Read the instrument log and complete the laser safety checks.','Switch on instrument and laser; allow the laser to warm up as the maker advises (often 15–30 minutes) and let the detector cool.','Measure the silicon wafer reference: the peak should be at 520.7 cm⁻¹ (± 1) with the expected intensity. Record it.','Mount the sample on a clean slide or holder; focus with white light at low magnification, then switch to the working objective.','Choose a laser by sample type: pale and inorganic, 532 nm; coloured or organic, 633 or 785 nm; strongly fluorescent, 1064 nm if available.','Set the power to the lowest setting. Choose the grating and range, exposure about 1–10 s, and at least two accumulations.','Collect a test spectrum. Check: no detector saturation; peaks above the noise; no broad rising background; no change between two repeats.','If fluorescence dominates, change laser, photobleach briefly, or reduce the confocal volume. If signal is weak, increase time before power.','Collect the final spectrum or map. Re-measure the first point at the end of a map to check for drift or damage.','Inspect the measured spot under the microscope for burn marks.','Process: remove cosmic rays, subtract a baseline if needed, never over-smooth. Keep raw data.','Save in the native format and as text or JCAMP-DX, with laser, power, objective, grating, exposure and accumulations in the file name or notes.','Return laser to standby or off, remove the sample, clean, and complete the log.'],notes:'Record the setup every time; spectra are only comparable if the settings are known.'}},
+{t:'SOP: Raman mapping',sop:{purpose:'Acquire a spatial map of chemical composition.',steps:['Complete the routine measurement steps up to a good single-point spectrum.','Define the map area on the video image and choose the step size (at most about half the spot size for fine detail).','Estimate total time as points × time per point; reduce area, step or time if it is impractical.','Enable autofocus or focus tracking if the surface is rough or tilted.','Start the map; check the first rows for saturation and consistent signal.','Do not leave a high-power map running on a sample that may burn; test one point at the chosen power first.','After the map, re-measure the start point to check drift.','Process: cosmic-ray removal, baseline correction, then band-area or multivariate analysis (PCA, MCR).','Save raw cube and processed maps; note the step size and exposure in the metadata.']}},
+{t:'SOP: Handheld Raman identification',sop:{purpose:'Identify a material in the field or through packaging.',warn:'Handheld lasers can injure eyes. Never point at a person or reflect the beam. Use the safety interlock and follow the local rules.',steps:['Check battery, laser safety indicators and the instrument self-test or calibration check.','Select the method or library for the task; update libraries if required.','Choose the sampling accessory: point-and-shoot, vial holder or probe.','Hold the tip firmly against the sample or packaging (clear glass or plastic works; avoid dark or coloured containers unless the method allows).','Run the measurement and keep still until it finishes.','Review the match quality and the spectrum, not only the library name. Check for fluorescence.','For mixtures, expect only the strongest component to be identified.','Record the result with sample details and operator; clean the tip.'],notes:'Library matches are advisory: confirm important results by a second method.'}},
+{t:'SOP: Daily Raman performance check',sop:{purpose:'Detect drift in wavelength accuracy and sensitivity before real measurements.',steps:['Measure silicon at the standard laser, objective, grating, power and time.','Fit the peak: position should be 520.7 ± 1 cm⁻¹ and the width should match the expected value.','Compare the peak height with the control chart; investigate a fall of more than about 20%.','For other lasers, repeat with the same reference.','Record the values; a drifting trend matters more than a single point.','If outside limits, clean the objective, check alignment and laser power, and contact the instrument manager.']}}
+];
+CARDS['raman/adv']=[
+{t:'Fluorescence: causes and cures',b:`<p>Fluorescence is far stronger than Raman scattering and appears as a broad background. It often comes from <em>trace impurities</em> rather than the main material.</p>${ul(['<strong>Change excitation:</strong> 785 or 1064 nm moves below most electronic transitions.','<strong>Photobleaching:</strong> sit the laser on the spot for seconds to minutes; fluorescence often decays faster than Raman signal.','<strong>Confocality:</strong> a tight pinhole rejects fluorescence from out-of-focus regions.','<strong>Shifted excitation (SERDS) and time-gated detection:</strong> separate the fixed-position Raman band from the broad background using two laser wavelengths or fast timing.','<strong>Computational baselines:</strong> polynomial or asymmetric least-squares fits remove the offset but not its <em>shot noise</em>, so a large background still limits the signal-to-noise ratio.'])}`},
+{t:'Choosing the laser wavelength in more detail',b:`${ul(['Scattered intensity scales roughly as 1/λ⁴: moving from 785 nm to 532 nm gives about 4.7 times more signal.','Silicon CCDs respond well from about 400 to 900 nm, so efficiency drops towards 1000 nm.','Resonance Raman happens when the laser lies within an electronic absorption: bands of the chromophore can be enhanced by 100 to 1,000,000 times, but fluorescence and photo-damage rise too.','Heating scales with the absorbed power, so dark samples need a longer wavelength and lower power.'])}${calcHTML('lam4')}`},
+{t:'Spectral resolution, sampling and peak fitting',b:`${ul(['Resolution in cm⁻¹ depends on the grating, slit or pinhole, focal length and the laser wavelength (it gets coarser at longer wavelength for the same optics).','The pixel step in cm⁻¹ sets the finest detail; peaks narrower than two or three pixels are undersampled.','Fit peaks (pseudo-Voigt) rather than reading maxima by eye; report centre, width and area.','A peak’s width reflects crystallinity: amorphous or defective material gives broader bands.','The observed width is roughly the intrinsic width and the instrument width combined in quadrature (for Gaussian shapes).'])}`},
+{t:'Quantitative Raman',b:`${ul(['Peak area is proportional to the number of scatterers in the probed volume, but also to laser power, focus, alignment and sample optical properties.','Use an <strong>internal standard</strong> (a solvent band, or a known component) to cancel instrument and focus changes.','Ratio of two bands from the same species is robust against intensity drift.','Calibration for mixtures often uses PLS regression on pre-treated spectra.','Large particles, scattering and absorption change the probed volume; keep geometry and sample form identical between standards and unknowns.'])}`},
+{t:'Stress, strain, temperature and crystallinity',b:`${ul(['<strong>Stress:</strong> tension lowers a phonon wavenumber and compression raises it. For silicon the shift-to-stress coefficient depends on orientation, stress state and the phonon mode, which makes Raman a micro-scale stress gauge.','<strong>Temperature:</strong> bands shift and broaden on heating; the anti-Stokes to Stokes ratio gives temperature without calibration: I(aS)/I(S) = ((ν₀+ν)/(ν₀−ν))⁴ · exp(−hcν/kT).','<strong>Crystallinity and defects:</strong> narrower bands mean better order. In graphene the D to G ratio rises with defect density, and the 2D band shape and width indicate the number of layers.','<strong>Phase and polymorph identification:</strong> low-frequency lattice modes (below 200 cm⁻¹) separate polymorphs sensitively.'])}`},
+{t:'Polarised Raman and orientation',b:`${ul(['Polarising the laser and analysing the scattered light shows how bonds are oriented in crystals, fibres and films.','The <strong>depolarisation ratio</strong> ρ = I⊥/I∥ separates totally symmetric vibrations (ρ < 0.75, polarised) from non-symmetric ones (ρ = 0.75).','Rotating a crystal or the polarisation and plotting intensity gives a symmetry fingerprint.','Check whether optics (gratings) are polarisation sensitive and use a scrambler if needed.'])}`},
+{t:'Enhanced and special Raman techniques',b:tbl(['Technique','Idea','Gain / use'],[['SERS','Molecules on or near plasmonic metal nanostructures','10⁴–10⁸ enhancement, trace detection, sensing'],['TERS','Metal tip scanned over a surface','About 10 nm spatial resolution'],['Resonance Raman','Laser inside an electronic absorption','Selective, strong signal from chromophores'],['SORS','Spatially offset collection','Subsurface and through-container analysis'],['CARS / SRS','Coherent nonlinear processes','Fast, video-rate chemical imaging in tissue and cells'],['UV Raman','Excitation below 300 nm','Avoids fluorescence; resonance in some systems'],['Low-frequency / THz Raman','Special filters reaching below 10 cm⁻¹','Lattice modes, polymorphs']])},
+{t:'Data processing workflow and pitfalls',b:`<ol class="steps"><li>Inspect raw spectra for saturation and spikes.</li><li>Remove cosmic rays (compare repeats or use a spike filter).</li><li>Calibrate the shift axis with a reference.</li><li>Subtract the baseline (polynomial or asymmetric least squares); check the result visually.</li><li>Normalise (to area, a peak or internal standard) only for comparison.</li><li>Light smoothing only; heavy smoothing hides real features.</li><li>Fit peaks or apply PCA and MCR for maps and mixtures.</li><li>Report instrument, laser, power, objective, grating, exposure, accumulations and processing steps.</li></ol>${ul(['Never subtract a baseline that removes part of a real broad band.','PCA components are statistics, not chemistry; check against reference spectra.','Different baselines can create or hide small bands; process all spectra in a set the same way.'])}`},
+{t:'Applications snapshot',b:tbl(['Field','What Raman gives'],[['Pharmaceuticals','Polymorph and form identity, API distribution in tablets, through-blister checks'],['Materials and 2D materials','Layer number, strain, doping and defects in graphene and related materials'],['Batteries and catalysis','In-situ changes in electrode and catalyst phases'],['Geology and cultural heritage','Mineral and pigment identification without sampling'],['Biology and medicine','Label-free cell and tissue imaging (often with 785 nm or CARS)'],['Forensics and security','Identification of unknowns, often through packaging']])}
+];
+
+CARDS['ftir/method']=[
+{t:'What FTIR measures',b:`<p>Infrared light of the right energy is absorbed when it matches a vibration that <strong>changes the molecule’s dipole moment</strong>. A Fourier-transform infrared (FTIR) spectrometer measures how much light is absorbed at every wavenumber at once.</p>${ul(['The x-axis is <strong>wavenumber</strong> in cm⁻¹ (the number of waves per centimetre): ṽ (cm⁻¹) = 10,000 / λ (µm). Mid-IR runs from about 4000 to 400 cm⁻¹ (2.5 to 25 µm).','The region below roughly 1500 cm⁻¹ is the <strong>fingerprint region</strong>, unique to each compound; above it, bands identify functional groups.','Polar bonds (C=O, O–H, N–H) absorb strongly; symmetric non-polar bonds absorb weakly or not at all (they are strong in Raman instead).','Absorbance follows the <strong>Beer–Lambert law</strong>, A = −log₁₀(T) ∝ concentration × path length, which allows quantitative work.'])}`},
+{t:'How an FTIR spectrometer works',b:`<p>A broadband infrared source feeds a <strong>Michelson interferometer</strong>: a beamsplitter sends half the light to a fixed mirror and half to a moving mirror, and the two halves recombine. As the mirror moves, each wavelength goes in and out of phase, so the detector records a pattern called the <strong>interferogram</strong>. A Fourier transform turns it into a spectrum.</p>${FTIR_DIAGRAM}
+${ul(['<strong>Source:</strong> a heated ceramic or silicon carbide element (globar).','<strong>Beamsplitter:</strong> typically KBr on germanium for mid-IR; other materials for near- and far-IR.','<strong>Helium-neon laser:</strong> counts mirror position precisely, giving excellent wavenumber accuracy (the Connes advantage).','<strong>Detector:</strong> room-temperature DTGS for routine work; liquid-nitrogen (or electrically) cooled MCT for speed and sensitivity.','<strong>Background and sample:</strong> a background spectrum without sample is recorded first and the sample spectrum is divided by it, removing the source and instrument shape.'])}`},
+{t:'Simulator: resolution, scans, apodization and ATR',tag:'Simulator',sim:'ftirSim',hint:'Turn on water vapour with an old background, then change resolution from 16 to 0.5 cm⁻¹ and compare apodizations. Switch ATR crystals and watch band heights change.'},
+{t:'Sampling modes at a glance',b:tbl(['Mode','How','Best for','Watch out for'],[['ATR','Sample pressed on a crystal; evanescent wave probes a few µm','Almost anything: solids, powders, liquids, pastes, films','Contact and pressure; band heights rise at low wavenumber'],['Transmission','Light passes through a thin film, pellet or cell','Quantitative work, thin films, gases','Thickness control; KBr is hygroscopic'],['Diffuse reflectance (DRIFTS)','Powder scatters light into a collector','Powders, catalysts, rough solids','Dilution, particle size; use Kubelka–Munk units'],['Specular / grazing angle','Reflection from a surface','Coatings and monolayers on metal','Needs flat reflective substrate'],['Microscope','Infrared beam focused to tens of µm','Small particles, layers, contaminants','Diffraction limit (about the wavelength)']])},
+{t:'Calculator: wavenumber, wavelength, frequency, energy',tag:'Tool',calcs:['wn']},
+{t:'Reading an infrared spectrum',b:`<p>Work from the left: check the O–H/N–H/C–H region, then the triple-bond window, then the carbonyl, then the fingerprint region.</p>${tbl(['Group','Region (cm⁻¹)','Shape and note'],[['O–H (alcohol, water)','3200–3600','Broad, strong'],['O–H (carboxylic acid)','2500–3300','Very broad, overlaps C–H'],['N–H (amine, amide)','3300–3500','Sharp to medium; primary amines show two'],['C–H aromatic / alkene','3000–3100','Medium, just above 3000'],['C–H aliphatic','2850–2960','Strong, just below 3000'],['C≡N','2210–2260','Sharp, medium'],['C≡C','2100–2260','Weak to medium (absent if symmetric)'],['C=O ester / ketone / acid','1700–1750 / 1705–1725 / 1700–1725','Sharp and strong; position tells the type'],['C=O amide (amide I)','1630–1690','Strong; amide II (N–H bend) near 1550'],['C=C aromatic','1450–1600','Several medium bands'],['C–O','1000–1300','Strong; position separates ester, ether, alcohol'],['Aromatic substitution (out-of-plane C–H)','690–900','Pattern shows ring substitution'],['CO₂ (atmosphere)','2349 and 667','Not your sample; improve the background'],['Water vapour','3500–3950 and 1300–1900','Many fine lines; purge']])}`},
+{t:'Strengths, limits and common pitfalls',b:`${tbl(['Strengths','Limits'],[['Fast, cheap, robust; ATR needs almost no preparation','Spatial resolution limited to the wavelength (several µm)'],['Strong response from polar functional groups','Water absorbs strongly, so aqueous samples need care'],['Quantitative and well standardised; huge spectral libraries','Weak on symmetric, non-polar bonds and low-frequency lattice modes'],['Works for gases, liquids, solids and thin films','ATR sees only the surface layer (a few µm)']])}
+<h4>Frequent mistakes</h4>${ul(['Collecting the background long before the sample, so water vapour and CO₂ do not cancel.','Overloading the cell or crystal so strong bands saturate.','Interpreting ATR band ratios as if they were transmission without correction.','Contaminated crystal: always check the crystal is clean with a fresh scan.'])}`}
+];
+CARDS['ftir/settings']=[
+{t:'Resolution',b:`<p>Resolution is how close two bands can be and still be separated. It is set by how far the moving mirror travels: <strong>resolution ≈ 1 / (maximum optical path difference)</strong>.</p>${ul(['<strong>4 cm⁻¹</strong> is the routine choice for solids and liquids, whose bands are 10 cm⁻¹ or wider.','<strong>2 cm⁻¹</strong> for crystalline solids with sharp bands; <strong>1 cm⁻¹ or finer</strong> for gases (rotational lines).','<strong>8 or 16 cm⁻¹</strong> for fast screening or weak samples.','Finer resolution means longer scans and, per scan, more noise. Do not use it for liquids or ATR just because it sounds better.'])}${calcHTML('ftres')}`},
+{t:'Number of scans',b:`<p>Co-adding scans averages out noise: <strong>signal-to-noise improves with the square root of the number of scans</strong>. Four times the scans halves the noise.</p>${ul(['<strong>16–32 scans</strong> for routine ATR; <strong>64–256</strong> for weak or dilute samples; 1–4 for quick checks.','Use the same scan count for background and sample so their noise is balanced.','If a band is below the noise, check sample amount and contact before adding scans.'])}`},
+{t:'Spectral range',b:`${ul(['Standard mid-IR: <strong>4000–400 cm⁻¹</strong>. Diamond ATR absorbs strongly around 2200–1900 cm⁻¹ (a small dip is normal) and ZnSe ATR cuts off near 650 cm⁻¹.','Near-IR (about 12,500–4000 cm⁻¹) and far-IR (below 400 cm⁻¹) need different sources, beamsplitters and detectors.','Choose the range that covers the bands you need; a wider range costs nothing in time with FTIR.'])}`},
+{t:'Apodization and zero filling',b:`<p>The interferogram is finite, which produces ringing around sharp lines. <strong>Apodization</strong> smoothly tapers its ends to reduce ringing at the cost of broader lines.</p>${tbl(['Function','Line width','Ringing','Use'],[['Boxcar (none)','narrowest','strong sidelobes','Resolving very close lines'],['Triangular','wider','small','General'],['Happ–Genzel','moderate','low','Common default for routine work'],['Norton–Beer (medium/strong)','widest','very low','Quantitative work and gases, avoids negative lobes']])}${ul(['<strong>Zero filling</strong> adds zeros to interpolate the spectrum; it smooths the look but adds no true resolution. A factor of 2 is typical.'])}`},
+{t:'Detector and beamsplitter',b:tbl(['Component','Options','Notes'],[['Detector','DTGS (room temperature)','Robust, linear, slower; routine standard'],['Detector','MCT (cooled)','About 10–100 times more sensitive and faster; less linear, so use an aperture or attenuate strong signals'],['Beamsplitter','KBr / Ge','Standard mid-IR; KBr is hygroscopic, keep dry'],['Beamsplitter','CaF₂, quartz','Near-IR'],['Beamsplitter','Mylar, silicon','Far-IR'],['Source','Globar (SiC)','Mid-IR; others for NIR and FIR']])},
+{t:'Background strategy',b:`${ul(['Collect a new background <strong>before each sample</strong>, or at least every 30–60 minutes in a humid lab.','Background conditions must match the sample: same accessory, same crystal, same apertures. For ATR, an empty clean crystal.','Purge or dry-air the instrument if water vapour is a recurring problem.','Look at the single-beam energy: a falling trend signals a dirty crystal, ageing source or misalignment.'])}`},
+{t:'ATR crystal, angle and pressure',b:`<p>The ATR crystal sets how deep the infrared light probes (penetration depth) and which samples you can measure.</p>${tbl(['Crystal','Index','Range','Good for','Notes'],[['Diamond','≈ 2.4','4000–400 (dip near 2000)','Almost everything, hard samples, acids','Rugged; best general choice'],['ZnSe','≈ 2.4','4000–650','Liquids and soft solids','Scratches; avoid strong acids and bases'],['Germanium','≈ 4.0','4000–600','Dark or high-index samples (carbon-filled rubber)','Shallow penetration, little band distortion']])}${ul(['Higher index crystals and larger angles give <strong>shallower</strong> probing.','Apply <strong>reproducible pressure</strong> (torque-limited anvil) for solids: low pressure gives weak, noisy bands; very high pressure can damage soft crystals.','Penetration depth rises with wavelength, so ATR bands at low wavenumber look relatively stronger.'])}${calcHTML('atr')}`},
+{t:'Absorbance range and linearity',b:`${ul(['Keep the strongest bands below an absorbance of about <strong>1</strong> (quantitatively below 1.2). Above that the response flattens and ratios mislead.','Reduce path length or sample amount, or choose a shallower ATR crystal, if bands are too strong.','If bands are very weak, increase contact, sample amount or scans.'])}`},
+{t:'Quick-start recipes',b:tbl(['Task','Mode','Resolution','Scans','Notes'],[['Routine identification','ATR (diamond)','4 cm⁻¹','16–32','Happ–Genzel, ATR correction for library searches'],['Polymer film','ATR or transmission','4 cm⁻¹','32','Check film thickness for transmission'],['Powder, KBr pellet','Transmission','4 cm⁻¹','32','0.5–1 % sample in dry KBr'],['Quantitative work','Transmission cell','4 cm⁻¹ or 2','64','Constant pathlength, Norton–Beer'],['Gas analysis','Gas cell','0.5–1 cm⁻¹','64+','Purge and blank'],['Protein secondary structure','ATR or cell','2–4 cm⁻¹','128–256','Subtract water, use second derivative']])+'<p class="small muted">Starting points only; adjust after a test scan.</p>'}
+];
+CARDS['ftir/inst']=[
+{t:'Choose an IR instrument by task',open:true,b:tbl(['Task','Example platforms','What to verify'],[
+['Routine identification of bulk materials','Bruker ALPHA II; Nicolet Summit; Shimadzu IRSpirit-X; Agilent Cary 635','ATR crystal, contact pressure, transmission options and library workflow'],
+['Research across several spectral regions','Nicolet iS50; Bruker VERTEX; PerkinElmer Spectrum 3','Source, detector and beamsplitter required for each range'],
+['Localised contamination or microplastics','Bruker LUMOS II; Nicolet RaptIR X; Shimadzu AIMsight','Spot size, detector, sampling mode and whether chemical imaging is needed'],
+['Time-resolved or in-situ measurements','VERTEX with appropriate timing hardware; ReactIR; MATRIX-MF','Time resolution, probe compatibility, purge or vacuum and coupling options']
+])},
+{t:'How to read this list',b:`<p>These are widely used instrument lines, grouped by type. Listing is not a recommendation or a ranking, and models change often.</p>${ul(['A tag <span class="chip ok">maker site</span> means the model was found on the manufacturer’s own page when this lab was written. The others are well-known lines to check on the maker’s datasheet.','Numerical specifications are quoted with their source and should be compared under equivalent measurement conditions.','Questions to ask: signal-to-noise and the time and conditions it was measured over; detector and beamsplitter options; sampling accessories offered; validation and compliance packages for regulated work; software and data formats; service availability.'])}`},
+{t:'Compact routine spectrometers',inst:[
+{m:'Bruker ALPHA II',tags:['compact','ATR'],best:'Routine identification and QA/QC in teaching and industrial labs.',note:'Maker site: compact FT-IR spectrometer for routine chemical identification, with interchangeable sampling modules.',url:'https://www.bruker.com/en/products-and-solutions/infrared-and-raman',v:1},
+{m:'Thermo Scientific Nicolet Summit family',tags:['compact','ATR'],best:'Routine ATR work with simple operation.',note:'Compare Summit configurations for routine sampling, validation and accessory needs. An Everest diamond ATR configuration is available. Select by accessory and sample type as well as sensitivity.',url:'https://assets.thermofisher.com/TFS-Assets/MSD/Flyers/FL52337-ftir-spectrometer-selection-guide.pdf',v:1},
+{m:'Shimadzu IRSpirit-X series',tags:['compact'],best:'Space-limited labs and teaching.',note:'Maker site: the most compact of Shimadzu’s range, with guided macros and an optional internal dehumidifier or MCT detector.',url:'https://www.shimadzu.co.uk/products/molecular-spectroscopy/ftir/comparison/index.html',v:1},
+{m:'PerkinElmer Spectrum Two',tags:['compact','UATR'],best:'Routine analysis with a universal ATR accessory.',note:'Small, portable-sized benchtop spectrometer.'},
+{m:'Agilent Cary 635 / Cary 630 (earlier)',tags:['compact','interchangeable modules'],best:'Fast switching between ATR, transmission and other sampling modules.',note:'Cary 635 is the newer compact platform; Agilent marks Cary 630 discontinued and lists compatible sampling modules. The installed module determines the sampling mode.',url:'https://www.agilent.com/en/product/molecular-spectroscopy/ftir-spectroscopy/ftir-accessories/cary-630-ftir-sampling-accessories',v:1},
+{m:'JASCO FT/IR-4X',tags:['compact'],best:'Routine and educational use.',note:'Compact mid-IR system for routine sampling. Check the installed detector and accessory when comparing systems.',url:'https://www.jasco-global.com/product-spectroscopy/ftir-spectrometer/ft-ir-4x/',v:1}]},
+{t:'Research and multipurpose spectrometers',inst:[
+{m:'Thermo Scientific Nicolet iS20',tags:['routine to advanced'],best:'High-performance routine and research work, qualitative and quantitative.',note:'Multipurpose mid-IR benchtop instrument. Sampling options include ATR and transmission; confirm accessory and detector in the quote.',url:'https://assets.thermofisher.com/TFS-Assets/MSD/Flyers/FL52337-ftir-spectrometer-selection-guide.pdf',v:1},
+{m:'Thermo Scientific Nicolet iS50',tags:['research','modular'],best:'Materials analysis workstation covering several spectral ranges.',note:'Research workstation with configurable mid-, near- and far-IR coverage; optional ATR, Raman and other sampling configurations. Check optical components for each range.',url:'https://assets.thermofisher.com/TFS-Assets/MSD/Flyers/FL52337-ftir-spectrometer-selection-guide.pdf',v:1},
+{m:'Bruker INVENIO',tags:['routine to research','expandable'],best:'A demanding routine system that can grow into research use.',note:'Maker site: demanding routine FT-IR extendable for many applications.',url:'https://www.bruker.com/en/products-and-solutions/infrared-and-raman',v:1},
+{m:'Bruker VERTEX series (including 80v)',tags:['research','vacuum'],best:'Research with vacuum bench for far-IR, step-scan and time-resolved work.',note:'The VERTEX 80v is a vacuum configuration. Spectral range, step-scan and time-resolved capability depend on the model and optical configuration.',url:'https://www.bruker.com/en/products-and-solutions/infrared-and-raman/ft-ir-research-spectrometers/high-end-vacuum-research.html',v:1},
+{m:'Bruker IFS 125HR',tags:['high resolution'],best:'Gas-phase and spectroscopy research needing the finest resolution.',note:'Maker site: high-resolution research FT-IR.',url:'https://www.bruker.com/en/products-and-solutions/infrared-and-raman',v:1},
+{m:'Shimadzu IRTracer-100',tags:['high sensitivity'],best:'Demanding sensitivity, with optional near- and far-IR kits.',note:'Maker site: signal-to-noise 60,000:1; range 7800–350 cm⁻¹ (12,500–3800 with an NIR kit, 5000–240 with an FIR kit); can connect to the AIMsight microscope.',url:'https://www.shimadzu.co.uk/products/molecular-spectroscopy/ftir/comparison/index.html',v:1},
+{m:'Shimadzu IRXross',tags:['routine to high sensitivity'],best:'Low-noise measurements with guided software.',note:'Maker site: signal-to-noise 55,000:1 with a KBr window; guided interface and humidity-resistant windows.',url:'https://www.shimadzu.co.uk/products/molecular-spectroscopy/ftir/comparison/index.html',v:1},
+{m:'PerkinElmer Spectrum 3',tags:['research'],best:'Flagship research and routine platform.',note:'Offers mid-, near- and far-IR configurations.'},
+{m:'JASCO FT/IR-6X',tags:['research'],best:'Research and advanced sampling.',note:'Higher-end model of the JASCO line.'}]},
+{t:'Microscopes and imaging',inst:[
+{m:'Bruker LUMOS II',tags:['microscope','compact'],best:'Failure analysis and routine microanalysis of small samples.',note:'Maker site: compact FT-IR microscope.',url:'https://www.bruker.com/en/products-and-solutions/infrared-and-raman',v:1},
+{m:'Bruker HYPERION II',tags:['microscope','research'],best:'Research microscopy with extended flexibility.',note:'Maker site: research FT-IR microscope.',url:'https://www.bruker.com/en/products-and-solutions/infrared-and-raman',v:1},
+{m:'Bruker LUMOS II ILIM / HYPERION II ILIM',tags:['QCL imaging'],best:'Fast chemical imaging with infrared lasers.',note:'Maker site: infrared laser imaging microscopes; the HYPERION II ILIM adds QCL technology.',url:'https://www.bruker.com/en/products-and-solutions/infrared-and-raman',v:1},
+{m:'Shimadzu AIMsight',tags:['microscope'],best:'Microanalysis on an IRTracer-100.',note:'Maker site: connects to the IRTracer-100.',url:'https://www.shimadzu.co.uk/products/molecular-spectroscopy/ftir/comparison/index.html',v:1},
+{m:'Thermo Scientific Nicolet RaptIR X',tags:['IR microscopy','micro-ATR'],best:'Targeting small regions in particles, fibres or multilayer sections.',note:'The 15× IR objective accepts the micro-ATR attachment. The model manual distinguishes it from the 4× visual objective.',url:'https://knowledge1.thermofisher.com/Molecular_Spectroscopy/Fourier_Transform_FT_Infrared_IR_and_Near_Infrared_NIR/Nicolet_Microscopes/Nicolet_Microscope_Operator_Manuals/269-3745_Nicolet_RaptIR_X_User_Manual',v:1},
+{m:'Thermo Scientific Nicolet iN10 / iN10 MX',tags:['microscope'],best:'Compact FT-IR microscopes for small samples and mapping.',note:'Check current availability.'},
+{m:'PerkinElmer Spotlight 400',tags:['microscope','imaging'],best:'FT-IR microscopes and imaging systems.',note:'Spotlight 400 is an array-based FTIR imaging system. Confirm mapping mode, optical configuration and compatible host spectrometer.',url:'https://shop.perkinelmer.com/en-NL/product/L1860816',v:1},
+{m:'O-PTIR and AFM-IR instruments (Photothermal Spectroscopy Corp., Bruker nanoIR)',tags:['sub-diffraction'],best:'Infrared spectra at sub-micron or nanometre scale.',note:'Photothermal detection bypasses the diffraction limit of conventional IR microscopes.'}]},
+{t:'Portable, handheld and in-situ',inst:[
+{m:'Bruker MOBILE-IR II',tags:['portable','outdoor'],best:'Field work in harsh conditions.',note:'Maker site: FT-IR for outdoor applications.',url:'https://www.bruker.com/en/products-and-solutions/infrared-and-raman',v:1},
+{m:'Agilent 4300 Handheld FTIR',tags:['handheld'],best:'On-site coating, composite and surface analysis.',note:'Interchangeable sampling heads.'},
+{m:'Mettler Toledo ReactIR',tags:['in situ','probe'],best:'Following reactions in real time with an ATR probe in the vessel.',note:'Widely used in process development.'},
+{m:'Bruker MATRIX-MF',tags:['process','reaction monitoring'],best:'Process-ready FT-IR for real-time reaction monitoring.',note:'Maker site: process FT-IR for pilot plants.',url:'https://www.bruker.com/en/products-and-solutions/infrared-and-raman',v:1}]},
+{t:'Accessories you will meet',b:tbl(['Accessory','What it does','Typical use'],[['Single-bounce diamond ATR','Sample pressed on a small diamond; one reflection','Default for solids, liquids, pastes'],['Multi-bounce ZnSe or Ge ATR','Several reflections for more absorption','Weak absorbers, dilute liquids'],['DRIFTS (e.g. praying-mantis optics)','Collects diffusely scattered light','Powders, catalysts'],['Specular and grazing-angle reflection','Reflection from a surface','Coatings and monolayers on metals'],['Liquid transmission cell (CaF₂ or ZnSe windows)','Fixed or variable path length','Quantitative solutions'],['Gas cell (10 cm to multipass)','Long path length for dilute gas','Trace gases, atmosphere'],['KBr pellet die (13 mm)','Presses a transparent disc','Solid transmission'],['Heated or cooled cells','Temperature control','Phase transitions, kinetics'],['Fibre-optic probes','Remote ATR or reflection','Process and in-situ']])}
+];
+CARDS['ftir/sop']=[
+{t:'Public reference SOP',b:`<p><a href="https://www.utsc.utoronto.ca/labs/traces/wp-content/uploads/sites/28/2024/07/TRACES-AlphaP-SOP.pdf" target="_blank" rel="noopener noreferrer">University of Toronto Scarborough · Bruker Alpha-P ATR-FTIR SOP</a></p><p class="small muted">Use the procedure approved for your own instrument and accessories.</p>`},
+{t:'SOP: Routine ATR-FTIR measurement',sop:{purpose:'Obtain a reliable infrared spectrum of a solid, liquid or film by ATR.',steps:['Read the instrument log and the safety data for the sample and cleaning solvent.','Check that the instrument is on and has been stable for at least 15 minutes. Run or check the daily performance test.','Inspect the ATR crystal; clean with a lint-free wipe and isopropanol or ethanol; let it dry.','Set parameters: 4000–400 cm⁻¹, resolution 4 cm⁻¹, 16–32 scans, Happ–Genzel apodization; save raw data format.','Collect the background on the clean, empty crystal (anvil raised unless the method says otherwise).','Place the sample so it fully covers the active crystal area. Liquids: a drop; solids: enough to cover, in good contact.','For solids, lower the anvil to the same reproducible pressure each time (torque-limited clutch).','Collect the sample spectrum with the same scan count as the background.','Check the spectrum: strongest band below an absorbance of about 1; no residual water vapour or CO₂; flat baseline; no negative bands (bad background).','Process: ATR correction if comparing to a transmission library, baseline correction if needed. Keep raw data unchanged.','Save the data in native format plus JCAMP-DX or CSV, naming sample, date, operator and settings.','Clean the crystal and anvil; run a quick scan to confirm that no sample remains.','Complete the log.'],notes:'If bands are weak, improve contact before adding scans. If bands are very strong, use less sample or a shallower crystal.'}},
+{t:'SOP: KBr pellet transmission',sop:{purpose:'Measure a solid as a transparent pellet.',warn:'Pellet presses use high force. Wear safety glasses and follow the press manufacturer’s instructions. Keep KBr dry; it absorbs water from the air.',steps:['Dry spectroscopic-grade KBr (oven about 110 °C) and store it in a desiccator.','Weigh about 1 mg sample and 100–200 mg KBr (0.5–1 % sample).','Grind the sample first, then mix in the KBr gently in an agate mortar; the mixture should be a fine, uniform powder (particles smaller than about 2 µm to limit scattering).','Load the die; if available, apply vacuum for a minute.','Press to the die maker’s tonnage (typically about 8–10 tonnes for a 13 mm die) and hold for 1–2 minutes.','Release and extract a clear, thin pellet. Cloudy or cracked pellets give poor spectra: remake them.','Collect a background with an empty beam path or a blank KBr pellet.','Collect the sample spectrum and check the baseline and band intensity.','Look for bands near 3400 and 1640 cm⁻¹ from moisture; if they are large, dry the KBr better.','Clean the die thoroughly, dry it and store it protected from moisture.'],notes:'Sloping baselines and distorted bands usually mean the grind was too coarse.'}},
+{t:'SOP: Liquid transmission cell',sop:{purpose:'Measure liquids or solutions with controlled path length.',steps:['Check window compatibility with the solvent, pH and spectral region. CaF₂ is a common aqueous-cell option when its low-wavenumber cutoff is acceptable. NaCl and KBr are water soluble.','Choose path length so strong bands stay below an absorbance of about 1 (about 25–100 µm for neat organics; 6–25 µm for aqueous work).','Assemble the cell; fill carefully to avoid bubbles using a syringe.','Collect a background with the empty cell or pure solvent as required by the method.','Fill with sample, wait for temperature to stabilise, and collect the spectrum.','Subtract solvent if needed and check the result for artefacts.','Rinse the cell with suitable solvent, dry with nitrogen, and store in a desiccator.']}},
+{t:'SOP: Daily FTIR performance check',sop:{purpose:'Confirm that the instrument is performing before real measurements.',steps:['Allow the instrument to warm up and stabilise.','Run the manufacturer’s system test or measure the energy throughput (single-beam) and note the value and the interferogram centre-burst amplitude.','Measure a <strong>polystyrene film</strong> standard: check that the main bands (for example 3060, 2849, 1601, 1028 cm⁻¹) fall within the tolerance for your method (pharmacopoeia methods set limits).','Measure the 100 % line (background against background) and check the noise.','Compare against the log or control chart; investigate a clear fall in energy, a shifted band or a rise in noise.','If outside limits: clean the crystal, check the desiccant, check purge, and contact the instrument manager.']}},
+{t:'SOP: Cryogenic detector (MCT) handling',sop:{purpose:'Fill a liquid-nitrogen-cooled MCT detector safely.',warn:'Liquid nitrogen causes severe cold burns and can displace oxygen. Wear a face shield, cryogenic gloves and closed shoes; work in a ventilated area; never seal liquid nitrogen in a closed container.',steps:['Check training and the local liquid nitrogen procedure.','Put on face shield, cryogenic gloves and a lab coat.','Use the supplied funnel; fill slowly to avoid spilling and thermal shock.','Allow the detector to cool as recommended (often 15–30 minutes) before measuring.','Avoid overfilling; wipe condensation from the dewar.','Record the fill time; a detector warming up shows rising noise.']}}
+];
+CARDS['ftir/adv']=[
+{t:'The interferometer and the Fourier transform',b:`${ul(['The detector signal as a function of mirror displacement is the <strong>interferogram</strong>: a large centre-burst where all wavelengths are in phase, with oscillations that carry the spectral detail.','The spectrum is the Fourier transform of the interferogram. The longest path difference (retardation, δ) sets the resolution: Δṽ ≈ 1/δ, and the mirror travel is δ/2.','The sampling interval is set by the HeNe laser (632.8 nm). Sampling at every laser fringe gives an unaliased limit of about 7900 cm⁻¹ (the Nyquist limit), which is why mid-IR instruments quote ranges up to about 7800 cm⁻¹.','<strong>Fellgett (multiplex):</strong> all wavelengths are measured simultaneously, giving a signal-to-noise gain over scanning instruments when detector noise dominates. <strong>Jacquinot (throughput):</strong> no slits, so more light. <strong>Connes (precision):</strong> the laser fixes the wavenumber scale.'])}${calcHTML('nyq')}`},
+{t:'Phase correction, apodization and zero filling',b:`${ul(['Real interferograms are not perfectly symmetric because of optics and electronics. <strong>Phase correction</strong> (for example Mertz) removes the resulting distortion.','<strong>Apodization</strong> trades line width for ringing (see Settings). The instrument line shape is the transform of the apodization window, which is why very sharp lines reveal the function.','<strong>Zero filling</strong> adds points for a smoother, interpolated spectrum; true resolution is unchanged.','Resolution that is better than your bands’ natural width gains nothing; it only adds noise and time.'])}`},
+{t:'Detectors, sources and beamsplitters',b:tbl(['Part','Option','Range / notes'],[['Source','Globar (SiC)','Mid-IR workhorse'],['Source','Tungsten-halogen lamp','Near-IR'],['Source','Mercury arc','Far-IR'],['Detector','DTGS','Room temperature, linear, mid-IR'],['Detector','MCT (narrow or wide band)','Cooled; sensitive; non-linear at high flux'],['Detector','InGaAs, InSb','Near-IR and short mid-IR'],['Beamsplitter','KBr/Ge','7800–400 cm⁻¹ typical'],['Beamsplitter','CaF₂','Near-IR'],['Beamsplitter','Mylar/Si','Far-IR']])},
+{t:'ATR theory and corrections',b:`${ul(['At the crystal–sample interface the light undergoes total internal reflection but sets up an <strong>evanescent wave</strong> that penetrates the sample. The depth at which the field amplitude falls to 1/e is dp = λ / (2π n₁ √(sin²θ − (n₂/n₁)²)).','Penetration is proportional to wavelength, so ATR bands look stronger at low wavenumber than in transmission; an <strong>ATR correction</strong> scales this out.','Near strong bands, the sample’s refractive index changes (anomalous dispersion), shifting and distorting band shapes, usually by a few wavenumbers to lower values.','Total internal reflection needs sin θ > n₂/n₁; for high-index samples use Ge.','<strong>ATR imaging</strong> with a germanium hemisphere raises spatial resolution by about the crystal index.'])}${calcHTML('atr')}`},
+{t:'Reflection techniques and Kramers–Kronig',b:`${ul(['<strong>Specular reflection</strong> of thin films on metal gives a double-pass absorbance; <strong>grazing-angle</strong> reflection (RAIRS) detects monolayers.','Reflection from bulk surfaces gives derivative-like bands. The <strong>Kramers–Kronig transform</strong> converts the reflectance dispersion into an absorption-like spectrum.','<strong>DRIFTS</strong> spectra are reported in Kubelka–Munk units and need dilution in a non-absorbing powder (KBr).','Choose a technique to match depth: transmission and DRIFTS probe bulk, ATR a few micrometres, grazing angle only the outer molecular layer.'])}`},
+{t:'Quantitative infrared',b:`${ul(['Beer–Lambert: A = ε · c · l. Use peak height or area from a baseline-corrected band and keep the path length fixed.','Deviations: stray light, non-linear detectors (MCT), band saturation (A > 1.2), strong intermolecular interaction, particle scatter.','For overlapping bands use <strong>multivariate calibration</strong> (PLS) with standards that cover the real range of variation.','Validate with independent samples; report errors, not only R².','In ATR, pressure and contact change absolute intensity, so use band ratios or an internal standard band.'])}`},
+{t:'Second derivatives and band fitting',b:`${ul(['The <strong>second derivative</strong> of absorbance turns overlapping broad bands into separated negative peaks and removes sloping baselines.','It is widely used for protein <strong>amide I</strong> (1700–1600 cm⁻¹) to estimate α-helix, β-sheet and turns, after careful water subtraction.','Derivatives amplify noise: smooth lightly (for example Savitzky–Golay) and use enough scans.','Curve fitting needs justified band numbers and positions; fits can be good and still meaningless.'])}`},
+{t:'Infrared microscopy and imaging',b:`${ul(['Diffraction limits the spatial resolution to about the wavelength: roughly 3–10 µm in the mid-IR.','Focal-plane array detectors collect thousands of spectra at once; quantum-cascade lasers (QCL) give fast imaging of selected bands.','<strong>Photothermal infrared</strong> (O-PTIR and AFM-IR) senses absorption by its heating effect with a visible probe, reaching sub-micron or nanometre resolution.','Thin, flat samples (about 5–15 µm) work best in transmission; thick samples scatter and saturate.'])}`},
+{t:'Functional-group map',b:`<p>Frequent bands, grouped by region.</p>${tbl(['Region (cm⁻¹)','Typical assignments'],[['3600–3200','O–H, N–H stretch'],['3100–3000','=C–H, aromatic C–H'],['3000–2800','aliphatic C–H'],['2300–2000','C≡N, C≡C, CO₂, isocyanate'],['1800–1650','C=O (acid chloride, ester, ketone, amide, acid)'],['1680–1600','C=C, amide I, N–H bend'],['1600–1450','aromatic ring, amide II'],['1450–1300','C–H bend, O–H bend, symmetric COO⁻'],['1300–1000','C–O, C–N, S=O, P=O, Si–O'],['1000–650','=C–H out-of-plane, ring substitution, C–Cl'],['below 650','metal–ligand, ring modes, low-frequency bends']])}`},
+{t:'Troubleshooting guide',b:tbl(['Symptom','Likely cause','Fix'],[['Sharp lines at 3500–3900 and 1300–1900','Water vapour changed since background','New background, purge or dry air'],['Doublet at 2349 and peak at 667','Atmospheric CO₂ or people near the beam','New background, step back, purge'],['Negative bands','Background had contamination or different pressure','Clean crystal, new background'],['Weak noisy bands (ATR)','Poor contact','More pressure, more sample, flat contact'],['Flat-topped bands','Too much sample or too long path','Use less or a thinner sample'],['Sloping baseline in pellet','Scattering from coarse particles','Grind finer, press again'],['Broad bands at 3400 and 1640 in KBr pellet','Wet KBr','Dry KBr, store in desiccator'],['Low energy or falling throughput','Dirty crystal, ageing source, misalignment','Clean, check source hours, call service'],['Ringing near sharp lines','Boxcar apodization','Use Happ–Genzel or Norton–Beer'],['Peaks shifted from library','Calibration drift or ATR dispersion','Check polystyrene, apply ATR correction']])}
+];
+
+const CALCS={
+ rshift:()=>calc('Raman shift to scattered wavelength',[{k:'l0',l:'Laser (nm)',v:532},{k:'dv',l:'Raman shift (cm⁻¹)',v:1000}],v=>{const s=1e7/(1e7/v.l0-v.dv),a=1e7/(1e7/v.l0+v.dv);return 'Stokes line: <b>'+fmt(s,1)+' nm</b><br>Anti-Stokes line: <b>'+fmt(a,1)+' nm</b>';}),
+ rrev:()=>calc('Scattered wavelength to Raman shift',[{k:'l0',l:'Laser (nm)',v:532},{k:'ls',l:'Observed line (nm)',v:562.0}],v=>'Raman shift: <b>'+fmt(1e7/v.l0-1e7/v.ls,1)+' cm⁻¹</b>'),
+ spot:()=>calc('Spot size, depth and power density',[{k:'l',l:'Wavelength (nm)',v:532},{k:'na',l:'Numerical aperture',v:0.9},{k:'n',l:'Medium index',v:1}],v=>{const d=1.22*v.l/v.na/1000,z=2*v.n*v.l/(v.na*v.na)/1000,A=Math.PI*Math.pow(d*1e-4/2,2),pd=1e-3/A/1e3;return 'Spot diameter (Airy): <b>'+fmt(d,2)+' µm</b><br>Depth of focus: <b>'+fmt(z,2)+' µm</b><br>Power density per mW: <b>≈'+fmt(pd,0)+' kW/cm²</b>';},'Rough estimates. Real spot size depends on beam fill, aberrations and the sample.'),
+ lam4:()=>calc('Relative scattering between two lasers',[{k:'a',l:'Laser A (nm)',v:785},{k:'b',l:'Laser B (nm)',v:532}],v=>'Laser B gives <b>'+fmt(Math.pow(v.a/v.b,4),2)+'×</b> the Raman scattering of laser A (1/λ⁴, same power and sample).'),
+ ftres:()=>calc('Resolution and mirror travel',[{k:'r',l:'Resolution (cm⁻¹)',v:4}],v=>{const d=1/v.r;return 'Retardation: <b>'+fmt(d*10,2)+' mm</b><br>Mirror travel: <b>'+fmt(d*5,2)+' mm</b> (half the retardation)';},'Resolution ≈ 1 / maximum retardation.'),
+ atr:()=>calc('ATR penetration depth',[{k:'n1',l:'Crystal',sel:[{v:2.4,t:'Diamond / ZnSe (2.4)'},{v:3.4,t:'Silicon (3.4)'},{v:4,t:'Germanium (4.0)'}],v:2.4},{k:'n2',l:'Sample index',v:1.5},{k:'th',l:'Angle (°)',v:45},{k:'nu',l:'Wavenumber (cm⁻¹)',v:1000}],v=>{const d=irDp(v.nu,+v.n1,v.n2,v.th);return d===null?'<b>No total internal reflection</b> at these values.':'Penetration depth: <b>'+fmt(d,2)+' µm</b> ('+fmt(d*v.nu/1000,2)+' µm per 1000 cm⁻¹ scaling)';},'dp = λ / (2π n₁ √(sin²θ − (n₂/n₁)²)); the 1/e depth of the field.'),
+ nyq:()=>calc('Laser sampling and Nyquist limit',[{k:'l',l:'Reference laser (nm)',v:632.8}],v=>{const nu=1e7/v.l;return 'Laser wavenumber: <b>'+fmt(nu,1)+' cm⁻¹</b><br>Unaliased limit (every fringe): <b>'+fmt(nu/2,0)+' cm⁻¹</b>';}),
+ wn:()=>calc('Wavenumber conversions',[{k:'w',l:'Wavenumber (cm⁻¹)',v:1715}],v=>'Wavelength: <b>'+fmt(1e4/v.w,3)+' µm</b><br>Frequency: <b>'+fmt(v.w*0.0299792458,2)+' THz</b><br>Energy: <b>'+fmt(v.w*1.239842e-4,4)+' eV</b> = <b>'+fmt(v.w*0.0119627,2)+' kJ/mol</b>')
+};
+CARDS['pick']=[
+{t:'Which technique for my sample?',tag:'Tool',sim:'picker'},
+{t:'Raman and FTIR side by side',b:tbl(['','Raman','FTIR'],[['Physical process','Inelastic scattering of light','Absorption of infrared light'],['Selection rule','Change in polarizability','Change in dipole moment'],['Strong for','Symmetric, non-polar bonds (C=C, S–S, ring modes), lattice and metal–oxygen modes','Polar groups (C=O, O–H, N–H), asymmetric modes'],['Water','Weak scatterer, aqueous samples fine','Strong absorber, needs care'],['Sample preparation','Little or none; through glass or plastic','ATR: little; transmission: thin film or pellet'],['Fluorescence','Can swamp the signal','No problem'],['Damage risk','Laser heating of dark samples','Very low'],['Spatial resolution','≈ 0.5–1 µm','≈ 3–10 µm (about the wavelength)'],['Spectral range (low end)','Down to tens of cm⁻¹','About 400 cm⁻¹ (far-IR needs special optics)'],['Typical cost and size','Higher; microscope based','Lower; compact benchtop common'],['Libraries','Growing','Very large']])},
+{t:'Selection rules: why they complement each other',b:`<p>For a molecule with a <strong>centre of symmetry</strong> (like CO₂ or benzene), the <strong>rule of mutual exclusion</strong> applies: a vibration that is Raman active is infrared inactive and vice versa.</p>${tbl(['Mode of CO₂','IR','Raman'],[['Symmetric stretch (≈1388 cm⁻¹)','inactive (no dipole change)','active (polarizability changes)'],['Asymmetric stretch (2349 cm⁻¹)','active','inactive'],['Bend (667 cm⁻¹)','active','inactive']])}${ul(['Without a centre of symmetry, a mode can be active in both, to different degrees.','Because strong IR bands are weak in Raman and vice versa, using both gives a more complete vibrational picture.','Polymorphs, hydrates and salts are often separated clearly by one technique and not the other, so check both when it matters.'])}`},
+{t:'Worked examples: which would you pick?',b:`${ul(['<strong>Identifying an unknown white powder quickly:</strong> ATR-FTIR first (minutes, library match); Raman through a vial to confirm.','<strong>Carbon nanomaterial quality:</strong> Raman (D, G and 2D bands report defects and layers).','<strong>Reaction in water:</strong> Raman with an immersion probe, or ATR-FTIR with a probe if the bands of interest are away from water absorption.','<strong>Polymer film coating on metal:</strong> grazing-angle or ATR FTIR.','<strong>Fluorescent dyed fabric:</strong> FT-Raman at 1064 nm or ATR-FTIR.','<strong>Mineral inclusion 2 µm wide:</strong> Raman microscope.','<strong>Trace gas in air:</strong> FTIR with a long-path gas cell.','<strong>Tablet coating and API distribution:</strong> Raman or FTIR imaging; choose by the resolution required.'])}`}
+];
+
+const QCAT={RB:'Raman basics',RI:'Raman instrument and settings',FB:'FTIR basics',FI:'FTIR instrument and settings',SM:'Sampling methods',SF:'Safety and SOPs',CP:'Choosing the technique',AD:'Advanced',MD:'Instruments and models'};
+const QS=[
+/* Raman basics */
+['RB','Raman scattering arises from…','inelastic scattering of light by molecular vibrations','elastic scattering from particles smaller than the wavelength','absorption of a photon followed by emission at a longer wavelength','thermal emission from the sample','Rayleigh scattering is elastic; fluorescence involves absorption and re-emission; Raman scattering is inelastic and shifts the light by a vibrational energy.'],
+['RB','Raman shift is quoted in…','cm⁻¹','nanometres','electronvolts','hertz','Raman shift is the energy difference between laser and scattered light in wavenumbers, so it is independent of the laser colour.'],
+['RB','A vibration is Raman active when it changes the molecule’s…','polarizability','permanent dipole moment','nuclear spin','magnetic moment','Raman needs a change in polarizability; infrared needs a change in dipole moment.'],
+['RB','Why are Stokes lines normally stronger than anti-Stokes lines at room temperature?','most molecules are in the ground vibrational state','the laser is absorbed on the anti-Stokes side','anti-Stokes light is blocked by the objective','Stokes light has a shorter wavelength','Stokes scattering starts from the populated ground state; anti-Stokes needs molecules that are already vibrationally excited.'],
+['RB','Changing from a 785 nm laser to a 532 nm laser (same power and sample) increases Raman scattering by about…','4–5 times','1.5 times','20 times','no change','Scattering scales roughly as 1/λ⁴: (785/532)⁴ ≈ 4.7.'],
+['RB','Roughly what fraction of scattered photons is Raman scattered?','about one in a million or fewer','about one in ten','about half','about one in a hundred','Raman scattering is very weak, typically 10⁻⁶ to 10⁻⁸ of the incident photons, which is why detection is challenging.'],
+['RB','Why is Raman convenient for aqueous samples?','water is a weak Raman scatterer','water has no vibrations','water absorbs the laser strongly','water shifts the Raman lines to zero','Water gives weak Raman bands (unlike its very strong infrared absorption), so solutes are easy to see.'],
+['RB','A broad, sloping background that swamps the Raman peaks is most likely…','fluorescence','Rayleigh scattering','anti-Stokes emission','a detector calibration line','Fluorescence is far stronger than Raman scattering and appears as a broad background; changing to a longer wavelength often helps.'],
+['RB','For carbon dioxide, the symmetric stretch near 1388 cm⁻¹ is…','Raman active and infrared inactive','infrared active and Raman inactive','active in both','inactive in both','CO₂ has a centre of symmetry, so the mutual exclusion rule applies: the symmetric stretch changes polarizability but not dipole moment.'],
+['RB','Which sharp line is used as a standard check of a Raman instrument?','silicon at about 520.7 cm⁻¹','water at about 1640 cm⁻¹','graphite at about 4000 cm⁻¹','sodium chloride at 100 cm⁻¹','A silicon wafer gives a strong single line at 520.7 cm⁻¹ and is used for calibration and daily checks.'],
+['RB','Where does the anti-Stokes line appear relative to the laser line?','at a shorter wavelength (higher energy)','at the same wavelength','at a longer wavelength','it never appears','Anti-Stokes scattering gains vibrational energy, so the light is bluer than the laser.'],
+['RB','Natural diamond shows a single sharp Raman line at about…','1332 cm⁻¹','520 cm⁻¹','2700 cm⁻¹','3600 cm⁻¹','Diamond’s first-order phonon is at about 1332 cm⁻¹.'],
+['RB','In the Raman spectrum of graphene, which band grows with defect density?','D band (≈1350 cm⁻¹)','G band (≈1582 cm⁻¹)','2D band (≈2700 cm⁻¹)','the silicon band','The D band appears and grows when the lattice has defects; the 2D band shape reports the layer number.'],
+['RB','Which strong Raman band region is usually a clean window with few other bands?','2100–2260 cm⁻¹ (C≡C and C≡N)','1000–1300 cm⁻¹','500–800 cm⁻¹','2800–3100 cm⁻¹','Triple bonds are strong in Raman and appear where few other groups absorb.'],
+['RB','If the Raman line of a sample is observed at 562 nm with a 532 nm laser, the shift is about…','1000 cm⁻¹','100 cm⁻¹','3000 cm⁻¹','30 cm⁻¹','1/532 nm − 1/562 nm ≈ 18797 − 17794 ≈ 1003 cm⁻¹.'],
+['RB','Raman can be measured through clear glass or plastic containers because…','glass and many plastics scatter and absorb the laser only weakly','the laser has infinite power','glass shifts the Raman lines','Raman only measures surfaces','Typical glass and clear plastics have weak Raman signals, so the signal of the contents can be collected through them.'],
+/* Raman instrument & settings */
+['RI','What does the edge or notch filter in a Raman spectrometer do?','blocks the Rayleigh (laser) line while passing Raman light','amplifies Raman light','tunes the laser colour','cools the detector','Rayleigh light is about a million times stronger than Raman light and must be removed before the spectrograph.'],
+['RI','Using a grating with more grooves per mm gives…','finer resolution but a narrower spectral window','coarser resolution and a wider window','higher laser power','no change in the window','Higher groove density disperses the light more, improving resolution but covering fewer wavenumbers per exposure.'],
+['RI','Closing the confocal pinhole generally…','improves depth selectivity but reduces signal','increases the signal','increases laser power','removes the need for calibration','A smaller pinhole rejects out-of-focus light (and fluorescence) but also passes less of the desired signal.'],
+['RI','A higher-NA objective gives…','a smaller spot and better light collection','a larger spot','a longer working distance','less signal','Spot size scales as λ/NA and collection efficiency rises with NA.'],
+['RI','Spot diameter for 532 nm light with a 0.9 NA objective is about…','0.7 µm','0.07 µm','7 µm','70 µm','The Airy diameter ≈ 1.22 λ/NA = 1.22 × 0.532 / 0.9 ≈ 0.72 µm.'],
+['RI','If shot noise dominates, collecting four times longer improves signal-to-noise by…','2 times','4 times','16 times','not at all','Signal grows linearly with time and noise as its square root, so S/N grows as the square root of time.'],
+['RI','Why is a CCD detector cooled?','to reduce dark current','to increase laser power','to improve the grating','to make the spectrum wider','Thermal charge (dark current) is low when the CCD is cold, giving cleaner long exposures.'],
+['RI','Single sharp spikes of one or two pixels in a spectrum are usually…','cosmic rays','Raman peaks','fluorescence','Rayleigh lines','Cosmic rays hit the detector at random; repeating the measurement and comparing removes them.'],
+['RI','For a dark or absorbing sample you should start with…','the lowest laser power and increase gradually','maximum power for the best signal','no objective','the shortest laser wavelength only','Dark samples absorb the laser and heat quickly; start low and look for damage.'],
+['RI','Why is 1064 nm Raman usually done with an interferometer and InGaAs or germanium detector?','silicon CCDs lose sensitivity near 1000 nm','the laser is invisible','it needs a smaller objective','gratings do not work at 1064 nm','Silicon is nearly blind beyond about 1000 nm, so FT-Raman uses other detectors.'],
+['RI','The main reason to use 785 nm rather than 532 nm is…','less fluorescence from organic samples','stronger Raman scattering','higher spatial resolution','easier safety','Longer wavelengths excite fewer electronic transitions, reducing fluorescence, at the price of weaker scattering.'],
+['RI','To avoid missing small features in a Raman map, the step size should be…','no more than about half the spot size','as large as possible','exactly 1 mm','equal to the objective’s field of view','Oversampling relative to the spot size keeps small features from falling between points.'],
+['RI','A 100 × 100 point Raman map with 1 s per point takes about…','2.8 hours','3 minutes','17 minutes','28 hours','10,000 points × 1 s = 10,000 s ≈ 2.8 hours (plus overheads).'],
+['RI','A detector saturates when…','counts reach the maximum the digitiser allows (about 65,000 for 16 bits)','the laser is switched off','the grating is changed','the spectrum is smoothed','Saturated pixels clip peak heights; lower power or exposure per frame and add accumulations.'],
+['RI','Which approach removes the offset of a fluorescence background but not its noise?','baseline subtraction','longer smoothing','normalisation','changing the x-axis units','Subtracting a baseline removes the smooth offset; shot noise from the background remains.'],
+['RI','How can the lowest observable Raman shift be extended to a few wavenumbers?','special ultra-low-frequency filters','using a larger objective','a coarser grating','raising laser power','Volume Bragg gratings and similar filters block the laser line more narrowly than ordinary edge filters.'],
+['RI','Which is the safest first step to check wavenumber accuracy?','measure a silicon wafer','measure water','increase laser power','change the objective','Silicon at 520.7 cm⁻¹ is a convenient, standard check.'],
+['RI','Resolution in cm⁻¹ for a given grating becomes…','coarser at longer laser wavelengths','finer at longer wavelengths','independent of wavelength','undefined','The same wavelength dispersion covers more wavenumbers at longer laser wavelengths.'],
+['RI','Between more power and more time, which is generally safer for a delicate sample?','more time with lower power','more power for shorter time','neither can be changed','using a larger spot','Laser damage depends on power density; collecting longer at low power gets the same S/N more safely.'],
+/* FTIR basics */
+['FB','Infrared absorption requires a vibration to change the molecule’s…','dipole moment','polarizability','nuclear spin','mass','Only vibrations that change the dipole moment interact with infrared photons.'],
+['FB','The conversion from wavelength in µm to wavenumber in cm⁻¹ is…','ṽ = 10,000 / λ','ṽ = λ / 10,000','ṽ = 1 / λ²','ṽ = 1000 λ','A 10 µm wavelength is 1000 cm⁻¹.'],
+['FB','What does an FTIR spectrometer’s interferometer record before the Fourier transform?','the interferogram','the spectrum','a calibration curve','a chromatogram','The detector measures intensity versus mirror position; transforming gives intensity versus wavenumber.'],
+['FB','Which statement best describes the Fellgett (multiplex) advantage?','all wavelengths are measured simultaneously','no slits limit the light','the laser sets the wavenumber scale','the detector is cooled','Fellgett is multiplexing, Jacquinot is throughput, and Connes is wavenumber accuracy.'],
+['FB','The Connes advantage refers to…','precise wavenumber accuracy from a reference laser','higher energy throughput','simultaneous measurement','smaller instrument size','A HeNe laser monitors the mirror position, giving highly reproducible wavenumbers.'],
+['FB','Why is a background spectrum measured?','to remove source, optics and atmospheric contributions from the sample spectrum','to calibrate the laser','to cool the detector','to increase the resolution','The sample single-beam spectrum is ratioed to the background, leaving the sample absorption.'],
+['FB','The mid-infrared range is roughly…','4000–400 cm⁻¹','12,500–4000 cm⁻¹','400–10 cm⁻¹','50,000–25,000 cm⁻¹','Mid-IR (2.5–25 µm) holds the fundamental vibrations; near-IR is above and far-IR below.'],
+['FB','Which band is characteristic of a carbonyl group?','a strong, sharp band around 1650–1800 cm⁻¹','a broad band at 3300 cm⁻¹','a weak band at 2100 cm⁻¹','a band at 500 cm⁻¹ only','Carbonyls (C=O) absorb strongly in this region; the exact position identifies the type.'],
+['FB','A very broad band from about 3200 to 3600 cm⁻¹ usually indicates…','O–H stretching (hydrogen-bonded)','C≡N stretching','aromatic C–H bending','S–S stretching','Hydrogen-bonded O–H gives a broad, strong band in this region.'],
+['FB','Carboxylic acids show a very broad O–H band in the range…','2500–3300 cm⁻¹','1000–1100 cm⁻¹','1700–1800 cm⁻¹','500–600 cm⁻¹','The strong hydrogen bonding of carboxylic acid dimers spreads the O–H band widely and it overlaps the C–H region.'],
+['FB','Atmospheric CO₂ shows in a spectrum at…','about 2349 and 667 cm⁻¹','about 1715 cm⁻¹','about 3400 cm⁻¹','about 1000 cm⁻¹','CO₂ bands appear if the background and sample have different CO₂ levels.'],
+['FB','Which region contains many fine lines when water vapour is present?','3900–3500 and 1900–1300 cm⁻¹','1000–600 cm⁻¹','2300–2000 cm⁻¹ only','below 400 cm⁻¹','Water vapour has rotational-vibrational structure near its O–H stretching and bending bands.'],
+['FB','Beer–Lambert law says absorbance is…','proportional to concentration and path length','independent of concentration','proportional to wavelength','proportional to temperature','A = ε c l, which underlies quantitative infrared work.'],
+['FB','A = 1 corresponds to a transmittance of…','10 %','1 %','50 %','90 %','A = −log₁₀(T), so T = 10⁻¹ = 10 %.'],
+['FB','The amide I band of proteins is near…','1650 cm⁻¹','2900 cm⁻¹','3400 cm⁻¹','700 cm⁻¹','Amide I (mainly C=O stretching) appears around 1650 cm⁻¹; amide II is near 1550 cm⁻¹.'],
+['FB','Aliphatic C–H stretching appears…','just below 3000 cm⁻¹','just above 3000 cm⁻¹','near 1700 cm⁻¹','near 500 cm⁻¹','Aliphatic C–H bands are at 2850–2960 cm⁻¹; aromatic and alkene C–H are just above 3000 cm⁻¹.'],
+/* FTIR instrument & settings */
+['FI','Resolution of an FTIR spectrometer is approximately…','1 / maximum optical path difference','twice the wavelength','the detector area','proportional to the number of scans','Longer mirror travel gives finer resolution.'],
+['FI','For most solids and liquids in routine work, a suitable resolution is…','4 cm⁻¹','0.01 cm⁻¹','64 cm⁻¹','0.001 cm⁻¹','Typical condensed-phase bands are 10 cm⁻¹ or wider, so 4 cm⁻¹ is sufficient and efficient.'],
+['FI','Increasing the number of scans from 16 to 64 changes noise by…','halving it','quartering it','doubling it','no change','S/N improves with the square root of scans: √4 = 2.'],
+['FI','Zero filling…','interpolates the spectrum without adding true resolution','improves resolution','removes water vapour','cools the detector','Zero filling adds points that smooth the spectrum, but the instrument resolution is unchanged.'],
+['FI','Boxcar (no) apodization gives…','narrowest lines but ringing sidelobes','broad lines and no ringing','a flat baseline','higher scan speed','Truncating the interferogram abruptly gives the narrowest lines and sidelobes next to sharp features.'],
+['FI','Why use Happ–Genzel or Norton–Beer apodization?','to reduce sidelobes at the cost of some line broadening','to increase resolution','to increase scan speed','to remove CO₂','Tapered windows suppress ringing, which is useful for quantitative work and for gases.'],
+['FI','An MCT detector compared with DTGS is…','more sensitive and faster, but needs cooling and is less linear','less sensitive but more linear','identical','only for the far-IR','MCT detectors are cooled and sensitive; strong signals can saturate them, so apertures or attenuation are used.'],
+['FI','Which beamsplitter is the standard for mid-IR?','KBr on germanium','CaF₂ only','Mylar','quartz','KBr/Ge covers the typical mid-IR range but KBr must be kept dry.'],
+['FI','The helium–neon laser in an FTIR…','measures mirror position and sets the wavenumber scale','provides the infrared light','cools the sample','is used as a detector','The HeNe fringes count mirror displacement precisely.'],
+['FI','If a background was recorded an hour ago, what artefact is most likely?','water vapour and CO₂ lines','a flat baseline','a shift of all bands by 10 cm⁻¹','a loss of the laser','Atmospheric composition changes with time and people nearby; the mismatch leaves fine lines.'],
+['FI','At what absorbance do strong bands usually stop being linear in practice?','above about 1–1.2','above 0.01','above 0.1','only above 10','Detector non-linearity, stray light and saturation limit the useful range to about 1 absorbance unit.'],
+['FI','Which instrument check uses a polystyrene film?','wavenumber accuracy and resolution','laser safety','detector temperature','moisture content','Polystyrene has well-known sharp bands (for example 3060, 2849, 1601, 1028 cm⁻¹) for checking wavenumber accuracy.'],
+['FI','A falling single-beam energy over weeks suggests…','a dirty crystal, ageing source or misalignment','an excess of scans','too high resolution','a corrupted library','Energy trends are an early health indicator for the instrument.'],
+['FI','Why do FTIR spectrometers often use a dry-air purge?','to remove water vapour and CO₂ from the beam path','to cool the source','to move the mirror','to clean the sample','Atmospheric absorption lines vary and can obscure sample bands.'],
+/* sampling */
+['SM','In ATR, penetration depth increases with…','wavelength','crystal refractive index','the angle of incidence','pressure','Depth is proportional to wavelength; higher crystal index and larger angle reduce depth.'],
+['SM','Which ATR crystal gives the shallowest penetration?','germanium','diamond','ZnSe','all are equal','Germanium has a refractive index of about 4, compared with 2.4 for diamond and ZnSe.'],
+['SM','Which ATR crystal is the most robust general choice?','diamond','ZnSe','KBr','NaCl','Diamond is very hard and chemically resistant, so it can be used with almost any sample.'],
+['SM','ATR spectra compared with transmission spectra show…','relatively stronger bands at low wavenumber','relatively stronger bands at high wavenumber','no differences','inverted bands','Penetration depth grows with wavelength, boosting low-wavenumber bands; ATR correction compensates.'],
+['SM','ATR correction is applied to…','make an ATR spectrum look like a transmission spectrum','increase the resolution','remove water vapour','calibrate the laser','The correction scales out the wavelength dependence of penetration depth, useful for library searching.'],
+['SM','Weak and noisy bands in ATR are most often because of…','poor contact between sample and crystal','too much pressure','using diamond','too few apodizations','The evanescent wave is only a few µm deep, so good contact matters.'],
+['SM','A typical KBr pellet contains about…','0.5–1 % sample in KBr','50 % sample','10 % water','100 % sample','Higher loadings cause saturated bands and scattering.'],
+['SM','Large broad bands at 3400 and 1640 cm⁻¹ in a KBr pellet usually mean…','the KBr has absorbed moisture','the sample is a protein','too many scans','the laser failed','KBr is hygroscopic; dry it and store it in a desiccator.'],
+['SM','A sloping baseline in a pellet spectrum suggests…','scattering from coarse particles','a good grind','dry KBr','a perfect press','Particles larger than the wavelength scatter light; grind finer.'],
+['SM','Which window material should you avoid for aqueous solutions?','NaCl','CaF₂','ZnSe','diamond','NaCl dissolves in water.'],
+['SM','DRIFTS is best suited for…','powders and rough solids','gases','single molecules in solution','metal bars','Diffuse reflectance collects light scattered from powders.'],
+['SM','Grazing-angle reflection is used to study…','thin coatings and monolayers on metal','bulk liquids','gases','powders','Grazing incidence enhances the sensitivity to very thin films on reflective substrates.'],
+['SM','Which accessory gives the longest effective path for dilute gases?','multipass gas cell','single-bounce ATR','KBr die','DRIFTS cup','Long path lengths increase absorption by dilute gas.'],
+['SM','The Nujol mull method has the drawback that…','the mineral oil has its own C–H bands','it cannot measure powders','it needs a laser','it only works in the far-IR','Nujol absorbs near 2900, 1460 and 1375 cm⁻¹, hiding sample bands there.'],
+/* Safety & SOP */
+['SF','The beam path of a typical Raman microscope contains lasers of which class?','Class 3B or 4 inside, often a Class 1 enclosed system overall','Class 1 only, so no precautions','Class 2 only','radioactive sources','The internal laser is hazardous; interlocks and enclosure make the instrument safe as a whole.'],
+['SF','Which action is never acceptable when working with a Raman laser?','defeating an interlock','wearing matched eyewear','reporting a fault','using a warning sign','Interlocks are essential safety features.'],
+['SF','Laser eyewear must be rated for…','the specific wavelength and optical density','any colour','visible light only','nothing special','Eyewear works only at the wavelengths it was designed for.'],
+['SF','Why remove reflective jewellery near an open laser beam?','it can reflect the beam into eyes','it is magnetic','it changes the spectrum','it heats the sample','Specular reflection of a Class 3B or 4 laser can be hazardous.'],
+['SF','When handling liquid nitrogen for an MCT detector you should wear…','a face shield and cryogenic gloves','nothing','only a thin glove','sunglasses','Liquid nitrogen causes cold burns and splashes easily.'],
+['SF','Why should liquid nitrogen never be sealed in a closed container?','it expands as it evaporates and can burst the container','it becomes solid','it reacts with air','it is flammable','Pressure builds quickly as it boils.'],
+['SF','Before measuring a new sample on a Raman microscope you should…','start at the lowest power and increase gradually','use maximum power','skip the calibration','remove the objective','This limits damage to the sample and the danger of fires or fumes.'],
+['SF','What should be recorded with every Raman spectrum?','laser, power, objective, grating, exposure and accumulations','only the sample name','nothing','only the date','Without the setup, spectra cannot be compared or reproduced.'],
+['SF','After a measurement, why inspect the sample under the microscope?','to check for burn marks or damage','to adjust the laser','to clean the grating','to measure the focus','Visible damage means the spectrum may be altered.'],
+['SF','A KBr pellet press should be used…','with safety glasses, following the die maker’s tonnage','at maximum pressure always','without a die','while holding the die','Presses work at high force; wear eye protection and follow limits.'],
+['SF','Before each ATR measurement the crystal should be…','cleaned and checked with a fresh scan','coated with grease','heated','covered with KBr','Residue from earlier samples contaminates later spectra.'],
+['SF','A good daily Raman check consists of…','measuring silicon and comparing position and intensity with the log','recording only the room temperature','measuring water','checking the monitor','Silicon shows wavenumber and sensitivity drift quickly.'],
+['SF','Handheld Raman devices should never be…','pointed at a person or reflective surface','used through glass','calibrated','cleaned','The laser can cause eye injury.'],
+/* Choosing */
+['CP','Which technique is better for an aqueous solution of a dye (if fluorescence is not a problem)?','Raman','transmission FTIR in thick cells','far-IR spectroscopy','X-ray fluorescence','Water is a weak Raman scatterer and a strong infrared absorber.'],
+['CP','Strong C=O and O–H groups are most easily detected with…','FTIR','Raman, because they are non-polar','neither','only microscopy','Polar groups give strong infrared bands.'],
+['CP','Non-polar S–S or C=C bonds in a polymer backbone are best seen with…','Raman','FTIR','both identically','neither','Symmetric, polarizable bonds scatter strongly in Raman.'],
+['CP','Which technique offers better spatial resolution?','Raman microscopy (sub-micron)','FTIR microscopy (several µm)','they are identical','neither can map','The Raman laser spot is limited by visible wavelengths; infrared by the longer wavelength.'],
+['CP','A dark, strongly coloured, fluorescent sample is best tried with…','FTIR (ATR) or Raman at 1064 nm','Raman at 473 nm','Raman at 325 nm with high power','neither','Infrared has no fluorescence, and 1064 nm Raman avoids it.'],
+['CP','Identifying the contents of a sealed clear glass vial without opening it is a job for…','Raman','FTIR transmission','ATR-FTIR','melting point','Raman can pass through glass; infrared is absorbed by it.'],
+['CP','Which is generally easier for low-frequency metal–oxygen lattice modes?','Raman','mid-IR FTIR','NMR','UV–visible','Raman reaches tens of wavenumbers easily; infrared needs far-IR optics.'],
+['CP','Which technique is better for trace gas analysis in air?','FTIR with a long-path gas cell','Raman microscope','ATR-FTIR','Raman with a 100× objective','Gases are dilute; infrared absorption over a long path is sensitive.'],
+['CP','The mutual exclusion rule applies to molecules…','with a centre of symmetry','without any symmetry','that are ionic','in the gas phase only','In centrosymmetric molecules, no mode is both IR and Raman active.'],
+['CP','If a sample gives only fluorescence with a green laser you should…','try a longer wavelength or ATR-FTIR','increase the power','shorten exposure','use a lower NA only','Moving to 785 or 1064 nm usually removes the fluorescence; FTIR is unaffected.'],
+['CP','Which pair is right for a quick first identification and confirmation of an unknown powder?','ATR-FTIR then Raman','Raman only at maximum power','neither','UV only','ATR-FTIR is fast and library-rich; Raman adds complementary information.'],
+/* Advanced */
+['AD','Surface-enhanced Raman scattering (SERS) typically boosts signals by…','10⁴–10⁸ times','1–2 times','10 % only','exactly 1000 times','Plasmonic nanostructures amplify the local field enormously.'],
+['AD','Resonance Raman occurs when the laser…','lies within an electronic absorption band of the molecule','is below 200 nm only','has maximum power','is polarised','Coupling to an electronic transition selectively enhances some vibrations.'],
+['AD','Tip-enhanced Raman (TERS) offers spatial resolution of about…','10 nm','10 µm','1 mm','1 cm','A sharp metal tip confines the field to the nanometre scale.'],
+['AD','Spatially offset Raman (SORS) is used for…','measuring beneath surfaces or through containers','removing cosmic rays','calibrating a grating','extending the spectral range','Collecting scattered light away from the laser spot gives more weight to deeper layers.'],
+['AD','The Nyquist limit for sampling every fringe of a 632.8 nm HeNe laser is about…','7900 cm⁻¹','15,800 cm⁻¹','3950 cm⁻¹','400 cm⁻¹','The laser is 15,800 cm⁻¹; every fringe gives half of that unaliased.'],
+['AD','The Mertz method in FTIR is used for…','phase correction','calibrating the laser','cooling the detector','cleaning crystals','The interferogram is not symmetric; phase correction restores the true spectrum.'],
+['AD','What does the Kramers–Kronig transform do for reflectance spectra?','converts dispersion-like bands into absorption-like bands','adds noise','removes water','changes resolution','It relates the real and imaginary parts of the refractive index.'],
+['AD','The second derivative of an infrared spectrum is used to…','resolve overlapping bands and remove sloping baselines','increase noise','calibrate wavenumbers','remove CO₂','It narrows features, though it amplifies noise.'],
+['AD','In silicon, tensile stress shifts the 520.7 cm⁻¹ Raman line…','to lower wavenumber','to higher wavenumber','not at all','to zero','Tension softens the bonds, lowering the phonon frequency; compression raises it.'],
+['AD','The Stokes/anti-Stokes intensity ratio can be used to measure…','temperature','laser power','concentration','pH','The ratio depends on the Boltzmann population of the vibrational level.'],
+['AD','Depolarisation ratio ρ of 0.75 corresponds to…','a non-totally-symmetric vibration','a totally symmetric vibration','fluorescence','a calibration line','Symmetric modes give ρ below 0.75 (polarised), asymmetric ones 0.75.'],
+['AD','Photothermal infrared (O-PTIR) achieves resolution beyond the IR diffraction limit because it…','detects absorption using a visible probe beam','uses a bigger objective','uses X-rays','averages more scans','The visible probe wavelength sets the resolution, not the infrared wavelength.'],
+['AD','ATR imaging with a germanium hemisphere improves spatial resolution by about…','the refractive index of germanium (about 4)','a factor of 100','nothing','a factor of 0.25','The light is focused in a high-index medium, shrinking the effective wavelength.'],
+['AD','Which processing step must never remove a real broad band?','baseline correction','averaging','cosmic-ray removal','axis calibration','Aggressive baselines can subtract part of a true broad feature.'],
+['AD','The depth of an ATR measurement is the distance at which the evanescent field has fallen to…','1/e of its surface value','10 %','50 %','zero','The standard definition of penetration depth is the 1/e amplitude point.'],
+/* Instruments and models */
+['MD','Which maker’s FTIR is the Nicolet iS20?','Thermo Fisher Scientific','Bruker','Shimadzu','Agilent','The Nicolet range is made by Thermo Fisher Scientific.'],
+['MD','The Bruker ALPHA II is described by the maker as…','a compact FT-IR spectrometer for routine chemical identification','a high-resolution vacuum research spectrometer','a handheld Raman analyzer','a mass spectrometer','ALPHA II is Bruker’s compact routine FT-IR.'],
+['MD','Which Bruker instrument is an FT-IR microscope?','LUMOS II','ALPHA II','MPA III','OMEGA 5','LUMOS II is a compact FT-IR microscope; HYPERION II is the research version.'],
+['MD','Which Bruker spectrometer’s vacuum capabilities make it popular for research?','VERTEX','ALPHA II','MOBILE-IR II','TANGO II','The VERTEX series is the research platform with vacuum bench options.'],
+['MD','Which maker produces the IRTracer-100 FTIR?','Shimadzu','Thermo Fisher','Horiba','Rigaku','IRTracer-100 is a Shimadzu high-sensitivity FTIR.'],
+['MD','Shimadzu’s software for its IR spectrometers is called…','LabSolutions IR','OMNIC','OPUS','Spectrum','LabSolutions IR is Shimadzu’s IR workstation software; OPUS is Bruker’s and OMNIC is Thermo’s.'],
+['MD','OPUS is spectroscopy software from…','Bruker','Thermo Fisher','Renishaw','Horiba','OPUS is Bruker’s spectroscopy software family.'],
+['MD','The Horiba LabRAM Soleil is a…','confocal Raman microscope','FTIR spectrometer','handheld Raman analyzer','X-ray diffractometer','It is a high-end confocal Raman imaging microscope.'],
+['MD','Rigaku’s Progeny handheld Raman uses which laser wavelength?','1064 nm','532 nm','405 nm','325 nm','1064 nm can reduce fluorescence, depending on the material.'],
+['MD','The Renishaw inVia is…','a confocal Raman microscope','a mass spectrometer','an FTIR bench','a thermal analyzer','The inVia and inVia Qontor are Renishaw’s confocal Raman systems.'],
+['MD','The WITec alpha300 R is…','a confocal Raman imaging microscope','a handheld infrared analyzer','a gas chromatograph','an electron microscope','It is a modular confocal Raman imaging system.'],
+['MD','FT-Raman instruments typically use which excitation?','1064 nm','244 nm','405 nm','532 nm','The 1064 nm line minimises fluorescence and is detected with an interferometer.'],
+['MD','Which handheld Raman technique can identify materials through some visually opaque containers?','a spatially offset (SORS) device','a UV device','a thermal camera','a refractometer','SORS collects light from beyond the laser spot, probing deeper layers.']
+];
+
+const LAB={raman:{label:'Raman',subs:[['method','Method and simulator'],['settings','Settings'],['inst','Instruments'],['sop','SOPs'],['adv','Advanced guide']],lead:{method:'How the technique works, with a spectrum simulator.',settings:'What each setting does and where to start.',inst:'Popular instrument lines, grouped by type.',sop:'Step-by-step procedures to adapt for your lab.',adv:'Deeper topics for experienced users.'}},
+ ftir:{label:'FTIR',subs:[['method','Method and simulator'],['settings','Settings'],['inst','Instruments'],['sop','SOPs'],['adv','Advanced guide']],lead:{method:'How the technique works, with a spectrum simulator.',settings:'What each setting does and where to start.',inst:'Popular instrument lines, grouped by type.',sop:'Step-by-step procedures to adapt for your lab.',adv:'Deeper topics for experienced users.'}},
+ pick:{label:'Which technique?',subs:null,lead:'Raman or FTIR for your sample, and why they complement each other.'},
+ quiz:{label:'Check your knowledge',subs:null}};
+const SIMS={ramanSim,ftirSim,picker};
+const state={p:null,s:null},CARDEL=new Map(),OPEN=new Map();
+function hydrate(root){$$('[data-calc]',root).forEach(n=>{const c=CALCS[n.dataset.calc];if(c)n.replaceWith(c());});}
+function instCard(list){return h('div',{class:'grid'},list.map(i=>h('div',{class:'mini'},h('h3',{},i.m),h('div',{class:'chips'},i.tags.map(t=>h('span',{class:'chip'},t)),i.v?h('span',{class:'chip ok'},'maker site'):null),h('p',{class:'small'},h('strong',{},'Best for: '),i.best),h('p',{class:'small muted'},i.note),i.url?h('a',{href:i.url,target:'_blank',rel:'noopener'},'Maker page ↗'):h('span',{class:'small muted'},UNV))));}
+function sopCard(s){
+ const steps=h('ol',{class:'steps'},s.steps.map(t=>{const li=h('li',{});const cb=h('input',{type:'checkbox',onchange:()=>li.classList.toggle('on',cb.checked)});const lb=h('label',{},cb,h('span',{}));lb.lastChild.innerHTML=t;li.append(lb);return li;}));
+ const txt=()=>s.purpose+'\n\n'+s.steps.map((t,i)=>(i+1)+'. '+t.replace(/<[^>]+>/g,'')).join('\n')+(s.notes?'\n\nNote: '+s.notes:'');
+ const btn=h('button',{class:'btn',onclick:async()=>{try{await navigator.clipboard.writeText(txt());btn.textContent='Copied';}catch(e){const ta=h('textarea',{style:'position:fixed;opacity:0'});ta.value=txt();document.body.append(ta);ta.select();try{document.execCommand('copy');btn.textContent='Copied';}catch(x){btn.textContent='Copy not available';}ta.remove();}setTimeout(()=>btn.textContent='Copy as text',1800);}},'Copy as text');
+ const reset=h('button',{class:'btn',onclick:()=>$$('input',steps).forEach(c=>{c.checked=false;c.parentNode.parentNode.classList.remove('on');})},'Clear ticks');
+ return[h('p',{},h('strong',{},'Purpose: '),s.purpose),s.warn?h('div',{class:'warn'},s.warn):null,steps,s.notes?h('div',{class:'note'},s.notes):null,h('div',{class:'ctl'},btn,reset),h('p',{class:'small muted'},'A template to adapt to your instrument, local rules and risk assessment. It does not replace manufacturer instructions or your safety officer.')];}
+function cardEl(c,id){
+ if(CARDEL.has(id))return CARDEL.get(id);
+ const d=h('details',{class:'card'});d.open=OPEN.get(id) ?? Boolean(c.open);
+ const body=h('div',{class:'body'});let built=false;
+ d.append(h('summary',{},c.t,c.tag?h('span',{class:'tag'},c.tag):null),body);
+ const build=()=>{if(built)return;built=true;
+  if(c.b){body.innerHTML=c.b;hydrate(body);}
+  if(c.sim){if(c.hint)body.append(h('p',{class:'small muted'},c.hint));body.append(SIMS[c.sim]());}
+  if(c.calcs)c.calcs.forEach(k=>body.append(CALCS[k]()));
+  if(c.inst)body.append(instCard(c.inst));
+  if(c.sop)sopCard(c.sop).forEach(n=>n&&body.append(n));};
+ d.addEventListener('toggle',()=>{OPEN.set(id,d.open);if(d.open)build();});
+ if(d.open)build();CARDEL.set(id,d);return d;}
+function nav(){
+ const prim=$('#prim');prim.replaceChildren(...Object.entries(LAB).map(([k,v])=>h('button',{'aria-pressed':state.p===k,onclick:()=>go(k,v.subs?v.subs[0][0]:null)},v.label)));
+ const sn=$('#subnav'),L=LAB[state.p];sn.replaceChildren();
+ if(L&&L.subs){L.subs.forEach(([k,t])=>sn.append(h('button',{'aria-pressed':state.s===k,onclick:()=>go(state.p,k)},t)));sn.hidden=false;}else sn.hidden=true;}
+function go(p,s){state.p=p;state.s=s;try{history.replaceState(null,'','#'+p+(s?'/'+s:''));}catch(e){}render();}
+function render(){
+ nav();const main=$('#main');main.replaceChildren();
+ if(!state.p){main.append(h('p',{class:'lead'},'Choose Raman, FTIR, the technique chooser or the quiz above.'));return;}
+ if(state.p==='quiz'){Quiz(main);return;}
+ const key=state.p+(state.s?'/'+state.s:''),L=LAB[state.p];
+ main.append(h('p',{class:'lead'},state.s?L.lead[state.s]:L.lead));
+ (CARDS[key]||[]).forEach((c,i)=>main.append(cardEl(c,key+'#'+i)));
+ requestAnimationFrame(()=>PLOTS.forEach(p=>p.draw()));}
+/* quiz */
+let QSTATE=null;
+function Quiz(root){
+ const sel=new Set(Object.keys(QCAT)),cnt={};QS.forEach(q=>cnt[q[0]]=(cnt[q[0]]||0)+1);
+ let nq=10;
+ const setup=()=>{root.replaceChildren();
+  const cats=h('div',{class:'cats'},Object.entries(QCAT).map(([k,v])=>h('button',{'aria-pressed':sel.has(k),onclick:e=>{sel.has(k)?sel.delete(k):sel.add(k);e.target.setAttribute('aria-pressed',sel.has(k));upd();}},v+' ('+cnt[k]+')')));
+  const n=sel2([[10,'10 questions'],[20,'20 questions'],[40,'40 questions'],[0,'All selected']],nq,v=>nq=+v);
+  const pool=()=>QS.filter(q=>sel.has(q[0]));const info=h('p',{class:'small muted'});
+  const upd=()=>{info.textContent=pool().length+' questions available in the chosen topics.';start.disabled=!pool().length;};
+  const start=h('button',{class:'btn primary',onclick:()=>run(shuffle(pool()).slice(0,nq||999))},'Start quiz');
+  root.append(h('div',{class:'sheet',style:'display:flex;flex-direction:column;gap:12px;background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:16px'},h('h3',{},'Choose topics'),cats,h('div',{class:'ctl'},fld('Length',n),start),info));upd();};
+ function sel2(o,v,on){return sel_(o.map(([a,b])=>({v:a,t:b})),v,on);}
+ function sel_(o,v,on){const s=h('select',{onchange:e=>on(e.target.value)},o.map(x=>h('option',{value:x.v},x.t)));s.value=v;return s;}
+ function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+ function run(list){let i=0,score=0;const missed=[];
+  const show=()=>{root.replaceChildren();if(i>=list.length)return done();
+   const q=list[i],opts=shuffle([q[2],q[3],q[4],q[5]]);const fb=h('div',{'aria-live':'polite'});let answered=false;
+   const nextBtn=h('button',{class:'btn primary',hidden:true,onclick:()=>{i++;show();}},i===list.length-1?'See results':'Next question');
+   const btns=opts.map(o=>h('button',{class:'opt',onclick:e=>{if(answered)return;answered=true;const ok=o===q[2];if(ok)score++;else missed.push(q);
+     btns.forEach(b=>{b.disabled=true;if(b.textContent===q[2])b.classList.add('right');});if(!ok)e.currentTarget.classList.add('wrong');
+     fb.replaceChildren(h('div',{class:ok?'note':'warn'},h('strong',{},ok?'Correct. ':'Not quite. '),q[6]));nextBtn.hidden=false;nextBtn.focus();}},o));
+   root.append(h('div',{class:'q',style:'background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:16px'},h('div',{class:'qbar'},h('i',{style:'width:'+Math.round(i/list.length*100)+'%'})),h('p',{class:'eyebrow'},'Question '+(i+1)+' of '+list.length+' · '+QCAT[q[0]]),h('h3',{style:'font-family:var(--f-body);font-size:1.05rem'},q[1]),h('div',{class:'opts'},btns),fb,nextBtn));};
+  const done=()=>{root.append(h('div',{class:'q',style:'background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:16px'},h('h3',{},'Score: '+score+' of '+list.length+' ('+Math.round(score/list.length*100)+'%)'),
+    missed.length?h('div',{},h('h4',{},'Review the ones you missed'),h('ul',{style:'display:flex;flex-direction:column;gap:10px;padding-left:1.2em'},missed.map(q=>h('li',{},h('strong',{},q[1]),h('br'),'Answer: '+q[2]+'. ',q[6])))):h('p',{},'No mistakes. Well done.'),
+    h('div',{class:'ctl'},missed.length?h('button',{class:'btn primary',onclick:()=>run(shuffle(missed.slice()))},'Retry missed'):null,h('button',{class:'btn',onclick:setup},'New quiz'))));};
+  show();}
+ setup();}
+/* boot */
+function fromHash(){let p=null,s=null;try{const m=(location.hash||'').slice(1).split('/');if(LAB[m[0]]){p=m[0];s=LAB[p].subs?(LAB[p].subs.find(x=>x[0]===m[1])?m[1]:LAB[p].subs[0][0]):null;}}catch(e){}
+ state.p=p;state.s=s;render();}
+window.addEventListener('hashchange',fromHash);fromHash();
+
+
+</script></body></html>
