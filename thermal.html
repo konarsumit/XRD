@@ -5,7 +5,7 @@
 <title>Thermal Lab</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: step rail on the left, one working sheet at a time; plots are canvases with hover read-outs */
 :root{
@@ -131,15 +131,57 @@ input[type=range]{accent-color:var(--accent)}
 .vbar{height:10px;border-radius:5px;background:var(--chip);overflow:hidden}.vbar i{display:block;height:100%;background:var(--accent)}
 a{color:var(--accent);text-underline-offset:.16em} #rheo-material,#rheo-time{width:fit-content;max-width:100%}
 </style>
+<style id="instrument-lab-series">
+/* Shared instrument-lab shell. Embedded so each HTML page can be opened on its own. */
+body{margin:0;padding-block:24px 52px}
+.wrap{width:100%;max-width:1360px;gap:20px}
+.lab-header{padding:clamp(16px,3vw,28px);gap:16px;background:var(--paper);border:1px solid var(--rule);border-radius:14px}
+.lab-masthead{display:flex;align-items:center;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid var(--rule)}
+.lab-series{color:var(--ink);font-weight:600;font-size:.9rem}
+.lab-links{display:flex;flex-wrap:wrap;gap:5px}
+.lab-links a{color:var(--muted);font-size:.86rem;font-weight:600;text-decoration:none;padding:6px 10px;border-radius:7px}
+.lab-links a:hover{background:var(--chip);color:var(--ink)}
+.lab-links a[aria-current="page"]{background:var(--accent-soft);color:var(--accent)}
+.lab-intro{display:grid;gap:6px}
+.lab-intro h1{font-size:clamp(2rem,4vw,2.65rem);letter-spacing:-.025em;text-wrap:wrap}
+.lab-intro p{max-width:74ch;color:var(--muted)}
+.lab-header :is(#prim,#primarynav,#modeseg,#subnav){display:flex;flex-wrap:wrap;gap:7px;background:transparent;border:0;border-radius:0;overflow:visible;width:100%}
+.lab-header :is(#prim,#primarynav,#modeseg,#subnav) button{
+  flex:0 1 auto;min-height:40px;padding:7px 12px;border:1px solid var(--rule);border-radius:8px;
+  background:var(--paper);color:var(--ink);font:600 .86rem/1.3 var(--f-body);text-align:left;white-space:normal
+}
+.lab-header :is(#prim,#primarynav,#modeseg,#subnav) button:hover{background:var(--chip)}
+.lab-header :is(#prim,#primarynav,#modeseg,#subnav) button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
+.lab-header #subnav button{min-height:36px;font-weight:500}
+.lab-header #subnav:empty{display:none}
+.lab-context{display:grid;gap:4px;max-width:82ch}
+.lab-header .lab-context .eyebrow{color:var(--accent)}
+.lab-header .lab-context .sub{font-size:.9rem}
+.lab-header .lab-note{font-size:.78rem;color:var(--muted);max-width:90ch}
+.lab-header a:focus-visible,.lab-header button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.layout{grid-template-columns:220px minmax(0,1fr)}
+.sheet,details.card,.step .card{border-radius:10px}
+@media(max-width:960px){.layout{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){
+  body{padding-block:12px 36px}
+  .wrap{gap:14px}
+  .lab-header{gap:12px}
+  .lab-masthead{gap:8px;padding-bottom:10px}
+  .lab-links{width:100%}
+}
+</style>
 </head>
 <body>
 <div class="wrap">
-<header>
-  <span class="eyebrow" id="eyebrow"></span>
-  <h1>Thermal Lab</h1>
-  <p class="sub" id="modesub"></p>
-  <div class="row"><div class="seg" id="modeseg" role="group" aria-label="Choose a topic"><button data-m="ta">Thermal analysis · DSC · TGA · STA · EGA</button><button data-m="dma">DMA</button><button data-m="rheo">Rheometry</button><button data-m="quiz">Quiz · 100 MCQs</button></div></div>
-  <p class="disc"><b>For education only.</b> Information is provided in good faith for general guidance and teaching. We cannot accept responsibility for unintentional errors. Curves are illustrative simulations, and typical values vary with the sample and instrument. Product and company names, where mentioned, belong to their owners; they are examples only, in no order of preference, and no endorsement or affiliation is implied. Always follow the manufacturer's manual, your institution's procedures and local experts.</p>
+<header class="lab-header">
+<div class="lab-masthead">
+  <span class="lab-series">Interactive Chemistry · Instrument Labs</span>
+  <nav class="lab-links" aria-label="Instrument labs"><a href="./Diffraction.html">Diffraction</a><a href="./spectroscopy-lab.html">Spectroscopy</a><a href="./thermal-lab.html" aria-current="page">Thermal</a></nav>
+</div>
+<div class="lab-intro"><h1>Thermal Lab</h1><p>Thermal analysis, DMA and rheometry, with interactive curves and instrument guides.</p></div>
+<div class="row"><div class="seg" id="modeseg" role="group" aria-label="Choose a topic"><button data-m="ta">Thermal analysis</button><button data-m="dma">DMA</button><button data-m="rheo">Rheometry</button><button data-m="quiz">Check your knowledge</button></div></div>
+<div class="lab-context"><span class="eyebrow" id="eyebrow"></span><p class="sub" id="modesub"></p></div>
+<p class="lab-note">Teaching simulations are illustrative. For instrument operation, use the manufacturer’s instructions and your lab’s approved procedures.</p>
 </header>
 <div class="layout">
   <nav class="rail" id="rail" aria-label="Steps"></nav>
@@ -433,8 +475,8 @@ function s_geo() {
   return `<div class="cards4">
     <div class="card"><h3>Top-loading</h3>${top}<p class="small">Balance below, sample on a rod. Easy to load, often a large sample capacity.</p></div>
     <div class="card"><h3>Hang-down</h3>${hang}<p class="small">Balance above, sample hangs in the furnace. Little heat reaches the balance.</p></div>
-    <div class="card"><h3>Horizontal</h3>${hor}<p class="small">Sample on a horizontal arm. Reduces buoyancy and convection effects.</p></div>
-    <div class="card"><h3>STA (TGA + DSC/DTA)</h3>${sta}<p class="small">A sensor under the sample and the reference gives heat flow and mass together.</p></div></div>
+    <div class="card"><h3>Horizontal</h3>${hor}<p class="small">Sample on a horizontal arm. Changes the way convection and buoyancy affect the balance; correction still depends on the design and method.</p></div>
+    <div class="card"><h3>STA (TGA + DSC/DTA)</h3>${sta}<p class="small">The balance measures mass and a separate thermal sensor measures DSC heat flow or DTA temperature difference, depending on configuration.</p></div></div>
     ${cap('Designs differ between models; the sketches show the principle only.')}`;
 }
 
@@ -1053,8 +1095,11 @@ function renderQuiz() {
 }
 
 const RHEO_MODELS = [
-  ['Rotational', 'Anton Paar', 'MCR 72/92, MCR 102e/302e/502e, MCR 702e MultiDrive, MCR 703, RheolabQC', 'Research and routine QC; confirm oscillation and accessory support for each model.', 'https://www.anton-paar.com/uk-en/products/group/rheometer/'],
-  ['Rotational', 'TA Instruments (Waters)', 'Discovery HR 10/20/30, Discovery Core, ARES-G2; earlier DHR-1/2/3', 'General research and QC; ARES-G2 uses separate motor and transducer.', 'https://www.tainstruments.com/products/rheology/'],
+  ['Rotational', 'Anton Paar', 'MCR 72 / 92 and RheolabQC', 'Entry and routine QC platforms. RheolabQC is for rotational measurements. MCR 92 supports oscillation; check mode support before selecting an MCR 72.', 'https://www.anton-paar.com/uk-en/viscometry-rheometry/testing-adhesive-properties-with-viscometers-and-rheometers/'],
+  ['Rotational', 'Anton Paar', 'MCR 102e / 302e / 502e Power', 'Manufacturer minimum rotational torque: 5, 1 and 100 nN·m respectively. The 502e Power trades low-torque sensitivity for higher maximum torque (300 mN·m). These are instrument specifications; usable sample limits depend on geometry and conditions.', 'https://www.anton-paar.com/?L=6&document=18378&eID=documentsDownload'],
+  ['Rotational', 'Anton Paar', 'MCR 702e MultiDrive / MCR 703 MultiDrive', 'Research platforms with single- and dual-drive configurations. A compatible two-drive configuration enables separate motor/transducer operation and counter-movement.', 'https://www.anton-paar.com/dk-en/products/details/mcr-703/?prd=42733'],
+  ['Rotational', 'TA Instruments (Waters)', 'Discovery HR 10 / 20 / 30', 'Modular research rheometers for steady and oscillatory shear. Compare low-torque performance and environmental options by model; earlier instruments may be labelled DHR-1/2/3.', 'https://www.tainstruments.com/products/rheology/'],
+  ['Rotational', 'TA Instruments (Waters)', 'Discovery Core / ARES-G2', 'Discovery Core is aimed at routine and formulation testing. ARES-G2 uses separate motor and transducer for strain-controlled measurements.', 'https://www.tainstruments.com/products/rheology/'],
   ['Rotational', 'Thermo Fisher Scientific', 'HAAKE MARS 40/60, MARS iQ/iQ Air, Viscotester iQ/iQ Air', 'Formulation, polymer melts and routine measurements, depending on configuration.', 'https://assets.thermofisher.com/TFS-Assets/MSD/Flyers/FL53324-haake-mars-rheometer-selection-guide.pdf'],
   ['Rotational', 'NETZSCH', 'Kinexus Prime lab+, pro+, ultra+', 'Rotational and oscillatory measurements. Older instruments may carry Malvern branding.', 'https://energy.netzsch.com/_Resources/Persistent/7/5/2/1/7521fe480df97adced7731774ed89c42b3f5712d/Kinexus_Series_en_web.pdf'],
   ['Rotational', 'AMETEK Brookfield', 'RSO; RSX cone/plate and coaxial-cylinder variants', 'Routine QC and formulation. RSO supports oscillation.', 'https://www.brookfieldengineering.uk/products/rheometers/rso-rheometer'],
@@ -1064,15 +1109,32 @@ const RHEO_MODELS = [
   ['Capillary', 'Dynisco', 'LCR7000 series', 'Laboratory melt-flow curves and QC for polymers.', 'https://www.dynisco.com/polymer-evaluation/laboratory-quality-control-testing/capillary-rheometers/lcr7000-series'],
   ['Extensional', 'Anton Paar', 'MCR with capillary-breakup accessory', 'Filament thinning for liquid formulations. Analysis depends on the thinning regime.', 'https://www.anton-paar.com/uk-en/products/group/rheometer/']
 ];
+const NETZSCH_THERMAL = 'https://analyzing-testing.netzsch.com/_Resources/Persistent/8/4/1/3/8413d98f98a5efc5f67c7baa89d7f4b012310e60/Pharmaceuticals_Foods_Cosmetics_and_Organics_en_web.pdf';
+const TA_THERMAL = 'https://www.tainstruments.com/support/software-downloads-support/software-sorted-by-instruments/';
+const METTLER_THERMAL = 'https://www.mt.com/my/en/home/products/Laboratory_Analytics_Browse/TA_Family_Browse.html';
+const HITACHI_THERMAL = 'https://hha.hitachi-hightech.com/assets/uploads/assets/uploads/documents/TA7000series_ProductGuide_Eng_Mar2016_s.pdf';
+const SHIMADZU_THERMAL = 'https://www.shimadzu.com/an/sites/shimadzu.com.an/files/pim/pim_document_file/brochures/10435/c10g-e050.pdf';
 const THERMAL_MODELS = [
-  ['NETZSCH', 'DSC 214 Polyma, DSC 300 Caliris; TG 209 and TG 309 Libra; STA 449 and STA 509 Jupiter; DMA 303 Eplexor', 'https://analyzing-testing.netzsch.com/_Resources/Persistent/9/b/5/a/9b5a8792ea797a7a9625be30ed181e882bb552ef/Kundeninfo%20auf%20Webseite%20-%20Thermal%20Analysis_October%2031_2025.pdf'],
-  ['TA Instruments (Waters)', 'Discovery DSC 250/2500, TGA 550/5500, SDT 650 and DMA 850; earlier Q2000, Q500, Q600 and Q800', 'https://www.tainstruments.com/support/software-downloads-support/software-sorted-by-instruments/'],
-  ['METTLER TOLEDO', 'DSC 5+, earlier DSC 3+; TGA 2, TGA/DSC 3+ and DMA 1', 'https://www.mt.com/my/en/home/products/Laboratory_Analytics_Browse/TA_Family_Browse.html'],
-  ['Shimadzu', 'DSC-60 Plus / DSC-60A Plus; DTG-60 family', 'https://www.shimadzu.com/an/sites/shimadzu.com.an/files/pim/pim_document_file/brochures/10435/c10g-e050.pdf'],
-  ['Hitachi High-Tech', 'DSC7000X, DSC7020, STA7300 and DMA7100 (TA7000 family)', 'https://hha.hitachi-hightech.com/assets/uploads/assets/uploads/documents/TA7000series_ProductGuide_Eng_Mar2016_s.pdf'],
-  ['Setaram (KEP Technologies)', 'SETSYS Evolution STA', 'https://tu-freiberg.de/en/fakult5/iww/technical-equipment-institute-materials-science/thermal-analysis/setaram-setsys'],
-  ['Linseis', 'STA PT 1600', 'https://www.linseis.com/wp-content/uploads/2024/07/STA-PT-1600-Porduct-brochure-1.pdf'],
-  ['PerkinElmer', 'DSC 8500', 'https://shop.perkinelmer.com/ko/product/N5340501']
+  ['DSC', 'TA Instruments', 'Discovery DSC 250 / 2500', 'Heat-flux DSC. The 2500 uses T4P Tzero heat-flow measurement and supports single-run heat-capacity workflows. Confirm cooling accessory and modulation capability.', 'https://www.tainstruments.com/dsc-2500/'],
+  ['DSC', 'NETZSCH', 'DSC 214 Polyma / DSC 300 Caliris', 'Polymer transitions, melting and crystallisation. Caliris configurations differ in sensor/furnace options and cooling performance.', NETZSCH_THERMAL],
+  ['DSC', 'METTLER TOLEDO', 'DSC 5+ / earlier DSC 3+', 'DSC 5+ uses the MMS 1 multi-sensor system. Check cooling, sampling automation and heat-capacity options for the exact configuration.', 'https://www.mt.com/us/en/home/phased_out_products/Laboratory_Analytics_Browse/TA_Family_Browse/ta-instruments/thermal-analysis-system-DSC-3-plus.html'],
+  ['DSC', 'PerkinElmer', 'DSC 8500', 'Power-compensation DSC for heat flow and fast scanning. Verify cooling system and supported rates with the installed configuration.', 'https://www.equipx.net/uploads/Perkin%20Elmer/DSC8500/DSC-8000_8500-Specifications_English.pdf'],
+  ['DSC', 'Shimadzu', 'DSC-60 Plus / DSC-60A Plus', 'Heat-flux DSC for transitions and reaction enthalpies. The 60A Plus adds an autosampler for up to 24 loaded samples.', SHIMADZU_THERMAL],
+  ['DSC', 'Hitachi High-Tech', 'DSC7000X / DSC7020', 'TA7000-series DSC platforms. Check the cooling unit and scan-rate limits when comparing installed systems.', HITACHI_THERMAL],
+  ['TGA', 'TA Instruments', 'Discovery TGA 550 / 5500', 'Mass change for decomposition and composition. TGA–MS requires a coupled configuration; verify gas switching, balance/furnace options and accessory support.', 'https://www.mip.psu.edu/core-research-facilities/materials-characterization-lab/characterization-techniques/thermal'],
+  ['TGA', 'NETZSCH', 'TG 209 / TG 309 Libra', 'Mass change with temperature and atmosphere. TG 309 variants differ in maximum temperature and options for evolved-gas coupling.', NETZSCH_THERMAL],
+  ['TGA / STA', 'METTLER TOLEDO', 'TGA 2 / TGA/DSC 3+', 'TGA measures mass change. The TGA/DSC configuration can collect mass and heat-flow signals together with the appropriate sensor.', METTLER_THERMAL],
+  ['STA', 'TA Instruments', 'Discovery SDT 650', 'Simultaneous TGA and DSC on the same run. Useful for assigning heat-flow events to decomposition, oxidation or transitions without mass change.', 'https://www.mip.psu.edu/core-research-facilities/materials-characterization-lab/characterization-techniques/thermal'],
+  ['STA', 'NETZSCH', 'STA 449 / STA 509 Jupiter', 'Simultaneous mass change and DSC or DTA, depending on sensor. Specify the furnace, carrier, atmosphere and EGA interface.', NETZSCH_THERMAL],
+  ['STA', 'Shimadzu', 'DTG-60 family', 'Simultaneous TG–DTA. DTA reports a temperature difference and should be distinguished from calibrated DSC heat flow.', SHIMADZU_THERMAL],
+  ['STA', 'Hitachi High-Tech', 'STA7300', 'Simultaneous TG–DTA in the TA7000 family. Check furnace and gas configuration.', HITACHI_THERMAL],
+  ['STA', 'Setaram (KEP Technologies)', 'SETSYS Evolution', 'High-temperature simultaneous thermal analysis. The TU Freiberg installation documents TG–DTA on a SETSYS Evo 16/18.', 'https://tu-freiberg.de/en/fakult5/iww/technical-equipment-institute-materials-science/thermal-analysis/setaram-setsys'],
+  ['STA', 'Linseis', 'STA PT 1600', 'Modular TG with DSC or DTA sensors. Maximum temperature, balance capacity and atmosphere depend on the furnace and sensor.', 'https://www.linseis.com/wp-content/uploads/2024/07/STA-PT-1600-Porduct-brochure-1.pdf'],
+  ['DMA', 'TA Instruments', 'Discovery DMA 850 / earlier Q800', 'Measures storage and loss modulus and tan δ. Compare available clamps, force and frequency for the specimen geometry.', TA_THERMAL],
+  ['DMA', 'NETZSCH', 'DMA 303 Eplexor', 'Temperature- and frequency-dependent viscoelastic measurements. Verify mode, force, specimen size and temperature configuration.', 'https://special-offers-at.netzsch.com/_Resources/Persistent/7/c/a/7/7ca7a969323d2d1938fd655287ac9cb48a77e851/Information%20about%20the%20Data%20Act%20-Thermal%20Analysis_3.pdf'],
+  ['DMA', 'METTLER TOLEDO', 'DMA 1', 'Solid-specimen viscoelastic measurements. Check deformation mode and fixture for the sample.', METTLER_THERMAL],
+  ['DMA', 'Hitachi High-Tech', 'DMA7100', 'TA7000-series dynamic mechanical analyser for modulus and damping. Check the fixture and measurement configuration.', HITACHI_THERMAL],
+  ['Earlier TA platforms', 'TA Instruments', 'Q2000, Q500, Q600 and Q800', 'DSC, TGA, simultaneous DSC–TGA and DMA, respectively. Check the installed software and use the guide for that generation.', TA_THERMAL]
 ];
 const RHEO_GUIDES = [
   ['Anton Paar MCR 702e', 'IIT Kanpur · lab SOP', 'Geometry-specific procedures for the facility configuration.', 'https://www.iitk.ac.in/che/PG_research_lab/labEquiptments.html'],
@@ -1092,9 +1154,9 @@ function guideCards(guides) {
     <p class="small muted">Use the approved local SOP and instrument-specific training for hands-on operation. Facility guides reflect their own geometry, software and accessories.</p>`;
 }
 function thermalDirectory() {
-  return `<section class="sheet col"><h3>Manufacturers and instrument families</h3><p>Examples include installed and newer instruments. Check current availability and options with the manufacturer.</p>
-    <div class="tscroll" tabindex="0" aria-label="Thermal instrument model table"><table><thead><tr><th scope="col">Company</th><th scope="col">Example models</th></tr></thead><tbody>
-    ${THERMAL_MODELS.map(([company, models, url]) => `<tr><th scope="row">${docLink(url, company)}</th><td>${esc(models)}</td></tr>`).join('')}
+  return `<section class="sheet col"><h3>Manufacturers and instrument families</h3><p>Compare instruments by technique and signal. Model links lead to manufacturer documents or a facility specification. For temperature limits, verify the installed furnace, sensor and atmosphere.</p>
+    <div class="tscroll" tabindex="0" aria-label="Thermal instrument model table"><table><thead><tr><th scope="col">Technique</th><th scope="col">Company</th><th scope="col">Models</th><th scope="col">Capabilities and configuration</th></tr></thead><tbody>
+    ${THERMAL_MODELS.map(([type, company, models, detail, url]) => `<tr><td>${esc(type)}</td><td>${esc(company)}</td><th scope="row">${docLink(url, models)}</th><td>${esc(detail)}</td></tr>`).join('')}
     </tbody></table></div><h3>Public operating procedures</h3>${guideCards(THERMAL_GUIDES)}</section>`;
 }
 function rheoIntro() {
@@ -1149,7 +1211,7 @@ function rheoMethods() {
 }
 function rheoDirectory() {
   return `<section class="sheet col"><p>Representative commercial platforms and installed models. Choose the instrument class by material and measurement, then check the exact geometry and temperature accessory.</p>
-    <div class="tscroll" tabindex="0" aria-label="Rheometer model table"><table><thead><tr><th scope="col">Class</th><th scope="col">Company</th><th scope="col">Models</th><th scope="col">Typical use</th></tr></thead><tbody>
+    <div class="tscroll" tabindex="0" aria-label="Rheometer model table"><table><thead><tr><th scope="col">Class</th><th scope="col">Company</th><th scope="col">Models</th><th scope="col">Capabilities and configuration</th></tr></thead><tbody>
     ${RHEO_MODELS.map(([type, company, models, detail, url]) => `<tr><td>${esc(type)}</td><th scope="row">${docLink(url, company)}</th><td>${esc(models)}</td><td>${esc(detail)}</td></tr>`).join('')}
     </tbody></table></div></section>`;
 }
