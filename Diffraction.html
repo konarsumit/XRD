@@ -5,7 +5,7 @@
 <title>Diffraction Lab</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: an instrument console — step rail on the left, the bench (controls + detector) in the middle, the reading of each step beside it. */
 :root{
@@ -214,17 +214,59 @@ tr.hlrow td{background:var(--accent-soft)}
 
 .disclosure{display:block!important}.disclosure>summary{cursor:pointer;font-family:var(--f-body);font-weight:600;font-size:1rem;line-height:1.4;list-style:revert}.disclosure>summary:focus-visible{outline:2px solid var(--accent);outline-offset:5px}.disclosure-body{padding-top:14px}.gstep.disclosure{padding:12px 14px;border:1px solid var(--rule);border-radius:8px;margin:8px 0}.gstep.disclosure>summary .gn{display:inline-grid;position:static;margin-right:10px}.gstep.disclosure>summary span:last-child{display:inline}.disclosure:not([open])>.disclosure-body{display:none!important}#primarynav button{min-width:180px;white-space:normal}#subnav:empty{display:none}
 </style>
+<style id="instrument-lab-series">
+/* Shared instrument-lab shell. Embedded so each HTML page can be opened on its own. */
+body{margin:0;padding-block:24px 52px}
+.wrap{width:100%;max-width:1360px;gap:20px}
+.lab-header{padding:clamp(16px,3vw,28px);gap:16px;background:var(--paper);border:1px solid var(--rule);border-radius:14px}
+.lab-masthead{display:flex;align-items:center;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid var(--rule)}
+.lab-series{color:var(--ink);font-weight:600;font-size:.9rem}
+.lab-links{display:flex;flex-wrap:wrap;gap:5px}
+.lab-links a{color:var(--muted);font-size:.86rem;font-weight:600;text-decoration:none;padding:6px 10px;border-radius:7px}
+.lab-links a:hover{background:var(--chip);color:var(--ink)}
+.lab-links a[aria-current="page"]{background:var(--accent-soft);color:var(--accent)}
+.lab-intro{display:grid;gap:6px}
+.lab-intro h1{font-size:clamp(2rem,4vw,2.65rem);letter-spacing:-.025em;text-wrap:wrap}
+.lab-intro p{max-width:74ch;color:var(--muted)}
+.lab-header :is(#prim,#primarynav,#modeseg,#subnav){display:flex;flex-wrap:wrap;gap:7px;background:transparent;border:0;border-radius:0;overflow:visible;width:100%}
+.lab-header :is(#prim,#primarynav,#modeseg,#subnav) button{
+  flex:0 1 auto;min-height:40px;padding:7px 12px;border:1px solid var(--rule);border-radius:8px;
+  background:var(--paper);color:var(--ink);font:600 .86rem/1.3 var(--f-body);text-align:left;white-space:normal
+}
+.lab-header :is(#prim,#primarynav,#modeseg,#subnav) button:hover{background:var(--chip)}
+.lab-header :is(#prim,#primarynav,#modeseg,#subnav) button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
+.lab-header #subnav button{min-height:36px;font-weight:500}
+.lab-header #subnav:empty{display:none}
+.lab-context{display:grid;gap:4px;max-width:82ch}
+.lab-header .lab-context .eyebrow{color:var(--accent)}
+.lab-header .lab-context .sub{font-size:.9rem}
+.lab-header .lab-note{font-size:.78rem;color:var(--muted);max-width:90ch}
+.lab-header a:focus-visible,.lab-header button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.layout{grid-template-columns:220px minmax(0,1fr)}
+.sheet,details.card,.step .card{border-radius:10px}
+@media(max-width:960px){.layout{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){
+  body{padding-block:12px 36px}
+  .wrap{gap:14px}
+  .lab-header{gap:12px}
+  .lab-masthead{gap:8px;padding-bottom:10px}
+  .lab-links{width:100%}
+}
+</style>
 </head>
 <body>
 
 
 <div class="wrap">
-<header>
-  <span class="eyebrow" id="eyebrow"></span>
-  <h1>Diffraction Lab</h1>
-  <p class="sub" id="modesub"></p>
-  <div class="row"><div class="seg" id="modeseg" role="tablist" aria-label="Choose a technique"><button data-m="sc">SCXRD method</button><button data-m="sci">SCXRD instruments</button><button data-m="pw">PXRD method</button><button data-m="tf">PXRD instruments</button><button data-m="an">PXRD advanced guide</button><button data-m="quiz">Check your knowledge</button></div></div>
-  <p class="small muted">Information is provided in good faith for general guidance and teaching only. We cannot accept responsibility for unintentional errors. Always consult your local experts, the manufacturer's manuals and your institution's approved procedures.</p>
+<header class="lab-header">
+<div class="lab-masthead">
+  <span class="lab-series">Interactive Chemistry · Instrument Labs</span>
+  <nav class="lab-links" aria-label="Instrument labs"><a href="./Diffraction.html" aria-current="page">Diffraction</a><a href="./spectroscopy-lab.html">Spectroscopy</a><a href="./thermal-lab.html">Thermal</a></nav>
+</div>
+<div class="lab-intro"><h1>Diffraction Lab</h1><p>Powder and single-crystal X-ray diffraction, instrument guides and interactive simulations.</p></div>
+<div class="row"><div class="seg" id="modeseg" role="group" aria-label="Choose a technique"><button data-m="sc">SCXRD method</button><button data-m="sci">SCXRD instruments</button><button data-m="pw">PXRD method</button><button data-m="tf">PXRD instruments</button><button data-m="an">PXRD advanced guide</button><button data-m="quiz">Check your knowledge</button></div></div>
+<div class="lab-context"><span class="eyebrow" id="eyebrow"></span><p class="sub" id="modesub"></p></div>
+<p class="lab-note">Teaching simulations are illustrative. For instrument operation, use the manufacturer’s instructions and your lab’s approved procedures.</p>
 </header>
 <div class="layout">
   <nav class="rail" id="rail" aria-label="Experiment steps"></nav>
