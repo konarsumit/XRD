@@ -170,6 +170,54 @@ body{margin:0;padding-block:24px 52px}
   .lab-links{width:100%}
 }
 </style>
+<style id="start-page">
+.st{display:grid;gap:14px;min-width:0}
+.st-lead{margin:0;max-width:80ch;font-size:1.02rem;color:var(--ink)}
+.st-hero{display:grid;gap:14px}
+.st-mod{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:10px}
+.st-mod button{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:4px;align-content:start;padding:14px 15px;background:var(--paper);border:1px solid var(--rule);border-radius:10px}
+.st-mod button:hover{border-color:var(--accent);background:var(--accent-soft)}
+.st-mod button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.st-mod b{font:600 .98rem var(--f-body);color:var(--ink)}
+.st-mod span{font-size:.84rem;color:var(--muted);line-height:1.45}
+.st-mod i{font:500 .68rem var(--f-mono);font-style:normal;color:var(--accent);text-transform:uppercase;letter-spacing:.04em}
+.st-sec{background:var(--paper);border:1px solid var(--rule);border-radius:10px}
+.st-sec>summary{cursor:pointer;list-style:none;padding:13px 16px;font:600 1rem var(--f-body);display:flex;align-items:center;gap:10px}
+.st-sec>summary::-webkit-details-marker{display:none}
+.st-sec>summary::before{content:"▸";color:var(--accent);transition:transform .15s}
+.st-sec[open]>summary::before{transform:rotate(90deg)}
+.st-sec>summary small{font:500 .78rem var(--f-body);color:var(--muted);margin-left:auto}
+.st-body{padding:2px 16px 16px;display:grid;gap:10px}
+.st-body p{margin:0}
+.st-tw{overflow-x:auto;border:1px solid var(--rule);border-radius:8px}
+.st table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:560px}
+.st th{background:var(--chip);text-align:left;font:600 .76rem var(--f-mono);text-transform:uppercase;letter-spacing:.03em;color:var(--muted);padding:8px 10px}
+.st td{padding:9px 10px;border-top:1px solid var(--rule);vertical-align:top;line-height:1.45}
+.st td:first-child{font-weight:600;min-width:150px}
+.st-steps{margin:0;padding:0;list-style:none;display:grid;gap:8px;counter-reset:s}
+.st-steps li{counter-increment:s;display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:start}
+.st-steps li::before{content:counter(s);display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--paper);font:600 .82rem var(--f-mono)}
+.st-steps b{display:block}
+.st-steps span{color:var(--muted);font-size:.9rem}
+.st-check{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.st-check label{display:flex;gap:9px;align-items:flex-start;cursor:pointer;padding:6px 8px;border-radius:7px}
+.st-check label:hover{background:var(--chip)}
+.st-check input{margin-top:3px;accent-color:var(--accent)}
+.st-check li.on span{color:var(--muted);text-decoration:line-through}
+.st-ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.st-btn{font:500 .86rem var(--f-body);border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:8px;padding:7px 13px;cursor:pointer}
+.st-btn:hover{border-color:var(--accent)}
+.st-two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px}
+.st-two h4{margin:0 0 4px;font:600 .9rem var(--f-body)}
+.st-two ul,.st-body ul.st-ul{margin:0;padding-left:1.15em;display:grid;gap:4px;font-size:.9rem}
+.st-gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:8px 18px}
+.st-gl div{font-size:.88rem;line-height:1.45;padding:4px 0;border-bottom:1px solid var(--rule)}
+.st-gl dt,.st-gl b{font-weight:600}
+.st-gl [hidden]{display:none}
+.st-find{font:.9rem var(--f-body);padding:8px 11px;border:1px solid var(--rule);border-radius:8px;background:var(--bg);color:var(--ink);width:min(100%,360px)}
+.st-note{font-size:.8rem;color:var(--muted);max-width:90ch}
+.st-warn{border-left:3px solid var(--amber);background:var(--chip);padding:9px 12px;border-radius:0 8px 8px 0;font-size:.88rem}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -179,7 +227,7 @@ body{margin:0;padding-block:24px 52px}
   <nav class="lab-links" aria-label="Instrument labs"><a href="./diffraction.html">Diffraction</a><a href="./spectroscopy.html">Spectroscopy</a><a href="./thermal.html" aria-current="page">Thermal</a></nav>
 </div>
 <div class="lab-intro"><h1>Thermal Lab</h1><p>Thermal analysis, DMA and rheometry, with interactive curves and instrument guides.</p></div>
-<div class="row"><div class="seg" id="modeseg" role="group" aria-label="Choose a topic"><button data-m="ta">Thermal analysis</button><button data-m="dma">DMA</button><button data-m="rheo">Rheometry</button><button data-m="quiz">Check your knowledge</button></div></div>
+<div class="row"><div class="seg" id="modeseg" role="group" aria-label="Choose a topic"><button data-m="start">Start here</button><button data-m="ta">Thermal analysis</button><button data-m="dma">DMA</button><button data-m="rheo">Rheometry</button><button data-m="quiz">Check your knowledge</button></div></div>
 <div class="lab-context"><span class="eyebrow" id="eyebrow"></span><p class="sub" id="modesub"></p></div>
 <p class="lab-note">Teaching simulations are illustrative. For instrument operation, use the manufacturer’s instructions and your lab’s approved procedures.</p>
 </header>
@@ -312,7 +360,7 @@ function runModel(p) {
 }
 
 // ================= state and helpers =================
-const S = { mode: 'ta', step: 0, seen: new Set(),
+const S = { mode: 'start', step: 0, seen: new Set(),
   gas: { gas: 'N2', flow: 50 }, bu: { gas: 'N2', V: 0.05, blank: false }, lag: { m: 10, b: 10 }, cru: { T: 300, kind: 'org' },
   cal: { std: { In: 1, Sn: 1, Zn: 1, Pb: 0, Bi: 0, Al: 0 }, meas: { In: 157.9, Sn: 233.6, Zn: 421.6, Pb: 329.6, Bi: 273.4, Al: 662.9 }, mIn: 5.2, err: 1.07, mSap: 25, mS: 10, T: 120 },
   integ: { a: 148, b: 186, base: 'lin' }, tg: { b: 10 }, ml: { a: 100, b: 260 },
@@ -527,7 +575,7 @@ function s_run() {
   const bx = RUN_BOX.map((t, i) => { const r = i < 4 ? 0 : 1, c = i < 4 ? i : 7 - i; return `<g id="rb${i}"><rect class="box" x="${6 + c * 152}" y="${8 + r * 66}" width="140" height="44" rx="8"/><text class="lab" x="${14 + c * 152}" y="${24 + r * 66}">${i + 1}</text><text x="${80 + c * 152}" y="${38 + r * 66}" text-anchor="middle" style="font-size:11px;fill:var(--ink)">${esc(t)}</text></g>`; }).join('');
   return `<div class="sheet col"><span class="eyebrow">A measurement, start to finish</span><svg class="schem" viewBox="0 0 620 126" role="img" aria-label="Flow chart of eight steps">${bx}<path class="arrow" d="M146 30H158M298 30H310M450 30H462M544 52V74M470 96H458M318 96H306M166 96H154"/></svg>${player('rn', 'Progress')}</div>
     <div class="two"><div class="sheet col">${plotBox('p_rn1', 150)}${plotBox('p_rn2', 190)}</div>
-    <div class="sheet col"><span class="eyebrow">Heat – cool – heat (DSC of a polymer)</span><ul class="tight"><li><b>1st heat:</b> shows the thermal history (processing, storage)</li><li><b>Cooling:</b> crystallisation on cooling</li><li><b>2nd heat:</b> the intrinsic behaviour, comparable between samples</li></ul>
+    <div class="sheet col"><span class="eyebrow">Heat – cool – heat (DSC of a polymer)</span><ul class="tight"><li><b>1st heat:</b> shows the thermal history (processing, storage)</li><li><b>Cooling:</b> crystallisation on cooling</li><li><b>2nd heat:</b> behaviour after the specified heating and cooling cycle, comparable between samples</li></ul>
       <div class="chips"><span class="chip">Start below the first event</span><span class="chip">Finish above the last</span><span class="chip">Same rate for every run</span><span class="chip">Weigh before and after</span></div>
       <div class="warn"><p class="small"><b>Safety:</b> energetic or unstable materials need very small masses and your institution's approval. Vent the exhaust, and never exceed the crucible limit.</p></div>${cap('Typical masses: DSC 2–10 mg, TGA 5–20 mg, STA 10–30 mg. Use a thin layer with good contact, a pinhole lid for gassing samples, and an empty matched pan as the DSC reference.')}</div></div>`;
 }
@@ -955,7 +1003,7 @@ const QS = [
   ["DSC", "A melting transition in a DSC curve is:", "An endothermic peak", "An exothermic peak", "A step in the baseline with no peak", "A loss of mass", "Melting absorbs heat, so it is endothermic. In the usual plot convention it points up if endotherms are plotted up, or down if exotherms are plotted up. Always check the axis label."],
   ["DSC", "Which value from a melting peak is normally used as the melting temperature of a pure substance?", "The extrapolated onset", "The peak maximum", "The end of the peak", "The temperature at which the baseline starts", "The extrapolated onset is nearly independent of sample mass and heating rate for a pure substance, while the peak maximum moves with both."],
   ["DSC", "A glass transition appears in DSC as:", "A step in the baseline, caused by a change in heat capacity", "A sharp endothermic peak", "A sharp exothermic peak", "A mass loss", "The glass transition is a change in heat capacity, so the heat-flow baseline steps to a new level. There is no latent heat and no mass change."],
-  ["DSC", "Why is a heat–cool–heat programme used for polymers?", "To separate the effect of thermal history (first heat) from the intrinsic behaviour (second heat)", "To calibrate the temperature scale", "To remove the reference pan", "To double the signal size", "The first heat contains information about processing and storage. After a controlled cooling, the second heat shows the material's intrinsic transitions, which can be compared between samples."],
+  ["DSC", "Why is a heat–cool–heat programme used for polymers?", "To compare the as-received sample with the sample after a controlled heating and cooling cycle", "To calibrate the temperature scale", "To remove the reference pan", "To double the signal size", "The first heat contains information about processing and storage. After a controlled cooling, the second heat shows transitions after the specified thermal cycle, which can be compared between samples."],
   ["DSC", "A typical DSC sample mass is:", "2–10 mg", "2–10 g", "200–500 mg", "0.001–0.01 mg", "Small masses give sharp peaks with little thermal lag, and are still large enough for good signal. Larger samples broaden peaks and increase lag."],
   ["DSC", "Modulated-temperature DSC is used mainly to:", "Separate reversing (heat-capacity) events from non-reversing (kinetic) events", "Measure mass loss", "Replace calibration", "Identify evolved gases", "A small oscillation on the ramp lets the software separate the part of the heat flow that follows the modulation (reversing) from the part that does not (non-reversing)."],
   ["DSC", "Cold crystallisation on heating appears as:", "An exothermic peak just above Tg in a sample that was quenched to the amorphous state", "An endothermic peak below Tg", "A mass gain", "A step in the baseline at the melting point", "A quenched amorphous sample gains mobility above Tg and crystallises, releasing heat. It is seen on the first heat and usually not on a reheat."],
@@ -1257,12 +1305,13 @@ const RHEO_STEPS = [
   { t: 'SOPs and guides', h: 'Public rheometer SOPs and operating guides', f: () => guideCards(RHEO_GUIDES) }
 ];
 const steps = () => ({ ta: TA_STEPS, dma: DMA_STEPS, rheo: RHEO_STEPS })[S.mode];
-const MODE_SUB = { rheo: 'Explore flow and oscillatory measurements, choose a geometry, and look up instrument families and public operating guides.', ta: 'Animated, interactive steps from instrument to result: DSC, TGA, STA and evolved gas analysis. Drag the sliders, press play, change the gas, the rate or the crucible.', dma: 'How dynamic mechanical analysis measures stiffness and damping, with animations of phase lag and a temperature sweep.', quiz: '100 multiple-choice questions on thermal analysis and DMA. Green is correct, red is wrong, and every answer is explained.' };
-const MODE_EYE = { rheo: 'Rheology and rheometry', ta: 'Thermal analysis workflow', dma: 'Dynamic mechanical analysis', quiz: 'Test yourself' };
+const MODE_SUB = { start: 'Which method answers your question, how to plan and report a measurement, common problems, standards and a glossary.', rheo: 'Explore flow and oscillatory measurements, choose a geometry, and look up instrument families and public operating guides.', ta: 'Animated, interactive steps from instrument to result: DSC, TGA, STA and evolved gas analysis. Drag the sliders, press play, change the gas, the rate or the crucible.', dma: 'How dynamic mechanical analysis measures stiffness and damping, with animations of phase lag and a temperature sweep.', quiz: '100 multiple-choice questions on thermal analysis and DMA. Green is correct, red is wrong, and every answer is explained.' };
+const MODE_EYE = { start: 'Start here', rheo: 'Rheology and rheometry', ta: 'Thermal analysis workflow', dma: 'Dynamic mechanical analysis', quiz: 'Test yourself' };
 function render() {
   stopAnim(); document.removeEventListener('keydown', window._qk || (() => 0));
   $$('#modeseg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.m === S.mode));
   $('#eyebrow').textContent = MODE_EYE[S.mode]; $('#modesub').textContent = MODE_SUB[S.mode];
+  if (S.mode === 'start') { $('#rail').innerHTML = ''; $('#rail').style.display = 'none'; $('.layout').style.gridTemplateColumns = 'minmax(0,1fr)'; $('#main').innerHTML = startHTML(START_CFG); startWire($('#main')); startGo($('#main')); return; }
   if (S.mode === 'quiz') { $('#rail').innerHTML = ''; $('#rail').style.display = 'none'; $('.layout').style.gridTemplateColumns = 'minmax(0,1fr)'; renderQuiz(); return; }
   $('#rail').style.display = ''; $('.layout').style.gridTemplateColumns = '';
   const st = steps(), i = Math.min(S.step, st.length - 1), cur = st[i]; S.seen.add(S.mode + i);
@@ -1272,8 +1321,157 @@ function render() {
   $('#prev').onclick = () => go(i - 1); $('#next').onclick = () => go(i + 1);
   if (cur.w) cur.w();
 }
+/* ---------- Start page (shared component) ---------- */
+function stSection(title,meta,body,open){return `<details class="st-sec"${open?' open':''}><summary>${title}${meta?`<small>${meta}</small>`:''}</summary><div class="st-body">${body}</div></details>`;}
+function stTable(head,rows){return `<div class="st-tw" tabindex="0" role="region" aria-label="Scrollable comparison table"><table><thead><tr>${head.map(x=>`<th scope="col">${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;}
+function startHTML(c){
+  const mods=c.modules.map(m=>`<button type="button" ${m.attr}><i>${m.tag}</i><b>${m.t}</b><span>${m.d.replace('{{N}}',typeof QS!=='undefined'?QS.length:'')}</span></button>`).join('');
+  const steps=`<ol class="st-steps">${c.workflow.map(w=>`<li><div><b>${w[0]}</b><span>${w[1]}</span></div></li>`).join('')}</ol>`;
+  const check=`<p>Tick these off before you start. Nothing is stored; the list is a prompt for good habits.</p><ul class="st-check" id="stCheck">${c.checklist.map(t=>`<li><label><input type="checkbox"><span>${t}</span></label></li>`).join('')}</ul><div class="st-ctl"><button type="button" class="st-btn" id="stCopy">Copy as text</button><button type="button" class="st-btn" id="stClear">Clear ticks</button></div>`;
+  const rep=`<p>${c.reportLead}</p><div class="st-two">${c.report.map(r=>`<div><h4>${r[0]}</h4><ul>${r[1].map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}</div>`;
+  const std=stTable(['Item','What it is for'],c.standards)+`<div class="st-two"><div><h4>Books and reviews</h4><ul>${c.books.map(x=>`<li>${x}</li>`).join('')}</ul></div><div><h4>Online resources</h4><ul>${c.links.map(x=>`<li><a href="${x[1]}" target="_blank" rel="noopener noreferrer">${x[0]}</a>${x[2]?' · '+x[2]:''}</li>`).join('')}</ul></div></div><p class="st-note">${c.stdNote}</p>`;
+  const gl=`<input class="st-find" id="stFind" type="search" placeholder="Search ${c.glossary.length} terms" aria-label="Search glossary"><div class="st-gl" id="stGl">${c.glossary.map(g=>`<div data-t="${(g[0]+' '+g[1]).toLowerCase().replace(/<[^>]+>/g,'').replace(/"/g,'')}"><b>${g[0]}</b>: ${g[1]}</div>`).join('')}</div>`;
+  return `<div class="st"><section class="st-hero"><p class="st-lead">${c.intro}</p><div class="st-mod">${mods}</div></section>`
+   +stSection('Which method answers my question?',c.questions.length+' common questions',stTable(['If you need to know…','Use','What you get','Watch out for'],c.questions),true)
+   +stSection('A good measurement in six steps','workflow',steps,false)
+   +stSection('Before you measure: checklist',c.checklist.length+' checks',check,false)
+   +stSection('What to report',null,rep,false)
+   +stSection('Common problems: what you see and what to do','troubleshooting',stTable(['What you see','Likely cause','What to do'],c.pitfalls),false)
+   +stSection('Standards, reference materials and further reading',null,std,false)
+   +stSection('Glossary',c.glossary.length+' terms',gl,false)
+   +`<p class="st-note">${c.scope}</p></div>`;
+}
+function startWire(root){
+  const ck=root.querySelector('#stCheck');
+  if(ck){ck.addEventListener('change',e=>{const li=e.target.closest('li');if(li)li.classList.toggle('on',e.target.checked);});
+    const txt=()=>[...ck.querySelectorAll('li')].map((li,i)=>(i+1)+'. ['+(li.querySelector('input').checked?'x':' ')+'] '+li.textContent.trim()).join('\n');
+    root.querySelector('#stCopy').onclick=async e=>{const b=e.currentTarget;try{await navigator.clipboard.writeText(txt());b.textContent='Copied';}catch(_){const t=document.createElement('textarea');t.value=txt();t.style.cssText='position:fixed;opacity:0';document.body.append(t);t.select();try{b.textContent=document.execCommand('copy')?'Copied':'Copy failed';}catch(__){b.textContent='Copy failed';}t.remove();}setTimeout(()=>b.textContent='Copy as text',1600);};
+    root.querySelector('#stClear').onclick=()=>ck.querySelectorAll('li').forEach(li=>{li.classList.remove('on');li.querySelector('input').checked=false;});}
+  const f=root.querySelector('#stFind');
+  if(f)f.addEventListener('input',()=>{const q=f.value.trim().toLowerCase();root.querySelectorAll('#stGl [data-t]').forEach(d=>d.hidden=!!q&&!d.dataset.t.includes(q));});
+}
+const START_CFG={
+intro:'A practical guide to thermal analysis (DSC, TGA, STA and evolved gas analysis), dynamic mechanical analysis and rheometry. It shows how a measurement is planned, what each condition changes in the curve, how to check and calibrate, and how to report results so others can compare them. The simulators are teaching models; follow the manufacturer’s instructions and your lab’s approved procedures.',
+modules:[
+{tag:'Technique',t:'Thermal analysis',d:'DSC, TGA, STA and evolved gas analysis: how they work, crucibles, atmosphere, heating rate and curve interpretation.',attr:'data-mode="ta"'},
+{tag:'Technique',t:'DMA',d:'Storage and loss modulus, tan δ, clamps, frequency and temperature sweeps.',attr:'data-mode="dma"'},
+{tag:'Technique',t:'Rheometry',d:'Flow and oscillation tests, geometries, instrument families and public operating guides.',attr:'data-mode="rheo"'},
+{tag:'Practise',t:'Check your knowledge',d:'{{N}} questions with explanations, including scenario-based critical-thinking sets.',attr:'data-mode="quiz"'}],
+questions:[
+['At what temperature does it melt, crystallise or undergo a glass transition, and with what enthalpy?','DSC','Transition temperatures, enthalpy of fusion or crystallisation, step change in heat capacity at Tg','Results depend on heating rate and thermal history. First heating can reveal processing history; a second heating after controlled cooling can compare samples on the same basis.'],
+['How much mass is lost, in how many steps, and what residue remains?','TGA','Moisture, solvent, decomposition steps, filler or ash content','Buoyancy and gas flow change apparent mass; run a blank and report the atmosphere.'],
+['Is this event melting, decomposition or a reaction with the gas?','STA (TGA with DSC or DTA) or TGA with evolved gas analysis','Mass change and heat flow on the same sample and run','STA combines mass with DSC heat flow or DTA temperature difference, depending on the sensor. Sensitivity depends on the configuration.'],
+['What gas comes off, and at what temperature?','TGA-MS or TGA-FTIR (evolved gas analysis)','Identity and release profile of volatile products','Transfer-line temperature, delay time and gas flow affect what is detected and when.'],
+['How does stiffness change with temperature, and where is Tg most clearly seen?','DMA','Storage modulus E′, loss modulus E″, tan δ against temperature or frequency','Clamp type, geometry and the linear viscoelastic range must be checked.'],
+['How does it flow, and what is its viscosity, yield stress or gel point?','Rheometry','Viscosity against shear rate, G′ and G″, yield behaviour, time-dependent changes','Check gap, loading history and slip. Establish the linear viscoelastic region before small-amplitude oscillatory sweeps.'],
+['How pure is a crystalline organic compound?','DSC with van’t Hoff analysis','Estimate of total eutectic impurity from melting-peak shape','Works only for high-purity material that melts without decomposing and without forming solid solutions.'],
+['What is the specific heat capacity?','DSC (sapphire or modulated method)','Cp against temperature with a reference material','Needs careful baseline, matched pans and calibration; accuracy depends on method.']],
+workflow:[
+['Define the question','A transition, a mass change, a kinetic result or a mechanical property? The question decides the technique, the temperature range and how many repeats you need.'],
+['Prepare the sample','Representative sample, accurate mass, good thermal contact with the pan (flat, thin disc where possible). Select mass based on the instrument, hazard assessment and expected event. Record the mass and sample form.'],
+['Choose crucible and atmosphere','Pan material and lid must not react with the sample or its products. Choose an inert or reactive purge and a flow rate, and note whether the lid is sealed, pierced or open.'],
+['Program the temperature','Choose a rate appropriate to the method and resolution needed. Where suitable, compare first heating with reheating after controlled cooling. Do not run far beyond the last event of interest.'],
+['Verify the instrument','Check temperature and heat-flow calibration with reference materials such as indium and zinc, and run a baseline with empty crucibles under the same conditions.'],
+['Evaluate and report','Use a consistent evaluation method (onset, peak or midpoint; defined baseline), keep raw files, and report all conditions with the results.']],
+checklist:[
+'The question is written down, with the expected events and their temperature range.',
+'Sample is representative, mass is recorded and thermal contact with the pan is good.',
+'Crucible and lid material are compatible with the sample up to the highest temperature.',
+'Atmosphere and flow rate are chosen and the gas has been flowing long enough to stabilise.',
+'Heating rate, range and any isothermal steps are programmed, with a cooling method that suits the range.',
+'Calibration is current and a baseline or blank run exists for the same method.',
+'Reference crucible is matched to the sample crucible (same type, similar mass).',
+'For polymers: first and second heating are both recorded and labelled.',
+'For TGA: a blank or buoyancy correction is available for the conditions.',
+'Raw data, method file and all settings are saved with the sample ID.'],
+reportLead:'Thermal results depend on how the experiment was done. Report enough that someone could repeat it and reach the same curve.',
+report:[
+['Experiment',['Sample mass and form (powder, film, disc) and preparation','Crucible type, material, lid (sealed, pierced, open)','Atmosphere, gas and flow rate; protective gas if used','Temperature program: start, end, rate, isothermal steps, cooling','Which heating run is reported (first, second)']],
+['DMA and rheometry',['DMA: fixture, specimen dimensions, deformation mode, frequency, amplitude and preload','Rheometry: geometry, gap, surface finish, temperature, loading and rest history','State the sweep protocol, linear-region check where relevant, and any slip or evaporation checks']],
+['Instrument and evaluation',['Instrument model and sensor type','Calibration materials and date, and any baseline or blank correction','Evaluation method: onset, peak or midpoint; baseline definition','Software and smoothing applied','Kinetic or purity analysis method and its assumptions']]],
+pitfalls:[
+['Strange baseline or noise before the main event','Moisture or solvent loss, pan lid opening, or poor contact','Run TGA first to find volatile loss; use a pierced lid or dry the sample; reload the sample flat.'],
+['A transition moves when the heating rate changes','Kinetic transitions (Tg, crystallisation, decomposition) shift with rate; equilibrium melting does not shift as much','Repeat at two or more rates, and report the rate used.'],
+['Baseline slopes or drifts away from zero','Mismatched pans or masses, dirty sensor, or poor gas stability','Run an empty-pan baseline and subtract it, clean the sensor, use matched pans.'],
+['Sudden spikes or steps in the DSC curve','Sample movement, a lid popping or deforming, or sample reacting with the pan','Use a suitable lid, lower the mass, check the pan afterwards, and repeat.'],
+['TGA blank shows an apparent mass gain at high temperature','Buoyancy changes as the gas density falls','Subtract a blank run done with the same crucible, gas and program.'],
+['Pan deformed, or alloyed to the sensor','Reaction with the pan material or unsuitable maximum temperature','Choose another crucible material, stay below its limit, and inspect after the run.'],
+['Glass-transition step hidden by a peak on first heating','Enthalpy relaxation and thermal history','Heat, cool at a controlled rate and reheat; evaluate the second heating.'],
+['DMA modulus differs from a similar sample','Clamping stress, geometry error, or the amplitude outside the linear range','Check sample dimensions, clamp torque and an amplitude sweep.']],
+standards:[
+['ISO 11357 (parts 1 to 7)','Plastics: differential scanning calorimetry (general principles, glass transition, melting and crystallisation, heat capacity, characteristic temperatures, oxidation induction time and crystallisation kinetics)'],
+['ISO 11358-1','Plastics: thermogravimetry general principles'],
+['ASTM E967 and E968','Temperature calibration and heat-flow calibration of DSC and DTA'],
+['ASTM E1582 and E1131','Temperature calibration of TGA; compositional analysis by thermogravimetry'],
+['ASTM E793, E794, E1356, E1269','Enthalpies of fusion and crystallisation; melting and crystallisation temperatures; glass transition by DSC; specific heat capacity by DSC'],
+['ISO 6721 and ASTM D4065','Plastics: dynamic mechanical properties and reporting practice'],
+['ISO 3219','ISO 3219-1 defines terminology; ISO 3219-2 gives general principles of rotational and oscillatory rheometry'],
+['ICTAC kinetics committee recommendations','Guidance on kinetic analysis of thermal analysis data (Vyazovkin et al., <i>Thermochim. Acta</i> 2011, 520, 1; 2014, 590, 1)']],
+books:['Höhne, Hemminger and Flammersheim, <i>Differential Scanning Calorimetry</i> (Springer)','Brown, <i>Introduction to Thermal Analysis: Techniques and Applications</i>','Gabbott (ed.), <i>Principles and Applications of Thermal Analysis</i> (Blackwell)','Menard and Menard, <i>Dynamic Mechanical Analysis: A Practical Introduction</i> (CRC)','Macosko, <i>Rheology: Principles, Measurements and Applications</i>'],
+links:[['ISO 3219-2:2021','https://www.iso.org/standard/76033.html','principles of rotational and oscillatory rheometry'],['NETZSCH: factors influencing DSC and TGA results','https://analyzing-testing.netzsch.com/en/know-how/tips-tricks/dsc/factors-influencing-the-dsc-and-tga-measurements-results','manufacturer tips on sample, crucible, gas, rate and evaluation'],['TA Instruments TGA training notes (PDF)','https://tainstruments.com/wp-content/uploads/2020_TGA_Online_Training_Part_1.pdf','manufacturer training material']],
+stdNote:'Standard numbers are for orientation. Check the current edition, and use your own calibration schedule and quality system where they apply.',
+glossary:[
+['Onset temperature','Intersection of the extrapolated baseline and the tangent to the leading edge of a peak; the usual measure for melting.'],
+['Peak temperature','Temperature at the maximum or minimum of the peak; depends strongly on heating rate and sample mass.'],
+['Midpoint (Tg)','Temperature at half the step height of a glass transition, defined in ISO 11357-2; other definitions exist.'],
+['Enthalpy of fusion','Heat absorbed on melting, found by integrating the peak area against a defined baseline.'],
+['Heat-flux DSC','DSC where one furnace holds both pans and the temperature difference across a sensor gives heat flow.'],
+['Power-compensation DSC','DSC with two small furnaces whose electrical power difference is measured.'],
+['Crucible (pan)','Container for the sample; material, volume and lid affect heat transfer and reactions.'],
+['Purge and protective gas','Gas flowing over the sample (purge) and gas protecting the balance or sensor (protective).'],
+['Buoyancy effect','Apparent mass change in TGA caused by changing gas density with temperature.'],
+['DTG','Derivative of the TGA mass curve with time or temperature; shows the rate of mass loss.'],
+['Residue','Mass remaining at the end of a TGA run, for example ash or filler.'],
+['Oxidation induction time (OIT)','Time before oxidation begins at constant temperature after switching from inert to oxygen atmosphere.'],
+['Enthalpy relaxation','Endothermic overshoot at Tg after ageing below Tg; appears on first heating and disappears after controlled cooling.'],
+['Heat–cool–heat','Programme that compares the as-received sample with its behaviour after a specified heating and cooling history. Irreversible changes can persist.'],
+['Storage modulus E′','Elastic part of the dynamic modulus in DMA; stored energy.'],
+['Loss modulus E″','Viscous part of the dynamic modulus in DMA; dissipated energy.'],
+['tan δ','Ratio of loss to storage modulus; its peak is commonly used to mark Tg in DMA.'],
+['Complex viscosity','Viscosity derived from an oscillatory test; related to G* and angular frequency.'],
+['Shear thinning','Viscosity falls as shear rate rises.'],
+['Yield stress','Operational estimate of the stress associated with onset of sustained flow. The value can depend on method, time and sample history.']],
+scope:'This guide is for teaching and orientation. It does not replace training, a facility’s risk assessment or the manufacturer’s manuals.'
+};
+
+function startGo(root){root.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{S.mode=b.dataset.mode;S.step=0;render();window.scrollTo({top:0});});}
+/* Critical-thinking questions added to the Thermal Lab */
+Object.assign(QCAT,{CTD:'Critical: DSC',CTG:'Critical: TGA and EGA',CTM:'Critical: DMA and rheometry'});
+QS.push(
+["CTD","Increasing the DSC heating rate generally does what?","Raises the signal height but lowers resolution, and shifts kinetic events to higher temperature","Lowers the signal height and improves resolution","Changes nothing for any event","Removes the thermal lag","Heat flow scales with the heating rate, so peaks get taller, but they also broaden and overlap. Glass transitions, crystallisation and decomposition move to higher temperature at faster rates."],
+["CTD","Why does a very large sample mass distort a DSC melting peak?","Thermal gradients and lag inside the sample broaden the peak and shift the peak temperature","The sample becomes denser","The reference stops working","The purge gas cools it","A large mass takes longer to reach a uniform temperature. Small, thin samples with good pan contact give sharper peaks."],
+["CTD","A crimped-pan sample shows an irregular endotherm with spikes near 100 °C, and its mass is lower after the run. What probably happened?","Water or solvent vaporised and the lid vented or deformed; use a method and pan configuration approved for the expected pressure and volatile release","The sample melted cleanly","The reference pan evaporated","The sensor was recalibrated","Volatile loss and pressure changes cause irregular signals. Check the pan afterwards and choose a lid to suit the question."],
+["CTD","Which point on the indium melting curve is used for temperature calibration?","The extrapolated onset","The peak maximum","The end of the peak","The point of steepest slope after the peak","The onset is nearly independent of sample mass and heating rate, while the peak temperature is not."],
+["CTD","An indium standard (reference ΔHf about 28.5 J/g) measures 25.5 J/g. What is the right response?","Treat the heat-flow calibration as out of tolerance: check contact and baseline, then recalibrate before measuring samples","Multiply all sample enthalpies by 1.1 and continue","Ignore it because 10 % is acceptable","Change the heating rate","A deviation like this means the sensitivity is off or the run was poor. Fix the cause before reporting enthalpies."],
+["CTD","Why must you state how a glass transition temperature was evaluated?","Onset, midpoint and inflection values differ by several kelvin, and results also depend on rate and history","The software chooses it automatically","They are always identical","Only the onset has a meaning","Different definitions give different numbers. Standards such as ISO 11357-2 define the midpoint."],
+["CTD","A semicrystalline polymer shows cold crystallisation on heating. Which calculation best estimates its original crystallinity?","(melting enthalpy minus cold-crystallisation enthalpy) divided by the enthalpy of the fully crystalline polymer","Melting enthalpy alone divided by sample mass","The peak height ratio","Cold-crystallisation enthalpy only","The material that crystallises during heating was not crystalline at the start, so its enthalpy is subtracted."],
+["CTD","DSC purity analysis by the van’t Hoff method is least reliable when:","The sample decomposes on melting or forms solid solutions","The sample is a high-purity crystalline compound","The melting peak is sharp","A small mass is used","The method assumes no solid solution and no decomposition during melting, and it is meant for high-purity material."],
+["CTD","In modulated DSC, enthalpy relaxation and cold crystallisation appear mainly in:","The non-reversing heat flow","The reversing heat flow","The sample temperature","The reference signal","Kinetic events respond to the average temperature rather than the modulation. The heat-capacity step of Tg appears in the reversing signal."],
+["CTD","Why does the second heating of a polymer often differ from the first?","The first heating can reflect processing or ageing; the second reflects the sample after the selected heat–cool cycle","The instrument changes between runs","The second run is always wrong","Polymers are not affected by heating","Both heatings are informative. The first records the history of the sample; the second is better for comparing materials."],
+["CTD","What goes in the reference position of a standard heat-flux DSC measurement?","An empty crucible of the same type and similar mass","Nothing at all","A larger sample of the same material","A different metal piece","The reference is matched to the sample pan so that only the sample’s thermal behaviour shows in the difference signal."],
+["CTG","A TGA run of an empty crucible from 25 to 1000 °C in nitrogen shows a small apparent mass change. What does it represent?","Buoyancy and gas-flow effects that should be subtracted from sample runs","Moisture in the instrument","A decomposition step","A calibration mass","As gas density falls on heating, the buoyant force changes, giving an apparent mass shift. A blank run of the same program corrects it."],
+["CTG","A polymer TGA in nitrogen leaves 12 % residue, but in air the residue is 2 %. What is the main explanation?","Char may form in nitrogen and oxidise in air, leaving a lower residue under those conditions","The sample gained mass in air","The balance is faulty","Nitrogen reacts with the polymer","Pyrolysis in nitrogen can leave carbonaceous char. An oxidising atmosphere removes it."],
+["CTG","A TGA decomposition step moves to higher temperature when the heating rate is raised. Why?","Decomposition is kinetic; at higher rates less time is spent at each temperature, so the apparent onset shifts upward","The sample absorbs more heat","The balance is more sensitive","Gas flow stops","Rate-dependent shifts are typical of kinetic processes. Multiple rates are used for kinetic analysis."],
+["CTG","Why can large sample masses distort TGA steps?","Gaseous products escape slowly and temperature gradients form, which can merge or shift steps","The balance cannot weigh them","Large samples have no thermal lag","The purge gas stops flowing","Mass-transport and heat-transfer limits blur the curve. Smaller, thinner samples give cleaner steps."],
+["CTG","What is the main use of the DTG curve?","Locating the temperatures of maximum mass-loss rate and separating overlapping steps","Measuring the heat of reaction","Calibrating the temperature scale","Measuring gas flow","The derivative shows each step as a peak, making overlapping steps easier to see."],
+["CTG","In TGA-MS, an ion signal appears later than the mass loss. What is the usual explanation?","Transport delay through the transfer line and gas path","The balance is wrong","The mass loss is not real","The sample has changed identity","Evolved gas takes time to travel to the detector. Delay depends on flow rate and line length and should be considered when aligning signals."],
+["CTG","Calcium oxalate monohydrate (M = 146.1 g/mol) first loses its water of crystallisation. What mass loss is expected?","About 12.3 %","About 19.2 %","About 30.1 %","About 38 %","18.02/146.11 is about 12.3 %. The later steps, loss of CO and CO₂, are about 19.2 % and 30.1 % of the original mass."],
+["CTG","CuSO₄·5H₂O (M = 249.7 g/mol) loses all its water of crystallisation. What mass loss is expected?","About 36 %","About 7 %","About 64 %","About 20 %","Five waters weigh about 90.1 g/mol, which is 36 % of 249.7. The 64 % figure is the mass of anhydrous CuSO₄ that remains."],
+["CTG","On an STA, an endotherm appears with no mass loss. What is it most likely?","Melting or a solid–solid transition","Evaporation of a solvent","Decomposition with gas release","Buoyancy","A heat-flow event with no mass change points to a physical transition. If mass is lost at the same time, evaporation or decomposition is likely."],
+["CTM","For the same DMA run, which Tg indicator usually gives the highest temperature?","The peak of tan δ","The onset of the drop in storage modulus E′","The peak of loss modulus E″","The start of the heating","The onset of the E′ drop is lowest, the E″ peak is higher, and the tan δ peak is highest. State which one you report."],
+["CTM","In DMA, increasing the test frequency tends to:","Shift the glass transition to higher temperature","Shift it to lower temperature","Have no effect","Remove the transition","Faster deformation gives less time for molecular relaxation, so the apparent transition rises."],
+["CTM","Why run an amplitude or strain sweep before a frequency sweep?","To find the linear viscoelastic region where moduli do not depend on amplitude","To heat the sample","To clean the geometry","To calibrate the temperature","Small-amplitude G′ and G″ are independent of amplitude in the linear region. Outside it, nonlinear responses require a different interpretation. Measuring outside it gives results that depend on the strain chosen."],
+["CTM","For a very stiff sample, the apparent DMA modulus is too low. A likely reason?","Instrument and clamp compliance add to the measured deformation","The sample is too soft","Temperature is too low","Frequency is too low","Stiff samples deform very little, so compliance of the clamp or frame becomes significant. Check with a stiff reference or apply a compliance correction."],
+["CTM","Which geometry gives a uniform shear rate across the sample?","Cone and plate (with a small cone angle)","Parallel plates","Any concentric geometry","Two plates with a large gap","In a cone and plate the gap rises with radius in step with the velocity, giving a nearly uniform shear rate. Parallel plates have a gradient across the radius."],
+["CTM","At the same nominal shear rate, a suspension’s apparent viscosity decreases at smaller gaps. Which artefact should you investigate?","Wall slip; use serrated or roughened surfaces and test several gaps","The sample is Newtonian","The temperature is falling","The cone is wrong","A gap-dependent result is a sign of slip at the walls. Roughened surfaces and multiple gaps expose it."],
+["CTM","The moduli of a water-based sample rise steadily in a time sweep at 60 °C. What should you check first?","Evaporation or skin formation at the edge; use a solvent trap or oil rim","The sample is gelling for sure","The computer clock","The shear rate","Loss of water changes concentration, and a skin adds stiffness. Solvent traps reduce these artefacts."],
+["CTM","A sample shows G′ greater than G″ over the whole frequency range tested. How can you describe it?","Storage modulus exceeds loss modulus over the measured frequency window","A Newtonian liquid","Always at its gel point","A purely viscous fluid","G′ above G″ means stored elastic energy dominates. The behaviour can change outside the range tested."],
+["CTM","An apparent sharp rise in viscosity at very high shear rates in a rotational test may come from:","Secondary flows, inertia or edge effects","A true change in molecular structure only","The sample cooling","Evaporation of the sample","Instrument limits and flow instabilities create artefacts at high speed. Check with another geometry or lower rates."],
+["CTM","Up- and down-ramp flow curves do not overlap, with the down curve lower. What does it indicate?","Behaviour consistent with thixotropy; confirm with a controlled recovery test and check artefacts","A Newtonian fluid","Measurement noise only","A perfectly elastic solid","Slow recovery after shear can produce this hysteresis. Evaporation, slip, sample loss or an unsuitable ramp may also affect the result."]
+);
+
 $$('#modeseg button').forEach(b => b.onclick = () => { S.mode = b.dataset.m; S.step = 0; render(); window.scrollTo({ top: 0 }); });
-let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (S.mode === 'quiz') return; const c = steps()[Math.min(S.step, steps().length - 1)]; if (c.w) { stopAnim(); c.w(); } }, 200); });
+let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (S.mode === 'quiz' || S.mode === 'start') return; const c = steps()[Math.min(S.step, steps().length - 1)]; if (c.w) { stopAnim(); c.w(); } }, 200); });
 render();
 </script>
 </body>
