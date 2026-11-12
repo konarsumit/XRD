@@ -108,7 +108,55 @@ body{margin:0;padding-block:24px 52px}
   .lab-masthead{gap:8px;padding-bottom:10px}
   .lab-links{width:100%}
 }
-</style></head><body><div class="wrap">
+</style><style id="start-page">
+.st{display:grid;gap:14px;min-width:0}
+.st-lead{margin:0;max-width:80ch;font-size:1.02rem;color:var(--ink)}
+.st-hero{display:grid;gap:14px}
+.st-mod{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:10px}
+.st-mod button{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:4px;align-content:start;padding:14px 15px;background:var(--paper);border:1px solid var(--rule);border-radius:10px}
+.st-mod button:hover{border-color:var(--accent);background:var(--accent-soft)}
+.st-mod button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.st-mod b{font:600 .98rem var(--f-body);color:var(--ink)}
+.st-mod span{font-size:.84rem;color:var(--muted);line-height:1.45}
+.st-mod i{font:500 .68rem var(--f-mono);font-style:normal;color:var(--accent);text-transform:uppercase;letter-spacing:.04em}
+.st-sec{background:var(--paper);border:1px solid var(--rule);border-radius:10px}
+.st-sec>summary{cursor:pointer;list-style:none;padding:13px 16px;font:600 1rem var(--f-body);display:flex;align-items:center;gap:10px}
+.st-sec>summary::-webkit-details-marker{display:none}
+.st-sec>summary::before{content:"▸";color:var(--accent);transition:transform .15s}
+.st-sec[open]>summary::before{transform:rotate(90deg)}
+.st-sec>summary small{font:500 .78rem var(--f-body);color:var(--muted);margin-left:auto}
+.st-body{padding:2px 16px 16px;display:grid;gap:10px}
+.st-body p{margin:0}
+.st-tw{overflow-x:auto;border:1px solid var(--rule);border-radius:8px}
+.st table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:560px}
+.st th{background:var(--chip);text-align:left;font:600 .76rem var(--f-mono);text-transform:uppercase;letter-spacing:.03em;color:var(--muted);padding:8px 10px}
+.st td{padding:9px 10px;border-top:1px solid var(--rule);vertical-align:top;line-height:1.45}
+.st td:first-child{font-weight:600;min-width:150px}
+.st-steps{margin:0;padding:0;list-style:none;display:grid;gap:8px;counter-reset:s}
+.st-steps li{counter-increment:s;display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:start}
+.st-steps li::before{content:counter(s);display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--paper);font:600 .82rem var(--f-mono)}
+.st-steps b{display:block}
+.st-steps span{color:var(--muted);font-size:.9rem}
+.st-check{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.st-check label{display:flex;gap:9px;align-items:flex-start;cursor:pointer;padding:6px 8px;border-radius:7px}
+.st-check label:hover{background:var(--chip)}
+.st-check input{margin-top:3px;accent-color:var(--accent)}
+.st-check li.on span{color:var(--muted);text-decoration:line-through}
+.st-ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.st-btn{font:500 .86rem var(--f-body);border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:8px;padding:7px 13px;cursor:pointer}
+.st-btn:hover{border-color:var(--accent)}
+.st-two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px}
+.st-two h4{margin:0 0 4px;font:600 .9rem var(--f-body)}
+.st-two ul,.st-body ul.st-ul{margin:0;padding-left:1.15em;display:grid;gap:4px;font-size:.9rem}
+.st-gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:8px 18px}
+.st-gl div{font-size:.88rem;line-height:1.45;padding:4px 0;border-bottom:1px solid var(--rule)}
+.st-gl dt,.st-gl b{font-weight:600}
+.st-gl [hidden]{display:none}
+.st-find{font:.9rem var(--f-body);padding:8px 11px;border:1px solid var(--rule);border-radius:8px;background:var(--bg);color:var(--ink);width:min(100%,360px)}
+.st-note{font-size:.8rem;color:var(--muted);max-width:90ch}
+.st-warn{border-left:3px solid var(--amber);background:var(--chip);padding:9px 12px;border-radius:0 8px 8px 0;font-size:.88rem}
+</style>
+</head><body><div class="wrap">
 <header class="lab-header">
 <div class="lab-masthead">
   <span class="lab-series">Interactive Chemistry · Instrument Labs</span>
@@ -123,7 +171,7 @@ body{margin:0;padding-block:24px 52px}
 </div>
 <script>
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
-const h=(t,a={},...k)=>{const e=document.createElement(t);for(const[n,v]of Object.entries(a||{})){if(n==='class')e.className=v;else if(n.startsWith('on'))e.addEventListener(n.slice(2),v);else if(v!==false&&v!=null)e.setAttribute(n,v===true?'':v);}k.flat(9).forEach(c=>{if(c==null||c===false)return;e.append(c.nodeType?c:document.createTextNode(String(c)));});return e;};
+const h=(t,a={},...k)=>{const e=document.createElement(t);for(const[n,v]of Object.entries(a||{})){if(n==='class')e.className=v;else if(n.startsWith('on'))e.addEventListener(n.slice(2),v);else if(v!==false&&v!=null)e.setAttribute(n,v===true?(n.startsWith('aria-')?'true':''):v);}k.flat(9).forEach(c=>{if(c==null||c===false)return;e.append(c.nodeType?c:document.createTextNode(String(c)));});return e;};
 const fmt=(v,d=2)=>Number.isFinite(v)?(Math.abs(v)>=1e5||(Math.abs(v)<1e-3&&v!==0)?v.toExponential(2):(+v.toFixed(d)).toString()):'–';
 /* seeded noise */
 function rng(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
@@ -715,7 +763,7 @@ const QS=[
 ['MD','Which handheld Raman technique can identify materials through some visually opaque containers?','a spatially offset (SORS) device','a UV device','a thermal camera','a refractometer','SORS collects light from beyond the laser spot, probing deeper layers.']
 ];
 
-const LAB={raman:{label:'Raman',subs:[['method','Method and simulator'],['settings','Settings'],['inst','Instruments'],['sop','SOPs'],['adv','Advanced guide']],lead:{method:'How the technique works, with a spectrum simulator.',settings:'What each setting does and where to start.',inst:'Popular instrument lines, grouped by type.',sop:'Step-by-step procedures to adapt for your lab.',adv:'Deeper topics for experienced users.'}},
+const LAB={start:{label:'Start here',subs:null,lead:''},raman:{label:'Raman',subs:[['method','Method and simulator'],['settings','Settings'],['inst','Instruments'],['sop','SOPs'],['adv','Advanced guide']],lead:{method:'How the technique works, with a spectrum simulator.',settings:'What each setting does and where to start.',inst:'Popular instrument lines, grouped by type.',sop:'Step-by-step procedures to adapt for your lab.',adv:'Deeper topics for experienced users.'}},
  ftir:{label:'FTIR',subs:[['method','Method and simulator'],['settings','Settings'],['inst','Instruments'],['sop','SOPs'],['adv','Advanced guide']],lead:{method:'How the technique works, with a spectrum simulator.',settings:'What each setting does and where to start.',inst:'Popular instrument lines, grouped by type.',sop:'Step-by-step procedures to adapt for your lab.',adv:'Deeper topics for experienced users.'}},
  pick:{label:'Which technique?',subs:null,lead:'Raman or FTIR for your sample, and why they complement each other.'},
  quiz:{label:'Check your knowledge',subs:null}};
@@ -749,7 +797,7 @@ function nav(){
 function go(p,s){state.p=p;state.s=s;try{history.replaceState(null,'','#'+p+(s?'/'+s:''));}catch(e){}render();}
 function render(){
  nav();const main=$('#main');main.replaceChildren();
- if(!state.p){main.append(h('p',{class:'lead'},'Choose Raman, FTIR, the technique chooser or the quiz above.'));return;}
+ if(!state.p||state.p==='start'){const w=h('div');w.innerHTML=startHTML(START_CFG);main.append(w);startWire(w);startGo(w);return;}
  if(state.p==='quiz'){Quiz(main);return;}
  const key=state.p+(state.s?'/'+state.s:''),L=LAB[state.p];
  main.append(h('p',{class:'lead'},state.s?L.lead[state.s]:L.lead));
@@ -783,9 +831,158 @@ function Quiz(root){
     h('div',{class:'ctl'},missed.length?h('button',{class:'btn primary',onclick:()=>run(shuffle(missed.slice()))},'Retry missed'):null,h('button',{class:'btn',onclick:setup},'New quiz'))));};
   show();}
  setup();}
+/* ---------- Start page (shared component) ---------- */
+function stSection(title,meta,body,open){return `<details class="st-sec"${open?' open':''}><summary>${title}${meta?`<small>${meta}</small>`:''}</summary><div class="st-body">${body}</div></details>`;}
+function stTable(head,rows){return `<div class="st-tw" tabindex="0" role="region" aria-label="Scrollable comparison table"><table><thead><tr>${head.map(x=>`<th scope="col">${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;}
+function startHTML(c){
+  const mods=c.modules.map(m=>`<button type="button" ${m.attr}><i>${m.tag}</i><b>${m.t}</b><span>${m.d.replace('{{N}}',typeof QS!=='undefined'?QS.length:'')}</span></button>`).join('');
+  const steps=`<ol class="st-steps">${c.workflow.map(w=>`<li><div><b>${w[0]}</b><span>${w[1]}</span></div></li>`).join('')}</ol>`;
+  const check=`<p>Tick these off before you start. Nothing is stored; the list is a prompt for good habits.</p><ul class="st-check" id="stCheck">${c.checklist.map(t=>`<li><label><input type="checkbox"><span>${t}</span></label></li>`).join('')}</ul><div class="st-ctl"><button type="button" class="st-btn" id="stCopy">Copy as text</button><button type="button" class="st-btn" id="stClear">Clear ticks</button></div>`;
+  const rep=`<p>${c.reportLead}</p><div class="st-two">${c.report.map(r=>`<div><h4>${r[0]}</h4><ul>${r[1].map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}</div>`;
+  const std=stTable(['Item','What it is for'],c.standards)+`<div class="st-two"><div><h4>Books and reviews</h4><ul>${c.books.map(x=>`<li>${x}</li>`).join('')}</ul></div><div><h4>Online resources</h4><ul>${c.links.map(x=>`<li><a href="${x[1]}" target="_blank" rel="noopener noreferrer">${x[0]}</a>${x[2]?' · '+x[2]:''}</li>`).join('')}</ul></div></div><p class="st-note">${c.stdNote}</p>`;
+  const gl=`<input class="st-find" id="stFind" type="search" placeholder="Search ${c.glossary.length} terms" aria-label="Search glossary"><div class="st-gl" id="stGl">${c.glossary.map(g=>`<div data-t="${(g[0]+' '+g[1]).toLowerCase().replace(/<[^>]+>/g,'').replace(/"/g,'')}"><b>${g[0]}</b>: ${g[1]}</div>`).join('')}</div>`;
+  return `<div class="st"><section class="st-hero"><p class="st-lead">${c.intro}</p><div class="st-mod">${mods}</div></section>`
+   +stSection('Which method answers my question?',c.questions.length+' common questions',stTable(['If you need to know…','Use','What you get','Watch out for'],c.questions),true)
+   +stSection('A good measurement in six steps','workflow',steps,false)
+   +stSection('Before you measure: checklist',c.checklist.length+' checks',check,false)
+   +stSection('What to report',null,rep,false)
+   +stSection('Common problems: what you see and what to do','troubleshooting',stTable(['What you see','Likely cause','What to do'],c.pitfalls),false)
+   +stSection('Standards, reference materials and further reading',null,std,false)
+   +stSection('Glossary',c.glossary.length+' terms',gl,false)
+   +`<p class="st-note">${c.scope}</p></div>`;
+}
+function startWire(root){
+  const ck=root.querySelector('#stCheck');
+  if(ck){ck.addEventListener('change',e=>{const li=e.target.closest('li');if(li)li.classList.toggle('on',e.target.checked);});
+    const txt=()=>[...ck.querySelectorAll('li')].map((li,i)=>(i+1)+'. ['+(li.querySelector('input').checked?'x':' ')+'] '+li.textContent.trim()).join('\n');
+    root.querySelector('#stCopy').onclick=async e=>{const b=e.currentTarget;try{await navigator.clipboard.writeText(txt());b.textContent='Copied';}catch(_){const t=document.createElement('textarea');t.value=txt();t.style.cssText='position:fixed;opacity:0';document.body.append(t);t.select();try{b.textContent=document.execCommand('copy')?'Copied':'Copy failed';}catch(__){b.textContent='Copy failed';}t.remove();}setTimeout(()=>b.textContent='Copy as text',1600);};
+    root.querySelector('#stClear').onclick=()=>ck.querySelectorAll('li').forEach(li=>{li.classList.remove('on');li.querySelector('input').checked=false;});}
+  const f=root.querySelector('#stFind');
+  if(f)f.addEventListener('input',()=>{const q=f.value.trim().toLowerCase();root.querySelectorAll('#stGl [data-t]').forEach(d=>d.hidden=!!q&&!d.dataset.t.includes(q));});
+}
+const START_CFG={
+intro:'A practical guide to Raman and infrared spectroscopy. It covers how each technique works, what the settings change, which instruments are widely used, and how to plan, run, check and report a measurement. The simulators are teaching models; follow the manufacturer’s instructions and your lab’s approved procedures at the instrument.',
+modules:[
+{tag:'Technique',t:'Raman',d:'Method and simulator, laser and grating settings, instruments, SOP templates and an advanced guide.',attr:'data-go="raman/method"'},
+{tag:'Technique',t:'FTIR',d:'Interferometer, resolution, apodisation, ATR and transmission sampling, instruments, SOPs and advanced topics.',attr:'data-go="ftir/method"'},
+{tag:'Decide',t:'Which technique?',d:'Raman or FTIR for your sample, and why the two complement each other.',attr:'data-go="pick"'},
+{tag:'Practise',t:'Check your knowledge',d:'{{N}} questions with explanations, including scenario-based critical-thinking sets.',attr:'data-go="quiz"'}],
+questions:[
+['What is this unknown bulk material, possibly inside glass or clear plastic?','Raman, or ATR-FTIR','Raman can sometimes probe through a transparent wall; ATR-FTIR is useful when direct sample contact is possible','Fluorescence can swamp Raman; ATR needs good contact and a hard, clean crystal.'],
+['Is a carbonyl, hydroxyl or amine group present?','FTIR','Polar-bond vibrations are strong in infrared (C=O, O–H, N–H)','Water absorbs strongly, so aqueous samples need ATR or short path lengths.'],
+['Which polymorph, carbon form or symmetric bond (C=C, S–S, C≡C)?','Raman','Symmetric stretches and low-wavenumber lattice modes are strong; fingerprints for polymorphs','Laser heating can change or damage the sample; check power at the sample.'],
+['What is in this aqueous solution?','Raman','Water is often a weaker Raman interferent than in mid-IR, though solute bands must still be detectable','Concentration, pH and Raman activity matter. SERS can improve detection for suitable analyte–substrate combinations.'],
+['What is this 10 µm particle or inclusion?','Raman microscopy, or FTIR microscopy','Raman often offers finer spatial resolution. FTIR resolution depends on wavelength, objective and sampling mode; verify the feature size on your configuration','IR microscopy needs particles large enough for the aperture; Raman can suffer fluorescence.'],
+['Can I follow a reaction in situ?','ATR-FTIR probe or Raman probe','Concentration changes of reagents and products as the reaction proceeds','Probe window fouling and temperature drift change baselines; calibrate for quantitation.'],
+['How much of a component is present?','FTIR (Beer–Lambert) or Raman with an internal standard','FTIR: absorbance proportional to concentration within limits; Raman: calibrated band ratios','Raman absolute intensity depends on focus, power and sample; use band ratios or an internal standard.'],
+['Is there a low-frequency (below 400 cm⁻¹) lattice mode?','Raman, or far-IR','Phonon and lattice modes useful for polymorph and inorganic work','Needs good rejection filters (Raman) or a far-IR beamsplitter and source (FTIR).']],
+workflow:[
+['Define the question','Identification, quantitation, polymorph, mapping or in-situ monitoring? This sets the technique, the sampling mode and how much calibration you need.'],
+['Assess the sample','Is it fluorescent, coloured, dark, wet, thick or air-sensitive? Does it burn under a laser or absorb IR strongly? Safety and sample stability come before settings.'],
+['Choose the mode and accessory','Raman: excitation wavelength, objective or probe, grating. FTIR: ATR crystal, transmission cell, diffuse reflectance or microscope. Match each to the sample.'],
+['Set up and verify','Raman: check the wavenumber axis on a reference such as silicon at 520.7 cm⁻¹ or a known organic standard. FTIR: check a polystyrene film, then collect a fresh background under the same conditions.'],
+['Measure and record','Choose power, exposure and accumulations (Raman) or resolution and scans (FTIR) to give enough signal without damage. Record every setting with the file.'],
+['Process, interpret and report','Apply only the processing you can justify (baseline, cosmic-ray removal, ATR correction), compare with a reference library, and keep the raw data.']],
+checklist:[
+'The question is written down, with the expected bands or differences.',
+'Sample hazards and laser or IR safety are checked, and the local SOP and training are in place.',
+'Raman: the wavelength suits the sample (shorter for signal, longer for fluorescence suppression).',
+'Raman: laser power at the sample is chosen to avoid heating, with a trial at low power first.',
+'Raman: the wavenumber axis is checked against a reference on the day.',
+'FTIR: the ATR crystal or window is clean and a fresh background has been collected.',
+'FTIR: the compartment is purged or the atmosphere is compensated, and the room is stable.',
+'FTIR: sample thickness or contact pressure is chosen to keep absorbance in a usable range.',
+'Resolution, scans or accumulations are set for the narrowest feature of interest.',
+'File names, sample IDs and all acquisition settings will be saved with the data.'],
+reportLead:'A spectrum without its acquisition conditions cannot be compared or repeated. Report at least the following.',
+report:[
+['Raman',['Excitation wavelength and laser power at the sample','Objective and numerical aperture, or probe type; spot size','Grating (lines/mm), spectral range and resolution','Exposure time × accumulations; baseline and cosmic-ray treatment','Wavenumber calibration reference and date']],
+['FTIR',['Mode (ATR crystal, angle, reflections; transmission cell and path length)','Resolution, number of scans, apodisation, zero filling','Background type and when it was collected','Range, detector and beamsplitter if non-standard','Corrections applied (ATR, baseline, atmospheric) and library match method']]],
+pitfalls:[
+['Broad sloping background in Raman','Fluorescence from the sample or an impurity','Try a longer excitation wavelength, photobleach for a short time, or change the spot on the sample.'],
+['Bands appear, vanish or shift during Raman acquisition','Laser heating or photodegradation','Lower the power, defocus slightly, rotate or move the sample, or use a cooler stage.'],
+['Narrow spikes one to three pixels wide','Cosmic rays hitting the detector','Collect several shorter accumulations and remove spikes, or use a median filter carefully.'],
+['Peaks shifted from reference values','Calibration drift, temperature, or real strain and composition changes','Recheck against a standard, then consider sample effects.'],
+['Sharp lines near 2350 cm⁻¹ and in the 1300–1900 and 3500–4000 cm⁻¹ regions in FTIR','Atmospheric CO₂ and water vapour','Purge, collect a fresh background, and apply atmospheric compensation sparingly.'],
+['ATR bands look unlike a transmission library, especially at low wavenumber','Penetration depth rises with wavelength, so low-wavenumber bands are stronger','Apply an ATR correction or compare with ATR reference spectra.'],
+['Bands flat-topped or intensities unreliable','Detector saturation or sample too thick or too concentrated','Use less sample, a thinner film or cell, or ATR.'],
+['Weak spectrum from a hard solid on ATR','Poor optical contact','Increase pressure within the crystal’s limit, flatten the sample, or use a microscope ATR.']],
+standards:[
+['ASTM E1840','Raman shift reference values for checking the wavenumber axis'],
+['ASTM E2529','Guide for testing the resolution of a Raman spectrometer'],
+['ASTM E2911','Guide for relative intensity correction of Raman spectrometers (see also NIST SRM 2241 for 785 nm)'],
+['ASTM E1252','Practice for general techniques for obtaining infrared spectra for qualitative analysis'],
+['ASTM E1421','Describing and measuring performance of FT-IR spectrometers (level zero and level one tests)'],
+['European Pharmacopoeia 2.2.24 and 2.2.48; USP general chapters on infrared and Raman spectroscopy','Pharmaceutical identity testing and instrument qualification requirements']],
+books:['Smith and Dent, <i>Modern Raman Spectroscopy: A Practical Approach</i> (Wiley)','Griffiths and de Haseth, <i>Fourier Transform Infrared Spectrometry</i> (Wiley)','Larkin, <i>Infrared and Raman Spectroscopy: Principles and Spectral Interpretation</i> (Elsevier)','Socrates, <i>Infrared and Raman Characteristic Group Frequencies</i> (Wiley)','Stuart, <i>Infrared Spectroscopy: Fundamentals and Applications</i> (Wiley)'],
+links:[['SDBS (AIST) spectral database','https://sdbs.db.aist.go.jp/','free reference spectra for organic compounds, including IR'],['RRUFF database','https://rruff.info/','mineral Raman and infrared spectra'],['NIST Chemistry WebBook','https://webbook.nist.gov/chemistry/','reference IR spectra and data'],['Warwick Spectroscopy RTP guides','https://warwick.ac.uk/research/rtp/spectroscopy/resources/guides','university facility instrument guides and forms']],
+stdNote:'Standard numbers are for orientation. Check the current edition, and use your own quality system or pharmacopoeia requirements where they apply.',
+glossary:[
+['Raman shift','Difference in wavenumber between the scattered and the incident light, in cm⁻¹; independent of the laser wavelength.'],
+['Stokes and anti-Stokes','Raman scattering with a loss (Stokes) or gain (anti-Stokes) of energy; Stokes is stronger at room temperature.'],
+['Rayleigh scattering','Elastic scattering at the laser wavelength; removed by edge or notch filters before the spectrometer.'],
+['Edge or notch filter','Filter that blocks the laser line so weak Raman light can be detected; sets the lowest usable shift.'],
+['Grating (lines/mm)','Disperses the light; more lines per millimetre give higher resolution and a narrower range per exposure.'],
+['CCD detector','Array detector that records the whole dispersed spectrum at once; cooled to reduce noise.'],
+['Fluorescence','Absorption and re-emission of light, often far stronger than Raman scattering and a common cause of sloping background.'],
+['SERS','Surface-enhanced Raman scattering: strong signal enhancement from molecules near a roughened metal surface.'],
+['Confocal','Optical arrangement with a pinhole that limits the detected light to a small volume, improving depth and spatial resolution.'],
+['Interferogram','Detector signal against mirror position in an FTIR; its Fourier transform gives the spectrum.'],
+['Apodisation','Mathematical weighting of the interferogram that reduces side lobes at the cost of some resolution.'],
+['Zero filling','Padding the interferogram with zeros to give smoother point spacing; it does not add real resolution.'],
+['Single-beam and background','Raw instrument response; the sample-to-background single-beam ratio gives transmittance. Absorbance is −log₁₀ of that ratio.'],
+['ATR','Attenuated total reflectance: infrared sampling through an evanescent wave at a crystal–sample interface.'],
+['Penetration depth','Depth into the sample probed by the evanescent wave in ATR; depends on wavelength, angle and refractive indices.'],
+['Beer–Lambert law','Absorbance is proportional to concentration and path length, within limits.'],
+['Multiplex advantage','FTIR records information from a band of wavenumbers simultaneously. A signal-to-noise advantage over scanning instruments depends on the dominant noise source.'],
+['Laser reference','The laser (usually helium–neon) in an FTIR that sets the mirror position and wavenumber accuracy.'],
+['Absorbance vs transmittance','Absorbance = −log₁₀(T); absorbance is linear with concentration, transmittance is not.'],
+['Resolution (cm⁻¹)','Smallest separation between two bands that can be distinguished; lower numbers mean finer detail.']],
+scope:'This guide is for teaching and orientation. It does not replace training, a facility’s risk assessment, laser safety rules or the manufacturer’s manuals.'
+};
+
+function startGo(root){root.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{const m=b.dataset.go.split('/'),p=m[0];go(p,m[1]||(LAB[p].subs?LAB[p].subs[0][0]:null));window.scrollTo({top:0});});}
+/* Critical-thinking questions added to the Spectroscopy Lab */
+Object.assign(QCAT,{CRA:'Critical: Raman',CRF:'Critical: FTIR'});
+QS.push(
+['CRA','Broad bands near 1350 and 1580 cm⁻¹ grow while a dark organic sample is exposed to the laser. Most likely?','Laser-induced carbonisation, with the D and G bands of amorphous carbon','A property of the original molecule','Cosmic rays hitting the detector','A grating calibration error','Growth during exposure points to damage. The two broad bands are characteristic of disordered carbon formed by heating.'],
+['CRA','Changing from 532 nm to 785 nm excitation, other factors equal, changes Raman scattering efficiency by about:','A fall to about one fifth, because it scales roughly as λ⁻⁴','A fivefold increase','Almost no change','A fall to one half','(532/785)⁴ is about 0.21. Longer wavelengths reduce fluorescence but give weaker scattering per unit power, so detector response and power must be considered.'],
+['CRA','Why can the anti-Stokes to Stokes intensity ratio act as a thermometer?','Anti-Stokes scattering needs population of the excited vibrational level, which follows the Boltzmann distribution','Anti-Stokes light is more intense at low temperature','Stokes scattering stops on heating','The ratio does not depend on temperature','The excited-level population rises with temperature, so the anti-Stokes band grows relative to the Stokes band.'],
+['CRA','What is the main cost of moving to a higher groove-density grating?','A narrower spectral window per exposure, often with lower throughput','Poorer resolution','Higher laser power','A shorter wavelength','Higher groove density disperses the light more, which improves resolution but covers a smaller range. Wide spectra then need stitching.'],
+['CRA','A thin layer on glass shows strong glass bands. Which change most directly reduces the glass signal?','Close the confocal pinhole and focus carefully on the layer, ideally with a higher-NA objective','Increase the laser power','Use a longer acquisition without changing focus','Open the pinhole fully','Confocal geometry restricts the detected depth. Focus and pinhole size control how much substrate is sampled.'],
+['CRA','Switching to an objective with higher numerical aperture gives a smaller focused spot. At the same power delivered to the sample, what changes?','The power density on the sample, because the spot is much smaller','The laser wavelength','The Raman shift of bands','The grating resolution','A smaller spot concentrates the same power into a smaller area, raising the risk of heating and damage.'],
+['CRA','The silicon band reads 519.8 cm⁻¹ instead of 520.7 cm⁻¹. What should you do before collecting data?','Recalibrate or investigate the drift, then re-check the reading','Subtract 0.9 cm⁻¹ from all later spectra','Ignore it because the difference is small','Change the sample','Calibration must be verified before measurement. Applying an unexplained correction hides a possible instrument problem.'],
+['CRA','Regular sinusoidal ripples on a 785 nm baseline from a back-illuminated CCD are most likely:','Etaloning in the detector','Fluorescence from the sample','Cosmic rays','Rayleigh scattering','Interference within a thin sensor produces periodic fringes in the near-infrared. A flat-field or etalon correction can reduce it.'],
+['CRA','How can you tell a cosmic-ray spike from a real Raman band?','Repeat the acquisition: a real band reappears at the same position, a cosmic-ray spike does not','Spikes are always wider than bands','Real bands never repeat','Cosmic rays appear only at 520 cm⁻¹','Cosmic rays strike randomly, so they do not recur at the same pixel in repeated exposures.'],
+['CRA','Totally symmetric vibrations typically show a depolarisation ratio that is:','Below 0.75 (polarised bands)','Above 0.75','Exactly 1','Always zero','Polarised bands have a ratio less than 3/4; depolarised bands are at 3/4 for non-resonant scattering.'],
+['CRA','What best handles day-to-day changes in absolute Raman intensity when quantifying?','Use the ratio to an internal standard band or another band in the same spectrum','Increase the laser power each day','Use the highest-magnification objective','Rely on the absolute peak height','Absolute intensity depends on focus, power and alignment. Ratios cancel many of these factors.'],
+['CRA','Why is quantitative SERS difficult?','Enhancement varies strongly with the local nanostructure, so signal does not scale reproducibly with concentration','SERS gives no signal for molecules','The enhancement is the same everywhere','SERS needs no metal surface','Hot spots dominate the signal. Careful substrates, internal standards and replicates are needed.'],
+['CRA','A black carbon-filled polymer burns under 532 nm. What is a sensible first change?','Reduce the power substantially and use a lower-magnification or defocused beam, checking for damage under the microscope','Increase the power for a shorter time','Switch to a shorter wavelength','Stop checking for damage','Dark samples absorb strongly and heat quickly. Start low and check for burn marks.'],
+['CRA','For an isolated vibration in the same sample state, which quantity should agree when measured at 532 and 785 nm?','The Raman shift in cm⁻¹, within calibration uncertainty','The absolute wavelength of the scattered light','The measured intensity','The spot size','Raman shift is the energy difference from the laser and does not depend on the excitation wavelength.'],
+['CRA','Excitation close to an electronic absorption of the analyte can:','Enhance selected bands strongly (resonance Raman) but also raise heating and fluorescence','Remove all Raman bands','Have no effect on intensity','Always reduce fluorescence','Resonance can boost certain modes by orders of magnitude, with trade-offs in damage and background.'],
+['CRA','Why do some instruments need special filters to see bands below 100 cm⁻¹?','Standard edge filters cut off close to the intense laser line, so narrow notch or volume Bragg filters or a multi-stage spectrometer are needed','Low-wavenumber bands do not exist','The laser is too weak','The grating cannot disperse light there','Rejecting the laser line while passing a band a few cm⁻¹ away demands very steep filters.'],
+['CRF','The same polymer gives different relative intensities in ATR and transmission, with low-wavenumber bands stronger in ATR. Why?','Penetration depth rises with wavelength, so low-wavenumber bands are probed more deeply','ATR has a different detector','ATR changes the chemistry','ATR measures only the surface atoms','The evanescent wave penetrates further at longer wavelength, boosting low-wavenumber bands. An ATR correction compensates.'],
+['CRF','Water-vapour lines appear as noise and the background was collected two hours ago. Best action?','Collect a fresh background and ensure the compartment is purged or stable','Subtract a polynomial from the sample','Increase the number of scans only','Raise the resolution','Atmospheric conditions change. A fresh background taken close in time removes most vapour and CO₂ features.'],
+['CRF','Increasing zero filling from 1 to 4 does what to the spectrum?','Interpolates extra points for a smoother display without adding true resolution','Doubles the real resolution','Improves signal-to-noise by a factor of four','Removes the water vapour','Zero filling adds points between existing ones but does not add real information.'],
+['CRF','Which apodisation gives the narrowest lines at the cost of side lobes?','Boxcar (no apodisation)','Happ–Genzel','Norton–Beer strong','Triangular','Boxcar gives the best nominal resolution but produces sinc-shaped ringing. Smoother functions reduce the side lobes and broaden lines slightly.'],
+['CRF','Why is 4 cm⁻¹ resolution adequate for most condensed-phase samples?','Their bands are typically broader than about 10 cm⁻¹, so finer resolution adds noise and time without new information','The instrument cannot go lower','Bands are always narrower than 1 cm⁻¹','Resolution has no effect on band shape','Gases need finer resolution because their lines are very narrow. Liquids and solids rarely do.'],
+['CRF','To improve signal-to-noise by a factor of 3 by averaging random noise, how many more scans do you need?','9 times as many','3 times as many','27 times as many','Half as many','Signal-to-noise improves with the square root of the number of scans.'],
+['CRF','Which ATR crystal gives the shallowest penetration depth at the same angle?','Germanium, because of its high refractive index','Diamond','ZnSe','Air','Penetration depth falls as the crystal refractive index rises. Germanium is useful for strongly absorbing or dark samples.'],
+['CRF','Diamond ATR spectra show a region of reduced energy between about 1900 and 2300 cm⁻¹. Why?','Intrinsic absorption of the diamond reduces throughput there','The sample absorbs there','The detector fails there','Water vapour fills the region','Diamond has absorption bands in this range, which can degrade weak features such as nitriles and alkynes.'],
+['CRF','A strong water band near 1640 cm⁻¹ interferes with a protein measurement. What is the issue?','Water bending overlaps the amide I region, so careful water subtraction or D₂O is needed','Water absorbs only above 3000 cm⁻¹','The protein does not absorb','The band is cosmic-ray noise','The H–O–H bend sits close to amide I, so aqueous protein work needs correction or a deuterated solvent.'],
+['CRF','A KBr pellet made with visibly coarse particles shows a sloping baseline and distorted bands. What should you check?','Particle scattering and refractive-index mismatch; check whether finer, uniform grinding improves the pellet','The beamsplitter is damaged','Too many scans','A hot laser','Scattering from coarse particles distorts bands. Finer, more uniform grinding helps.'],
+['CRF','Compared with a DTGS detector, an MCT detector is:','Often faster and more sensitive in its operating range; check cooling, spectral cutoff and linearity','Always more linear','Cheaper to run','Less sensitive','MCT detectors offer high sensitivity, but nonlinearity matters for strong signals and quantitative work.'],
+['CRF','Regular sinusoidal fringes on the transmission spectrum of a thin polymer film arise from:','Interference between the parallel film surfaces','A detector fault','Atmospheric water','Laser instability','Parallel surfaces produce an interference pattern whose spacing relates to thickness.'],
+['CRF','Why can near-infrared spectroscopy measure thick bulk samples with little preparation?','Overtone and combination bands are much weaker, so light penetrates deeper','The source is brighter','NIR is not absorbed by any material','Water does not absorb in the NIR','Weaker absorption allows larger path lengths, at the price of overlapping broad bands and the need for calibration models.'],
+['CRF','Which standard is commonly used to check FTIR wavenumber accuracy?','A polystyrene film, for example the band near 1601 cm⁻¹','A silicon wafer at 520 cm⁻¹','Indium metal','A sapphire disc','Polystyrene has well-known sharp bands. Silicon at 520 cm⁻¹ is a Raman standard.'],
+['CRF','Negative bands appear after you cleaned the ATR crystal between the background and the sample. Why?','The background contained residue that was no longer there for the sample scan','The sample is cold','The laser is unstable','The resolution is too high','The ratio subtracts what was in the background, so removed contamination appears as negative bands.'],
+['CRF','Diffuse-reflectance spectra of a neat strongly absorbing powder look distorted. What is a standard remedy?','Dilute in a non-absorbing powder such as KBr and apply a Kubelka–Munk conversion','Use a longer wavelength','Increase the laser power','Raise the resolution','Strong absorbers cause specular components and saturation. Dilution and a suitable transform help.'],
+['CRF','A library hit of 92 % for an unknown mixture means:','Similarity to one entry only; mixtures, ATR versus transmission differences and additives can mislead, so verify key bands','The identity is certain','The sample is pure','The spectrum needs no further checks','A score measures similarity, not identity. Confirm with characteristic bands and supporting information.']
+);
+
 /* boot */
 function fromHash(){let p=null,s=null;try{const m=(location.hash||'').slice(1).split('/');if(LAB[m[0]]){p=m[0];s=LAB[p].subs?(LAB[p].subs.find(x=>x[0]===m[1])?m[1]:LAB[p].subs[0][0]):null;}}catch(e){}
- state.p=p;state.s=s;render();}
+ state.p=p||'start';state.s=s;render();}
 window.addEventListener('hashchange',fromHash);fromHash();
 
 
