@@ -218,13 +218,19 @@ body{margin:0;padding-block:24px 52px}
 .st-note{font-size:.8rem;color:var(--muted);max-width:90ch}
 .st-warn{border-left:3px solid var(--amber);background:var(--chip);padding:9px 12px;border-radius:0 8px 8px 0;font-size:.88rem}
 </style>
+<style id="lab-edition-styles">
+
+.lab-version { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin: 0; font-size: .875rem; color: var(--muted); }
+.lab-version a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; color: var(--accent); text-underline-offset: .15em; }
+</style>
 </head>
 <body>
 <div class="wrap">
 <header class="lab-header">
 <div class="lab-masthead">
   <span class="lab-series">Interactive Chemistry · Instrument Labs</span>
-  <nav class="lab-links" aria-label="Instrument labs"><a href="./diffraction.html">Diffraction</a><a href="./spectroscopy.html">Spectroscopy</a><a href="./thermal.html" aria-current="page">Thermal</a></nav>
+  <nav class="lab-links" aria-label="Instrument labs"><a href="./diffraction.html">Diffraction</a><a href="./thermal.html" aria-current="page">Thermal</a><a href="./spectroscopy.html">Spectroscopy</a><a href="./microscopy.html">Microscopy</a></nav>
+  <p class="lab-version"><span>Desktop view</span><a class="lab-version-switch" href="./thermal-mobile.html">Switch to mobile view</a></p>
 </div>
 <div class="lab-intro"><h1>Thermal Lab</h1><p>Thermal analysis, DMA and rheometry, with interactive curves and instrument guides.</p></div>
 <div class="row"><div class="seg" id="modeseg" role="group" aria-label="Choose a topic"><button data-m="start">Start here</button><button data-m="ta">Thermal analysis</button><button data-m="dma">DMA</button><button data-m="rheo">Rheometry</button><button data-m="quiz">Check your knowledge</button></div></div>
@@ -1473,6 +1479,17 @@ QS.push(
 $$('#modeseg button').forEach(b => b.onclick = () => { S.mode = b.dataset.m; S.step = 0; render(); window.scrollTo({ top: 0 }); });
 let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (S.mode === 'quiz' || S.mode === 'start') return; const c = steps()[Math.min(S.step, steps().length - 1)]; if (c.w) { stopAnim(); c.w(); } }, 200); });
 render();
+</script>
+<script>
+
+(() => {
+  const link = document.querySelector('.lab-version-switch');
+  const target = link.getAttribute('href');
+  const sync = () => { link.href = target + location.hash; };
+  link.addEventListener('click', sync);
+  window.addEventListener('hashchange', sync);
+  sync();
+})();
 </script>
 </body>
 </html>
