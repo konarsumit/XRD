@@ -156,11 +156,17 @@ body{margin:0;padding-block:24px 52px}
 .st-note{font-size:.8rem;color:var(--muted);max-width:90ch}
 .st-warn{border-left:3px solid var(--amber);background:var(--chip);padding:9px 12px;border-radius:0 8px 8px 0;font-size:.88rem}
 </style>
+<style id="lab-edition-styles">
+
+.lab-version { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin: 0; font-size: .875rem; color: var(--muted); }
+.lab-version a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; color: var(--accent); text-underline-offset: .15em; }
+</style>
 </head><body><div class="wrap">
 <header class="lab-header">
 <div class="lab-masthead">
   <span class="lab-series">Interactive Chemistry · Instrument Labs</span>
-  <nav class="lab-links" aria-label="Instrument labs"><a href="./diffraction.html">Diffraction</a><a href="./spectroscopy.html" aria-current="page">Spectroscopy</a><a href="./thermal.html">Thermal</a></nav>
+  <nav class="lab-links" aria-label="Instrument labs"><a href="./diffraction.html">Diffraction</a><a href="./thermal.html">Thermal</a><a href="./spectroscopy.html" aria-current="page">Spectroscopy</a><a href="./microscopy.html">Microscopy</a></nav>
+  <p class="lab-version"><span>Desktop view</span><a class="lab-version-switch" href="./spectroscopy-mobile.html">Switch to mobile view</a></p>
 </div>
 <div class="lab-intro"><h1>Spectroscopy Lab</h1><p>Raman and FTIR simulators, instrument comparisons, operating guides and quizzes.</p></div>
 <nav class="prim" id="prim" aria-label="Sections"></nav>
@@ -986,4 +992,15 @@ function fromHash(){let p=null,s=null;try{const m=(location.hash||'').slice(1).s
 window.addEventListener('hashchange',fromHash);fromHash();
 
 
-</script></body></html>
+</script><script>
+
+(() => {
+  const link = document.querySelector('.lab-version-switch');
+  const target = link.getAttribute('href');
+  const sync = () => { link.href = target + location.hash; };
+  link.addEventListener('click', sync);
+  window.addEventListener('hashchange', sync);
+  sync();
+})();
+</script>
+</body></html>
