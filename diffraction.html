@@ -301,6 +301,11 @@ body{margin:0;padding-block:24px 52px}
 .st-note{font-size:.8rem;color:var(--muted);max-width:90ch}
 .st-warn{border-left:3px solid var(--amber);background:var(--chip);padding:9px 12px;border-radius:0 8px 8px 0;font-size:.88rem}
 </style>
+<style id="lab-edition-styles">
+
+.lab-version { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin: 0; font-size: .875rem; color: var(--muted); }
+.lab-version a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; color: var(--accent); text-underline-offset: .15em; }
+</style>
 </head>
 <body>
 
@@ -309,7 +314,8 @@ body{margin:0;padding-block:24px 52px}
 <header class="lab-header">
 <div class="lab-masthead">
   <span class="lab-series">Interactive Chemistry · Instrument Labs</span>
-  <nav class="lab-links" aria-label="Instrument labs"><a href="./diffraction.html" aria-current="page">Diffraction</a><a href="./spectroscopy.html">Spectroscopy</a><a href="./thermal.html">Thermal</a></nav>
+  <nav class="lab-links" aria-label="Instrument labs"><a href="./diffraction.html" aria-current="page">Diffraction</a><a href="./thermal.html">Thermal</a><a href="./spectroscopy.html">Spectroscopy</a><a href="./microscopy.html">Microscopy</a></nav>
+  <p class="lab-version"><span>Desktop view</span><a class="lab-version-switch" href="./diffraction-mobile.html">Switch to mobile view</a></p>
 </div>
 <div class="lab-intro"><h1>Diffraction Lab</h1><p>Powder and single-crystal X-ray diffraction, instrument guides and interactive simulations.</p></div>
 <div class="row"><div class="seg" id="modeseg" role="group" aria-label="Choose a technique"><button data-m="sc">SCXRD method</button><button data-m="sci">SCXRD instruments</button><button data-m="pw">PXRD method</button><button data-m="tf">PXRD instruments</button><button data-m="an">PXRD advanced guide</button><button data-m="quiz">Check your knowledge</button></div></div>
@@ -3240,6 +3246,17 @@ document.querySelector('[data-m="quiz"]').textContent = 'Check your knowledge ·
 setupE(); render();
 setTimeout(() => { runAllFrom(1); render(); }, 50);
 
+</script>
+<script>
+
+(() => {
+  const link = document.querySelector('.lab-version-switch');
+  const target = link.getAttribute('href');
+  const sync = () => { link.href = target + location.hash; };
+  link.addEventListener('click', sync);
+  window.addEventListener('hashchange', sync);
+  sync();
+})();
 </script>
 </body>
 </html>
