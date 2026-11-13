@@ -102,6 +102,11 @@ details>summary .badge{font-weight:500}
 @media(max-width:600px){.controls label{min-width:0;width:100%}.controls label select,.controls label input:not([type=range]){width:100%;min-width:0}}
 
 </style>
+<style id="lab-edition-styles">
+
+.lab-version { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin: 0; font-size: .875rem; color: var(--muted); }
+.lab-version a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; color: var(--accent); text-underline-offset: .15em; }
+</style>
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -109,9 +114,8 @@ details>summary .badge{font-weight:500}
 <header class="lab-header">
   <div class="lab-masthead">
     <span class="lab-series">Interactive Chemistry · Instrument Labs</span>
-    <nav class="lab-links" aria-label="Instrument labs">
-      <a href="./diffraction.html">Diffraction</a><a href="./spectroscopy.html">Spectroscopy</a><a href="./thermal.html">Thermal</a><a href="./microscopy.html" aria-current="page">Microscopy</a>
-    </nav>
+    <nav class="lab-links" aria-label="Instrument labs"><a href="./diffraction.html">Diffraction</a><a href="./thermal.html">Thermal</a><a href="./spectroscopy.html">Spectroscopy</a><a href="./microscopy.html" aria-current="page">Microscopy</a></nav>
+  <p class="lab-version"><span>Desktop view</span><a class="lab-version-switch" href="./microscopy-mobile.html">Switch to mobile view</a></p>
   </div>
   <div class="lab-intro"><h1>Microscopy Lab</h1><p>Learn how electron lenses work, run virtual SEM and TEM calibrations, see what every setting does, and test yourself with more than 170 questions.</p></div>
   <nav id="prim" aria-label="Microscopy topics">
@@ -1703,6 +1707,17 @@ document.addEventListener('click', event => {
 window.addEventListener('hashchange', render);
 render();
 
+</script>
+<script>
+
+(() => {
+  const link = document.querySelector('.lab-version-switch');
+  const target = link.getAttribute('href');
+  const sync = () => { link.href = target + location.hash; };
+  link.addEventListener('click', sync);
+  window.addEventListener('hashchange', sync);
+  sync();
+})();
 </script>
 </body>
 </html>
